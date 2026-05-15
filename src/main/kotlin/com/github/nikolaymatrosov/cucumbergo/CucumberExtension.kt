@@ -37,7 +37,12 @@ class CucumberExtension : AbstractCucumberExtension() {
         return GoStepDefinitionCreator()
     }
 
-    override fun loadStepsFor(featureFile: PsiFile?, module: Module): List<AbstractStepDefinition> {
+    override fun loadStepsFor(featureFile: PsiFile?, module: Module): List<AbstractStepDefinition> =
+        loadStepsFor(module)
+
+    // No `override` — compiles against 261.x where this method doesn't exist yet, but satisfies the
+    // abstract method added in 262.x at runtime via JVM signature resolution.
+    fun loadStepsFor(module: Module): List<AbstractStepDefinition> {
         val fileBasedIndex = FileBasedIndex.getInstance()
         val project = module.project
         val scope = GlobalSearchScope.allScope(project)

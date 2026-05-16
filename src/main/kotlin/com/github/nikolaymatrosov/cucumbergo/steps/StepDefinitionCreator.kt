@@ -62,7 +62,7 @@ class StepDefinitionCreator : AbstractStepDefinitionCreator() {
     }
 
 
-    override fun createStepDefinition(step: GherkinStep, file: PsiFile, withTemlpate: Boolean): Boolean {
+    override fun createStepDefinition(step: GherkinStep, file: PsiFile, withTemplate: Boolean): Boolean {
         val stepText = step.name
         val stepName = toLowerCamelCaseName(step.name)
 
@@ -134,7 +134,7 @@ class StepDefinitionCreator : AbstractStepDefinitionCreator() {
             """
                 {
                     suite := godog.TestSuite{
-                        ScenarioInitializer: ${scenarioInitailizerName(featureName)},
+                        ScenarioInitializer: ${scenarioInitializerName(featureName)},
                         Options: &godog.Options{
                             Format:   "pretty",
                             Paths:    []string{"../${featureName}.feature"},
@@ -154,7 +154,7 @@ class StepDefinitionCreator : AbstractStepDefinitionCreator() {
     private fun createInitializeScenario(file: PsiFile, featureName: String): PsiElement {
         return GoElementFactory.createFunctionDeclaration(
             file.project,
-            scenarioInitailizerName(featureName),
+            scenarioInitializerName(featureName),
             "(ctx *godog.ScenarioContext)",
             """
                 {
@@ -165,7 +165,7 @@ class StepDefinitionCreator : AbstractStepDefinitionCreator() {
         )
     }
 
-    private fun scenarioInitailizerName(featureName: String): String {
+    private fun scenarioInitializerName(featureName: String): String {
         return "Initialize${featureName.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }}Scenario"
     }
 }

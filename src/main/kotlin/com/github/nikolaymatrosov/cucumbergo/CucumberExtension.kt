@@ -75,7 +75,7 @@ class CucumberExtension : AbstractCucumberExtension() {
         }
         val psiFiles = steps
             ?.mapNotNull { step -> step.element?.containingFile }
-            ?.filter { file -> file is GoFile }
+            ?.filter { isWritableStepLikeFile(it) }
             ?.distinct()
             ?: emptyList()
         return psiFiles

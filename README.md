@@ -1,7 +1,7 @@
 # Cucumber Go
 
 <!-- Plugin description -->
-This plugin for GoLand IDE provides support for Gherkin language in Go projects.
+This GoLand IDE plugin provides support for Gherkin language in Go projects.
 <!-- Plugin description end -->
 
 ## Features

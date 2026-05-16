@@ -129,7 +129,7 @@ class StepDefinitionCreator : AbstractStepDefinitionCreator() {
     private fun createTestDefinition(file: PsiFile, featureName: String): PsiElement {
         return GoElementFactory.createFunctionDeclaration(
             file.project,
-            "Test${featureName.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }}",
+            "Test${featureName.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }}",
             "(t *testing.T)",
             """
                 {
@@ -166,6 +166,6 @@ class StepDefinitionCreator : AbstractStepDefinitionCreator() {
     }
 
     private fun scenarioInitailizerName(featureName: String): String {
-        return "Initialize${featureName.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }}Scenario"
+        return "Initialize${featureName.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }}Scenario"
     }
 }

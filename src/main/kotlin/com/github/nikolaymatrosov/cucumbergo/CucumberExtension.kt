@@ -10,7 +10,6 @@ import com.intellij.openapi.progress.ProgressManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
-import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.indexing.FileBasedIndex
 import org.jetbrains.plugins.cucumber.BDDFrameworkType
@@ -45,7 +44,7 @@ class CucumberExtension : AbstractCucumberExtension() {
     fun loadStepsFor(module: Module): List<AbstractStepDefinition> {
         val fileBasedIndex = FileBasedIndex.getInstance()
         val project = module.project
-        val scope = GlobalSearchScope.allScope(project)
+        val scope = module.getModuleWithDependenciesAndLibrariesScope(true)
         val result = mutableListOf<AbstractStepDefinition>()
 
         fileBasedIndex.processValues(INDEX_ID, true, null, { file, value ->

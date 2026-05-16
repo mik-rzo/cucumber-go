@@ -17,7 +17,7 @@ class CucumberGoStepIndex : CucumberStepIndex() {
     }
 
     override fun getVersion(): Int {
-        return 2
+        return 1
     }
 
     override fun getInputFilter(): FileBasedIndex.InputFilter {

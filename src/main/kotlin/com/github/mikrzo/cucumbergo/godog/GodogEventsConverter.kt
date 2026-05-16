@@ -1,4 +1,4 @@
-package com.github.nikolaymatrosov.cucumbergo.godog
+package com.github.mikrzo.cucumbergo.godog
 
 import com.goide.execution.testing.GoTestEventsJsonConverter
 import com.intellij.execution.testframework.TestConsoleProperties

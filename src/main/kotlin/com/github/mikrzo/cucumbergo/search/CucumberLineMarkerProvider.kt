@@ -1,4 +1,4 @@
-package com.github.nikolaymatrosov.cucumbergo.search
+package com.github.mikrzo.cucumbergo.search
 
 import com.goide.psi.GoCallExpr
 import com.intellij.codeInsight.daemon.LineMarkerInfo

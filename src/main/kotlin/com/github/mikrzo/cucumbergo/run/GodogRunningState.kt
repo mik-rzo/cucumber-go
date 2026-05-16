@@ -1,4 +1,4 @@
-package com.github.nikolaymatrosov.cucumbergo.run
+package com.github.mikrzo.cucumbergo.run
 
 import com.goide.execution.testing.GoTestRunConfiguration
 import com.goide.execution.testing.GoTestRunningState

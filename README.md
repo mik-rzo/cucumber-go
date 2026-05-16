@@ -1,16 +1,11 @@
 # Cucumber Go
 
-![Build](https://github.com/nikolaymatrosov/cucumber-go/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/24323-cucumber-go.svg)](https://plugins.jetbrains.com/plugin/24323-cucumber-go)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/24323-cucumber-go.svg)](https://plugins.jetbrains.com/plugin/24323-cucumber-go)
-
-
-<a href="https://plugins.jetbrains.com/plugin/24323-cucumber-go"><img width="245" src="./.github/download.png"></a>
-
 <!-- Plugin description -->
-This plugin provides support for Gherkin language in Go projects.
+This plugin for GoLand IDE provides support for Gherkin language in Go projects.
+<!-- Plugin description end -->
 
-Features:
+## Features
+
 - Syntax highlighting
 - Code completion
 - Go to step definition
@@ -18,23 +13,14 @@ Features:
 - Step definition generation
 - Icon in gutter for step definition
 
-<!-- Plugin description end -->
-
 ## Installation
 
-- Using the IDE built-in plugin system:
-  
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "cucumber-go"</kbd> >
-  <kbd>Install</kbd>
-  
-- Manually:
+1. Build the plugin:
 
-  Download the [latest release](https://github.com/nikolaymatrosov/cucumber-go/releases/latest) and install it manually using
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
+   ```sh
+   ./gradlew clean buildPlugin
+   ```
 
+2. In GoLand, go to <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>.
+3. Select the generated `.zip` archive from `build/distributions/`.
 
----
-Plugin based on the [IntelliJ Platform Plugin Template][template].
-
-[template]: https://github.com/JetBrains/intellij-platform-plugin-template
-[docs:plugin-description]: https://plugins.jetbrains.com/docs/intellij/plugin-user-experience.html#plugin-description-and-presentation

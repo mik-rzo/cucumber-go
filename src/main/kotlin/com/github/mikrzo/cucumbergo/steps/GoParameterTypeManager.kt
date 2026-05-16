@@ -1,4 +1,4 @@
-package com.github.nikolaymatrosov.cucumbergo.steps
+package com.github.mikrzo.cucumbergo.steps
 
 
 import com.intellij.psi.PsiElement

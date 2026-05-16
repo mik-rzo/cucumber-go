@@ -1,6 +1,6 @@
-package com.github.nikolaymatrosov.cucumbergo.search
+package com.github.mikrzo.cucumbergo.search
 
-import com.github.nikolaymatrosov.cucumbergo.StepDeclaration
+import com.github.mikrzo.cucumbergo.StepDeclaration
 import com.intellij.find.findUsages.FindUsagesHandler
 import com.intellij.find.findUsages.FindUsagesHandlerFactory
 import com.intellij.pom.PomTargetPsiElement

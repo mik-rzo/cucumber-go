@@ -1,30 +1,30 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.nikolaymatrosov.cucumbergo</id>
+    <id>com.github.mikrzo.cucumbergo</id>
     <name>Cucumber Go</name>
-    <vendor>nikolaymatrosov</vendor>
+    <vendor>mik-rzo</vendor>
 
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.plugins.go</depends>
     <depends>gherkin</depends>
 
     <extensions defaultExtensionNs="org.jetbrains.plugins.cucumber.steps">
-        <cucumberJvmExtensionPoint implementation="com.github.nikolaymatrosov.cucumbergo.CucumberExtension"/>
+        <cucumberJvmExtensionPoint implementation="com.github.mikrzo.cucumbergo.CucumberExtension"/>
     </extensions>
 
     <extensions defaultExtensionNs="com.intellij">
 
-        <fileBasedIndex implementation="com.github.nikolaymatrosov.cucumbergo.CucumberGoStepIndex"/>
+        <fileBasedIndex implementation="com.github.mikrzo.cucumbergo.CucumberGoStepIndex"/>
 
-        <pom.declarationSearcher implementation="com.github.nikolaymatrosov.cucumbergo.search.StepDeclarationSearcher"/>
-        <referencesSearch implementation="com.github.nikolaymatrosov.cucumbergo.search.StepDefinitionUsageSearcher"/>
+        <pom.declarationSearcher implementation="com.github.mikrzo.cucumbergo.search.StepDeclarationSearcher"/>
+        <referencesSearch implementation="com.github.mikrzo.cucumbergo.search.StepDefinitionUsageSearcher"/>
         <findUsagesHandlerFactory
-                implementation="com.github.nikolaymatrosov.cucumbergo.search.StepFindUsagesHandlerFactory"/>
+                implementation="com.github.mikrzo.cucumbergo.search.StepFindUsagesHandlerFactory"/>
         <codeInsight.lineMarkerProvider
                 language="go"
-                implementationClass="com.github.nikolaymatrosov.cucumbergo.search.CucumberLineMarkerProvider"/>
+                implementationClass="com.github.mikrzo.cucumbergo.search.CucumberLineMarkerProvider"/>
         <runConfigurationProducer
-                implementation="com.github.nikolaymatrosov.cucumbergo.run.GodogRunConfigurationProducer"/>
+                implementation="com.github.mikrzo.cucumbergo.run.GodogRunConfigurationProducer"/>
     </extensions>
 
 

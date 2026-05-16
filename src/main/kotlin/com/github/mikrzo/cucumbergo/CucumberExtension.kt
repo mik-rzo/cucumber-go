@@ -1,6 +1,6 @@
-package com.github.nikolaymatrosov.cucumbergo
+package com.github.mikrzo.cucumbergo
 
-import com.github.nikolaymatrosov.cucumbergo.steps.StepDefinition
+import com.github.mikrzo.cucumbergo.steps.StepDefinition
 import com.goide.GoFileType
 import com.goide.psi.GoCallExpr
 import com.goide.psi.GoFile
@@ -17,7 +17,7 @@ import org.jetbrains.plugins.cucumber.StepDefinitionCreator
 import org.jetbrains.plugins.cucumber.psi.GherkinFile
 import org.jetbrains.plugins.cucumber.steps.AbstractCucumberExtension
 import org.jetbrains.plugins.cucumber.steps.AbstractStepDefinition
-import com.github.nikolaymatrosov.cucumbergo.steps.StepDefinitionCreator as GoStepDefinitionCreator
+import com.github.mikrzo.cucumbergo.steps.StepDefinitionCreator as GoStepDefinitionCreator
 
 class CucumberExtension : AbstractCucumberExtension() {
     override fun isStepLikeFile(child: PsiElement): Boolean {

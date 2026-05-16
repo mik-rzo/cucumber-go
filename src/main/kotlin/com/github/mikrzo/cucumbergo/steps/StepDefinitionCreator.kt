@@ -1,4 +1,4 @@
-package com.github.nikolaymatrosov.cucumbergo.steps
+package com.github.mikrzo.cucumbergo.steps
 
 import java.util.Locale
 import com.goide.psi.GoFile

@@ -1,7 +1,7 @@
-package com.github.nikolaymatrosov.cucumbergo.godog
+package com.github.mikrzo.cucumbergo.godog
 
-import com.github.nikolaymatrosov.cucumbergo.GODOG_PACKAGE
-import com.github.nikolaymatrosov.cucumbergo.run.GodogRunningState
+import com.github.mikrzo.cucumbergo.GODOG_PACKAGE
+import com.github.mikrzo.cucumbergo.run.GodogRunningState
 import com.goide.GoFileType
 import com.goide.execution.testing.GoTestFramework
 import com.goide.execution.testing.GoTestRunConfiguration

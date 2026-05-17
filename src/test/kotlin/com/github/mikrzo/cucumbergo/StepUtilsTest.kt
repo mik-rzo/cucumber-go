@@ -8,57 +8,57 @@ import org.junit.Test
 class StepUtilsTest {
 
     @Test
-    fun testCheckIdentifierNameGiven() {
+    fun checkIdentifierNameGiven() {
         assertTrue(StepUtils.checkIdentifierName("Given"))
     }
 
     @Test
-    fun testCheckIdentifierNameWhen() {
+    fun checkIdentifierNameWhen() {
         assertTrue(StepUtils.checkIdentifierName("When"))
     }
 
     @Test
-    fun testCheckIdentifierNameThen() {
+    fun checkIdentifierNameThen() {
         assertTrue(StepUtils.checkIdentifierName("Then"))
     }
 
     @Test
-    fun testCheckIdentifierNameStep() {
+    fun checkIdentifierNameStep() {
         assertTrue(StepUtils.checkIdentifierName("Step"))
     }
 
     @Test
-    fun testCheckIdentifierNameLowercaseRejected() {
+    fun checkIdentifierNameLowercaseRejected() {
         assertFalse(StepUtils.checkIdentifierName("given"))
     }
 
     @Test
-    fun testCheckIdentifierNameAndRejected() {
+    fun checkIdentifierNameAndRejected() {
         assertFalse(StepUtils.checkIdentifierName("And"))
     }
 
     @Test
-    fun testCheckIdentifierNameEmpty() {
+    fun checkIdentifierNameEmpty() {
         assertFalse(StepUtils.checkIdentifierName(""))
     }
 
     @Test
-    fun testToCamelCaseTwoWords() {
+    fun toCamelCaseTwoWords() {
         assertEquals("HelloWorld", ToCamelCase("hello world"))
     }
 
     @Test
-    fun testToCamelCaseSingleWord() {
+    fun toCamelCaseSingleWord() {
         assertEquals("Single", ToCamelCase("single"))
     }
 
     @Test
-    fun testToCamelCaseAlreadyCapitalized() {
+    fun toCamelCaseAlreadyCapitalized() {
         assertEquals("AlreadyCapitalized", ToCamelCase("already Capitalized"))
     }
 
     @Test
-    fun testToCamelCaseEmpty() {
+    fun toCamelCaseEmpty() {
         assertEquals("", ToCamelCase(""))
     }
 }

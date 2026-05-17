@@ -39,6 +39,8 @@ dependencies {
         testFramework(TestFrameworkType.Platform)
     }
 
+    testImplementation("junit:junit:4.13.2")
+
     testImplementation("com.jetbrains.intellij.go:go-test-framework:${properties("goTestFrameworkVersion").get()}") {
         exclude("org.jetbrains.kotlin", "kotlin-stdlib-jdk8")
         exclude("org.jetbrains.kotlin", "kotlin-reflect")
@@ -154,5 +156,11 @@ kover {
 tasks {
     wrapper {
         gradleVersion = properties("gradleVersion").get()
+    }
+
+    test {
+        // IntelliJ Platform Gradle Plugin 2.16.0 with platformType=GO does not set
+        // idea.home.path automatically; PathManager.getHomePath() then fails in setUp.
+        systemProperty("idea.home.path", intellijPlatform.platformPath.toString())
     }
 }

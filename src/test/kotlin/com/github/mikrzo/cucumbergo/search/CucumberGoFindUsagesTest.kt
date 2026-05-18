@@ -4,7 +4,7 @@ import com.goide.GoCodeInsightFixtureTestCase
 
 class CucumberGoFindUsagesTest : GoCodeInsightFixtureTestCase() {
 
-    override fun getTestDataPath() = "src/test/testData/findUsages"
+    override fun getTestDataPath() = "src/test/testData/search"
 
     fun testStepUsages() {
         myFixture.copyDirectoryToProject(getTestName(true), "")

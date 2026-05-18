@@ -1,4 +1,4 @@
-package com.github.mikrzo.cucumbergo.search
+package com.github.mikrzo.cucumbergo.resolve
 
 import com.github.mikrzo.cucumbergo.steps.StepDefinition
 import com.goide.GoCodeInsightFixtureTestCase

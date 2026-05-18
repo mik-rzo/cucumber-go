@@ -16,6 +16,6 @@ class CucumberGoResolveTest : GoCodeInsightFixtureTestCase() {
         val resolved = ref!!.resolve()
         assertNotNull("Step did not resolve to a definition", resolved)
         val regex = StepDefinition(resolved as GoCallExpr).getCucumberRegex()
-        assertEquals("""^the string "([^"]*)"$""", regex)
+        assertEquals("""^the resolve string "([^"]*)"$""", regex)
     }
 }

@@ -1,4 +1,4 @@
 Feature: resolved step
 
   Scenario: demo
-    Given I perform an action
+    Given this step that is linked to a step definition

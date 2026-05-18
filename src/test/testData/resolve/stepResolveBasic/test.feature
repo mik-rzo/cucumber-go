@@ -1,4 +1,4 @@
 Feature: resolve basic
 
   Scenario: demo
-    Given <caret>the string "hello"
+    Given <caret>the resolve string "hello"

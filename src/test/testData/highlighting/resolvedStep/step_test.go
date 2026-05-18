@@ -1,8 +1,9 @@
 package resolvedstep
 
 import (
-	"github.com/cucumber/godog"
 	"testing"
+
+	"github.com/cucumber/godog"
 )
 
 func iPerformAnAction() error {
@@ -10,7 +11,7 @@ func iPerformAnAction() error {
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`^I perform an action$`, iPerformAnAction)
+	ctx.Step(`^this step that is linked to a step definition$`, iPerformAnAction)
 }
 
 func TestFeatures(t *testing.T) {

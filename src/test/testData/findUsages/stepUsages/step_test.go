@@ -1,16 +1,17 @@
 package stepusages
 
 import (
-	"github.com/cucumber/godog"
 	"testing"
+
+	"github.com/cucumber/godog"
 )
 
-func theString(arg1 string) error {
+func theUsageString(arg1 string) error {
 	return nil
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`^the string <caret>"([^"]*)"$`, theString)
+	ctx.Step(`^the usage string <caret>"([^"]*)"$`, theUsageString)
 }
 
 func TestFeatures(t *testing.T) {

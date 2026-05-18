@@ -1,7 +1,7 @@
 Feature: step usages
 
   Scenario: demo 1
-    Given the string "hello"
+    Given the usage string "hello"
 
   Scenario: demo 2
-    Given the string "world"
+    Given the usage string "world"

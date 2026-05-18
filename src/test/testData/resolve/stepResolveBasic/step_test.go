@@ -10,7 +10,7 @@ func theString(arg1 string) error {
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`^the string "([^"]*)"$`, theString)
+	ctx.Step(`^the resolve string "([^"]*)"$`, theString)
 }
 
 func TestFeatures(t *testing.T) {

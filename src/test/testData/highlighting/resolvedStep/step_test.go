@@ -11,7 +11,7 @@ func iPerformAnAction() error {
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`^this step that is linked to a step definition$`, iPerformAnAction)
+	ctx.Step(`^there's a step definition linked to this step$`, iPerformAnAction)
 }
 
 func TestFeatures(t *testing.T) {

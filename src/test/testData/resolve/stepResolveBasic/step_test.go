@@ -1,16 +1,17 @@
 package resolvebasic
 
 import (
-	"github.com/cucumber/godog"
 	"testing"
+
+	"github.com/cucumber/godog"
 )
 
-func theString(arg1 string) error {
+func theString() error {
 	return nil
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`^the resolve string "([^"]*)"$`, theString)
+	ctx.Step(`^there's a step definition for this step$`, theString)
 }
 
 func TestFeatures(t *testing.T) {

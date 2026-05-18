@@ -11,7 +11,7 @@ func theUsageString(arg1 string) error {
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`^the usage string <caret>"([^"]*)"$`, theUsageString)
+	ctx.Step(`^I say <caret>"([^"]*)"$`, theUsageString)
 }
 
 func TestFeatures(t *testing.T) {

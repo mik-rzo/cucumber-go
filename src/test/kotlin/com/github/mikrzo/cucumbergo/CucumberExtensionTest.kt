@@ -11,7 +11,7 @@ class CucumberExtensionTest : GoCodeInsightFixtureTestCase() {
     private val extension = CucumberExtension()
 
     fun testLoadStepsForModuleWithDefinitions() {
-        myFixture.copyDirectoryToProject("highlighting/stepParameter", "")
+        myFixture.copyDirectoryToProject("extension/loadStepsForModuleWithDefinitions", "")
         val steps = extension.loadStepsFor(null, module)
         assertFalse("Expected steps to be found in module with step definitions", steps.isEmpty())
     }
@@ -43,8 +43,8 @@ class CucumberExtensionTest : GoCodeInsightFixtureTestCase() {
     }
 
     fun testGetStepDefinitionContainers() {
-        myFixture.copyDirectoryToProject("highlighting/stepParameter", "")
-        myFixture.configureByFile("highlighting/stepParameter/test.feature")
+        myFixture.copyDirectoryToProject("extension/getStepDefinitionContainers", "")
+        myFixture.configureByFile("extension/getStepDefinitionContainers/test.feature")
         val containers = extension.getStepDefinitionContainers(myFixture.file as GherkinFile)
         assertFalse("Expected step definition containers to be found", containers.isEmpty())
         assertTrue("Container should be a Go file", containers.first() is GoFile)

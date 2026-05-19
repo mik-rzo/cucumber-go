@@ -36,6 +36,12 @@ class CucumberExtensionTest : GoCodeInsightFixtureTestCase() {
         assertTrue(extension.isWritableStepLikeFile(goFile))
     }
 
+    fun testLoadStepsForMultipleDirectories() {
+        myFixture.copyDirectoryToProject("extension/multiDirGlue", "")
+        val steps = extension.loadStepsFor(null, module)
+        assertEquals("Expected one step definition from each subdirectory", 2, steps.size)
+    }
+
     fun testGetStepDefinitionContainers() {
         myFixture.copyDirectoryToProject("highlighting/stepParameter", "")
         myFixture.configureByFile("highlighting/stepParameter/test.feature")

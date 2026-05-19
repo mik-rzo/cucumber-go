@@ -52,6 +52,6 @@ class CucumberExtensionTest : GoCodeInsightFixtureTestCase() {
         myFixture.configureByFile("extension/getStepDefinitionContainers/test.feature")
         val containers = extension.getStepDefinitionContainers(myFixture.file as GherkinFile)
         assertFalse("Expected step definition containers to be found", containers.isEmpty())
-        assertTrue("Container should be a Go file", containers.first() is GoFile)
+        assertTrue("All containers should be Go files", containers.all { it is GoFile })
     }
 }

@@ -1,8 +1,8 @@
-package com.github.nikolaymatrosov.cucumbergo.run
+package com.github.mikrzo.cucumbergo.run
 
-import com.github.nikolaymatrosov.cucumbergo.CucumberExtension
-import com.github.nikolaymatrosov.cucumbergo.ToCamelCase
-import com.github.nikolaymatrosov.cucumbergo.godog.GodogFramework
+import com.github.mikrzo.cucumbergo.CucumberExtension
+import com.github.mikrzo.cucumbergo.ToCamelCase
+import com.github.mikrzo.cucumbergo.godog.GodogFramework
 import com.goide.execution.GoBuildingRunConfiguration.Kind
 import com.goide.execution.GoRunUtil
 import com.goide.execution.testing.GoTestRunConfiguration

@@ -1,7 +1,7 @@
-package com.github.nikolaymatrosov.cucumbergo.search
+package com.github.mikrzo.cucumbergo.search
 
-import com.github.nikolaymatrosov.cucumbergo.StepDeclaration
-import com.github.nikolaymatrosov.cucumbergo.inReadAction
+import com.github.mikrzo.cucumbergo.StepDeclaration
+import com.github.mikrzo.cucumbergo.inReadAction
 import com.goide.psi.GoArgumentList
 import com.goide.psi.GoCallExpr
 import com.intellij.lang.injection.InjectedLanguageManager

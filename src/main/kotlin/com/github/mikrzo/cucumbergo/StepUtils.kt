@@ -1,4 +1,4 @@
-package com.github.nikolaymatrosov.cucumbergo
+package com.github.mikrzo.cucumbergo
 
 import com.intellij.openapi.application.ApplicationManager
 import kotlin.collections.joinToString

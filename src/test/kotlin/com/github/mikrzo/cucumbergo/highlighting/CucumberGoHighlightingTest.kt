@@ -17,4 +17,8 @@ class CucumberGoHighlightingTest : GoCodeInsightFixtureTestCase() {
     fun testResolvedStep() = doTest()
 
     fun testUnresolvedStep() = doTest()
+
+    fun testStepParameter() = doTest()
+
+    fun testScenarioParameter() = doTest()
 }

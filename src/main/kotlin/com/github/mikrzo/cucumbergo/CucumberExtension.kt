@@ -1,6 +1,6 @@
-package com.github.nikolaymatrosov.cucumbergo
+package com.github.mikrzo.cucumbergo
 
-import com.github.nikolaymatrosov.cucumbergo.steps.StepDefinition
+import com.github.mikrzo.cucumbergo.steps.StepDefinition
 import com.goide.GoFileType
 import com.goide.psi.GoCallExpr
 import com.goide.psi.GoFile
@@ -17,14 +17,14 @@ import org.jetbrains.plugins.cucumber.StepDefinitionCreator
 import org.jetbrains.plugins.cucumber.psi.GherkinFile
 import org.jetbrains.plugins.cucumber.steps.AbstractCucumberExtension
 import org.jetbrains.plugins.cucumber.steps.AbstractStepDefinition
-import com.github.nikolaymatrosov.cucumbergo.steps.StepDefinitionCreator as GoStepDefinitionCreator
+import com.github.mikrzo.cucumbergo.steps.StepDefinitionCreator as GoStepDefinitionCreator
 
 class CucumberExtension : AbstractCucumberExtension() {
-    override fun isStepLikeFile(child: PsiElement, parent: PsiElement): Boolean {
+    override fun isStepLikeFile(child: PsiElement): Boolean {
         return child is GoFile
     }
 
-    override fun isWritableStepLikeFile(child: PsiElement, parent: PsiElement): Boolean {
+    override fun isWritableStepLikeFile(child: PsiElement): Boolean {
         return (child as? GoFile)?.containingFile?.virtualFile?.isWritable ?: false
     }
 
@@ -36,7 +36,12 @@ class CucumberExtension : AbstractCucumberExtension() {
         return GoStepDefinitionCreator()
     }
 
-    override fun loadStepsFor(featureFile: PsiFile?, module: Module): List<AbstractStepDefinition> {
+    override fun loadStepsFor(featureFile: PsiFile?, module: Module): List<AbstractStepDefinition> =
+        loadStepsFor(module)
+
+    // No `override` — compiles against 261.x where this method doesn't exist yet, but satisfies the
+    // abstract method added in 262.x at runtime via JVM signature resolution.
+    fun loadStepsFor(module: Module): List<AbstractStepDefinition> {
         val fileBasedIndex = FileBasedIndex.getInstance()
         val project = module.project
         val scope = module
@@ -66,13 +71,13 @@ class CucumberExtension : AbstractCucumberExtension() {
 
     override fun getStepDefinitionContainers(featureFile: GherkinFile): Collection<PsiFile> {
         val module = ModuleUtilCore.findModuleForPsiElement(featureFile)
-        val steps = module?.let {
-            loadStepsFor(featureFile, it)
+        val steps = module?.let { mod ->
+            loadStepsFor(featureFile, mod)
         }
         val psiFiles = steps
-            ?.map { it.element?.containingFile }
-            ?.filter { isWritableStepLikeFile(it!!, it.parent!!) }
-            ?.filterNotNull()
+            ?.mapNotNull { step -> step.element?.containingFile }
+            ?.filter { isWritableStepLikeFile(it) }
+            ?.distinct()
             ?: emptyList()
         return psiFiles
     }

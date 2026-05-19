@@ -1,10 +1,10 @@
-package com.github.nikolaymatrosov.cucumbergo.steps
+package com.github.mikrzo.cucumbergo.steps
 
-import ai.grazie.utils.capitalize
+import java.util.Locale
 import com.goide.psi.GoFile
 import com.goide.psi.GoFunctionDeclaration
 import com.goide.psi.impl.GoElementFactory
-import com.intellij.openapi.application.runWriteAction
+import com.intellij.openapi.application.WriteAction
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
@@ -36,11 +36,11 @@ class StepDefinitionCreator : AbstractStepDefinitionCreator() {
     override fun createStepDefinitionContainer(directory: PsiDirectory, name: String): PsiFile {
 
         val featureName = name.replace("_test.go", "")
-        val file = runWriteAction { directory.createFile(name) } as GoFile
+        val file = WriteAction.compute<GoFile, RuntimeException> { directory.createFile(name) as GoFile }
 
         val newLines = GoElementFactory.createNewLine(file.project, 2)
 
-        runWriteAction {
+        WriteAction.run<RuntimeException> {
             file.add(GoElementFactory.createFileFromText(file.project, "package steps").getPackage()!!)
             file.add(newLines)
             file.add(GoElementFactory.createImportDeclaration(file, "testing", "", false))
@@ -62,7 +62,7 @@ class StepDefinitionCreator : AbstractStepDefinitionCreator() {
     }
 
 
-    override fun createStepDefinition(step: GherkinStep, file: PsiFile, withTemlpate: Boolean): Boolean {
+    override fun createStepDefinition(step: GherkinStep, file: PsiFile, withTemplate: Boolean): Boolean {
         val stepText = step.name
         val stepName = toLowerCamelCaseName(step.name)
 
@@ -78,7 +78,7 @@ class StepDefinitionCreator : AbstractStepDefinitionCreator() {
                 it.name == stepName
             }
         if (current == null) {
-            runWriteAction {
+            WriteAction.run<RuntimeException> {
                 (file as GoFile).add(
                     GoElementFactory.createFunctionDeclaration(
                         file.project,
@@ -98,7 +98,7 @@ class StepDefinitionCreator : AbstractStepDefinitionCreator() {
                     ?.getGoType(null)?.presentationText == "*godog.ScenarioContext"
             }
 
-        runWriteAction {
+        WriteAction.run<RuntimeException> {
             initializer?.block?.addBefore(
                 GoElementFactory.createStatement(
                     file.project,
@@ -129,12 +129,12 @@ class StepDefinitionCreator : AbstractStepDefinitionCreator() {
     private fun createTestDefinition(file: PsiFile, featureName: String): PsiElement {
         return GoElementFactory.createFunctionDeclaration(
             file.project,
-            "Test${featureName.capitalize()}",
+            "Test${featureName.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }}",
             "(t *testing.T)",
             """
                 {
                     suite := godog.TestSuite{
-                        ScenarioInitializer: ${scenarioInitailizerName(featureName)},
+                        ScenarioInitializer: ${scenarioInitializerName(featureName)},
                         Options: &godog.Options{
                             Format:   "pretty",
                             Paths:    []string{"../${featureName}.feature"},
@@ -154,7 +154,7 @@ class StepDefinitionCreator : AbstractStepDefinitionCreator() {
     private fun createInitializeScenario(file: PsiFile, featureName: String): PsiElement {
         return GoElementFactory.createFunctionDeclaration(
             file.project,
-            scenarioInitailizerName(featureName),
+            scenarioInitializerName(featureName),
             "(ctx *godog.ScenarioContext)",
             """
                 {
@@ -165,7 +165,7 @@ class StepDefinitionCreator : AbstractStepDefinitionCreator() {
         )
     }
 
-    private fun scenarioInitailizerName(featureName: String): String {
-        return "Initialize${featureName.capitalize()}Scenario"
+    private fun scenarioInitializerName(featureName: String): String {
+        return "Initialize${featureName.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }}Scenario"
     }
 }

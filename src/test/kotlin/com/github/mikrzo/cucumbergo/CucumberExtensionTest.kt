@@ -36,6 +36,11 @@ class CucumberExtensionTest : GoCodeInsightFixtureTestCase() {
         assertTrue(extension.isWritableStepLikeFile(goFile))
     }
 
+    fun testIsWritableStepLikeFileNonGoFile() {
+        val featureFile = myFixture.configureByText("test.feature", "Feature: test\n")
+        assertFalse(extension.isWritableStepLikeFile(featureFile))
+    }
+
     fun testLoadStepsForMultipleDirectories() {
         myFixture.copyDirectoryToProject("extension/multiDirGlue", "")
         val steps = extension.loadStepsFor(null, module)

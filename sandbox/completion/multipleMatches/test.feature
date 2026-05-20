@@ -1,4 +1,4 @@
 Feature: completion - multiple matches
 
-  Scenario: multiple matches
+  Scenario: place caret on step below and ctrl+space to see multiple completions
     Given I perform

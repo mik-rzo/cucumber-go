@@ -8,15 +8,15 @@ class CucumberGoCompletionTest : GoCodeInsightFixtureTestCase() {
 
     fun testStepCompletion() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
-        myFixture.configureByFile(getTestName(true) + "_before.feature")
+        myFixture.configureByFile(getTestName(true) + "/" + getTestName(true) + "_before.feature")
         val result = myFixture.completeBasic()
         assertNull("Expected single match to auto-insert (null lookup result)", result)
-        myFixture.checkResultByFile(getTestName(true) + "_after.feature")
+        myFixture.checkResultByFile(getTestName(true) + "/" + getTestName(true) + "_after.feature")
     }
 
     fun testStepCompletionNoMatch() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
-        myFixture.configureByFile(getTestName(true) + ".feature")
+        myFixture.configureByFile(getTestName(true) + "/" + getTestName(true) + ".feature")
         val result = myFixture.completeBasic()
         val stepLookupStrings = result?.map { it.lookupString }.orEmpty()
         assertTrue(
@@ -27,7 +27,7 @@ class CucumberGoCompletionTest : GoCodeInsightFixtureTestCase() {
 
     fun testStepCompletionRegexCapture() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
-        myFixture.configureByFile(getTestName(true) + ".feature")
+        myFixture.configureByFile(getTestName(true) + "/" + getTestName(true) + ".feature")
         val result = myFixture.completeBasic()
         val lookupStrings = result?.map { it.lookupString }.orEmpty()
         assertNotNull("Expected completion items", result)
@@ -49,7 +49,7 @@ class CucumberGoCompletionTest : GoCodeInsightFixtureTestCase() {
 
     fun testStepCompletionMultipleMatches() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
-        myFixture.configureByFile(getTestName(true) + "_before.feature")
+        myFixture.configureByFile(getTestName(true) + "/" + getTestName(true) + "_before.feature")
         val result = myFixture.completeBasic()
         assertNotNull("Expected completion items", result)
         val lookupStrings = result!!.map { it.lookupString }
@@ -65,6 +65,6 @@ class CucumberGoCompletionTest : GoCodeInsightFixtureTestCase() {
         myFixture.lookup.currentItem =
             result.first { it.lookupString == "I perform an action" }
         myFixture.type('\n')
-        myFixture.checkResultByFile(getTestName(true) + "_after.feature")
+        myFixture.checkResultByFile(getTestName(true) + "/" + getTestName(true) + "_after.feature")
     }
 }

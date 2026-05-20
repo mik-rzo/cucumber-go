@@ -8,7 +8,7 @@ class CucumberGoResolveTest : GoCodeInsightFixtureTestCase() {
 
     override fun getTestDataPath() = "src/test/testData/resolve"
 
-    fun testStepResolveBasic() {
+    fun testStepResolveBacktickPattern() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile(getTestName(true) + "/test.feature")
         val ref = myFixture.file.findReferenceAt(myFixture.caretOffset)

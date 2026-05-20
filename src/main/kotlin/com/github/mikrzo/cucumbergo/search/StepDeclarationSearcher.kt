@@ -11,6 +11,7 @@ import com.intellij.pom.PomTarget
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.CachedValueProvider
 import com.intellij.psi.util.CachedValuesManager
+import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.Consumer
 
 
@@ -28,8 +29,10 @@ class StepDeclarationSearcher : PomDeclarationSearcher() {
         ProgressManager.checkCanceled()
 
         val stepDeclaration = inReadAction {
-            (injectionHost.parent as? GoCallExpr)?.let { candidate ->
-                (element as? GoArgumentList)?.let { elem ->
+            val argList = injectionHost as? GoArgumentList
+                ?: PsiTreeUtil.getParentOfType(injectionHost, GoArgumentList::class.java)
+            argList?.let { elem ->
+                (argList.parent as? GoCallExpr)?.let { candidate ->
                     val keyword = candidate.children[0].lastChild.text
                     var stepName = elem.expressionList.getOrNull(0)?.text
                     if (listOf("Given", "When", "Then", "Step").contains(keyword) && stepName != null) {

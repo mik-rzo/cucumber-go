@@ -21,7 +21,7 @@ class StepDeclaration(val element: PsiElement, val stepName: String) : PomNamedT
     override fun isValid(): Boolean = element.isValid
 
     override fun getName(): String {
-        return stepName
+        return stepName.removePrefix("^").removeSuffix("$")
     }
 
 }

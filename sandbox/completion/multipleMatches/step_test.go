@@ -14,9 +14,14 @@ func iPerformAnotherAction() error {
 	return nil
 }
 
+func iPerformNActions(n int) error {
+	return nil
+}
+
 func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`^I perform an action$`, iPerformAnAction)
 	ctx.Step(`^I perform another action$`, iPerformAnotherAction)
+	ctx.Step(`^I perform (\d+) actions$`, iPerformNActions)
 }
 
 func TestFeatures(t *testing.T) {

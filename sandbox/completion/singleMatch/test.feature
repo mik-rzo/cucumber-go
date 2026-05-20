@@ -1,4 +1,4 @@
 Feature: completion - single match
 
   Scenario: single match
-    Given I complete the task
+    Given I complete

@@ -1,7 +1,6 @@
 package com.github.mikrzo.cucumbergo.search
 
 import com.github.mikrzo.cucumbergo.StepDeclaration
-import com.github.mikrzo.cucumbergo.steps.StepDefinition
 import com.goide.GoCodeInsightFixtureTestCase
 import com.goide.psi.GoCallExpr
 import com.goide.psi.GoFile
@@ -28,7 +27,9 @@ class CucumberGoFindUsagesTest : GoCodeInsightFixtureTestCase() {
         myFixture.configureByFile("step_test.go")
         val goFile = myFixture.file as GoFile
         val callExpr = PsiTreeUtil.findChildrenOfType(goFile, GoCallExpr::class.java).first()
-        val stepName = StepDefinition(callExpr).getCucumberRegex() ?: ""
+        val stepName = requireNotNull(callExpr.argumentList.expressionList.getOrNull(0)?.text?.replace("`", "")) {
+            "Could not extract step argument text from GoCallExpr"
+        }
         val pomElement = PomService.convertToPsi(project, StepDeclaration(callExpr, stepName))
         val usages = myFixture.findUsages(pomElement)
         assertEquals(0, usages.size)

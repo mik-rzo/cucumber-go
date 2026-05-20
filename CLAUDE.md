@@ -36,7 +36,7 @@ Tests spin up an in-process IDE sandbox per class — slow. Prefer single-test r
 
 ## PR title format
 
-Pull request titles should follow this format:
+This section only applies when raising pull requests. Pull request titles should follow this format:
 
 `<prefix>: <message>`
 

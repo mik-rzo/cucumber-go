@@ -3,7 +3,7 @@ package com.github.mikrzo.cucumbergo.search
 import com.github.mikrzo.cucumbergo.StepDeclaration
 import com.goide.GoCodeInsightFixtureTestCase
 import com.goide.psi.GoCallExpr
-import com.goide.psi.GoFile
+import com.intellij.pom.PomTarget
 import com.intellij.pom.references.PomService
 import com.intellij.psi.util.PsiTreeUtil
 
@@ -25,12 +25,13 @@ class CucumberGoFindUsagesTest : GoCodeInsightFixtureTestCase() {
     fun testStepNoUsages() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile("step_test.go")
-        val goFile = myFixture.file as GoFile
-        val callExpr = PsiTreeUtil.findChildrenOfType(goFile, GoCallExpr::class.java).first()
-        val stepName = requireNotNull(callExpr.argumentList.expressionList.getOrNull(0)?.text?.replace("`", "")) {
-            "Could not extract step argument text from GoCallExpr"
+        val callExpr = PsiTreeUtil.findChildrenOfType(myFixture.file, GoCallExpr::class.java).first()
+        val declarations = mutableListOf<PomTarget>()
+        StepDeclarationSearcher().findDeclarationsAt(callExpr.argumentList, 0) { declarations.add(it) }
+        val declaration = requireNotNull(declarations.singleOrNull() as? StepDeclaration) {
+            "Expected exactly one StepDeclaration at caret"
         }
-        val pomElement = PomService.convertToPsi(project, StepDeclaration(callExpr, stepName))
+        val pomElement = PomService.convertToPsi(project, declaration)
         val usages = myFixture.findUsages(pomElement)
         assertEquals(0, usages.size)
     }

@@ -11,7 +11,7 @@ func nobodyIsUsingMe() error {
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`^nobody is using<caret> me$`, nobodyIsUsingMe)
+	ctx.Step(`^nobody is using me$`, nobodyIsUsingMe)
 }
 
 func TestFeatures(t *testing.T) {

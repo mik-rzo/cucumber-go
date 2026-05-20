@@ -18,4 +18,12 @@ class CucumberGoResolveTest : GoCodeInsightFixtureTestCase() {
         val regex = StepDefinition(resolved as GoCallExpr).getCucumberRegex()
         assertEquals("""^there's a step definition for this step$""", regex)
     }
+
+    fun testStepResolveNoMatch() {
+        myFixture.copyDirectoryToProject(getTestName(true), "")
+        myFixture.configureByFile(getTestName(true) + "/test.feature")
+        val ref = myFixture.file.findReferenceAt(myFixture.caretOffset)
+        assertNotNull("No reference at caret position in step text", ref)
+        assertNull("Step with no matching definition should resolve to null", ref!!.resolve())
+    }
 }

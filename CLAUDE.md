@@ -34,6 +34,17 @@ Tests spin up an in-process IDE sandbox per class — slow. Prefer single-test r
 - `docs` — documentation only
 - `chore` — CI, build, or tooling changes
 
+## PR title format
+
+Pull request titles should follow this format:
+
+`<prefix>: <message>`
+
+- Extract the prefix from the PR's branch name (e.g., branch `test/my-feature` → prefix `test`)
+- Lowercase only the first letter of the message
+- Example: `feat: migrate to IntelliJ Platform Gradle Plugin 2.x and target GoLand 2026.1`
+- This convention applies to PR titles only — commit messages do not follow this format
+
 ## Reference
 
 - **Reference plugin**: `cucumber-java` in [JetBrains/intellij-plugins](https://github.com/JetBrains/intellij-plugins/tree/master/cucumber-java) — use as the pattern source for test structure, fixture layout, and functional behaviour.

@@ -6,12 +6,12 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func iPerformAnAction() error {
+func iCompleteTheTask() error {
 	return nil
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`^I perform an action$`, iPerformAnAction)
+	ctx.Step(`^I complete the task$`, iCompleteTheTask)
 }
 
 func TestFeatures(t *testing.T) {

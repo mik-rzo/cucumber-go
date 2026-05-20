@@ -25,6 +25,28 @@ class CucumberGoCompletionTest : GoCodeInsightFixtureTestCase() {
         )
     }
 
+    fun testStepCompletionRegexCapture() {
+        myFixture.copyDirectoryToProject(getTestName(true), "")
+        myFixture.configureByFile(getTestName(true) + ".feature")
+        val result = myFixture.completeBasic()
+        val lookupStrings = result?.map { it.lookupString }.orEmpty()
+        assertNotNull("Expected completion items", result)
+        assertEquals(
+            "Expected exactly 1 completion item for parametrized step, got $lookupStrings",
+            1,
+            result!!.size,
+        )
+        val lookupString = lookupStrings.single()
+        assertTrue(
+            "Expected lookup to start with literal step prefix, got '$lookupString'",
+            lookupString.startsWith("I perform"),
+        )
+        assertTrue(
+            "Expected lookup to retain literal step suffix, got '$lookupString'",
+            lookupString.endsWith("actions"),
+        )
+    }
+
     fun testStepCompletionMultipleMatches() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile(getTestName(true) + "_before.feature")

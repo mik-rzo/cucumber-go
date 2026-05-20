@@ -20,6 +20,8 @@
         <referencesSearch implementation="com.github.mikrzo.cucumbergo.search.StepDefinitionUsageSearcher"/>
         <findUsagesHandlerFactory
                 implementation="com.github.mikrzo.cucumbergo.search.StepFindUsagesHandlerFactory"/>
+        <usageTypeProvider
+                implementation="com.github.mikrzo.cucumbergo.search.StepUsageTypeProvider"/>
         <codeInsight.lineMarkerProvider
                 language="go"
                 implementationClass="com.github.mikrzo.cucumbergo.search.CucumberLineMarkerProvider"/>

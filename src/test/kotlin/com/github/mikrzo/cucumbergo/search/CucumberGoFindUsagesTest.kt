@@ -11,6 +11,7 @@ class CucumberGoFindUsagesTest : GoCodeInsightFixtureTestCase() {
 
     override fun getTestDataPath() = "src/test/testData/search"
 
+    // Raw regex pattern: returned verbatim by the Cucumber regex resolver
     fun testStepUsages() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         val usages = myFixture.testFindUsagesUsingAction("step_test.go").map { it.toString() }.toTypedArray()
@@ -36,6 +37,7 @@ class CucumberGoFindUsagesTest : GoCodeInsightFixtureTestCase() {
         assertEquals(0, usages.size)
     }
 
+    // Cucumber Expression with {int}: goes through buildRegexpFromCucumberExpression before matching
     fun testStepUsagesIntParameter() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         val usages = myFixture.testFindUsagesUsingAction("step_test.go").map { it.toString() }.toTypedArray()

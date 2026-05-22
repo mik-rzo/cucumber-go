@@ -6,12 +6,12 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func theUsageString(arg1 string) error {
+func iSay(phrase string) error {
 	return nil
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`^I say <caret>"([^"]*)"$`, theUsageString)
+	ctx.Step(`^I say <caret>"([^"]*)"$`, iSay)
 }
 
 func TestFeatures(t *testing.T) {

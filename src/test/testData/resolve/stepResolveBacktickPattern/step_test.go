@@ -6,12 +6,12 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func theString() error {
+func theresAStepDefinition() error {
 	return nil
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`^there's a step definition for this step$`, theString)
+	ctx.Step(`^there's a step definition for this step$`, theresAStepDefinition)
 }
 
 func TestFeatures(t *testing.T) {

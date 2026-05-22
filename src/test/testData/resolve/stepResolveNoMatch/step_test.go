@@ -6,12 +6,12 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func someOtherStep() error {
+func someOtherStepEntirely() error {
 	return nil
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`^some other step entirely$`, someOtherStep)
+	ctx.Step(`^some other step entirely$`, someOtherStepEntirely)
 }
 
 func TestFeatures(t *testing.T) {

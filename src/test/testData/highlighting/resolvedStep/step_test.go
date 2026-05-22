@@ -6,12 +6,12 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func iPerformAnAction() error {
+func theresAStepDefinitionLinkedToThisStep() error {
 	return nil
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`^there's a step definition linked to this step$`, iPerformAnAction)
+	ctx.Step(`^there's a step definition linked to this step$`, theresAStepDefinitionLinkedToThisStep)
 }
 
 func TestFeatures(t *testing.T) {

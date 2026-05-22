@@ -6,12 +6,12 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func isGood(word string) error {
+func wordIsGood(word string) error {
 	return nil
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`a/an {word} is good`, isGood)
+	ctx.Step(`a/an {word} is good`, wordIsGood)
 }
 
 func TestFeatures(t *testing.T) {

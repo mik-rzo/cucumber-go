@@ -15,8 +15,14 @@ class CucumberGoResolveTest : GoCodeInsightFixtureTestCase() {
         assertNotNull("No reference at caret position in step text", ref)
         val resolved = ref!!.resolve()
         assertNotNull("Step did not resolve to a definition", resolved)
-        val regex = StepDefinition(resolved as GoCallExpr).getCucumberRegex()
+        val resolvedCall = resolved as GoCallExpr
+        val regex = StepDefinition(resolvedCall).getCucumberRegex()
         assertEquals("""^there's a step definition for this step$""", regex)
+        assertEquals(
+            "Resolved to the wrong ctx.Step call",
+            "theresAStepDefinition",
+            resolvedCall.argumentList.expressionList.getOrNull(1)?.text,
+        )
     }
 
     fun testStepResolveNoMatch() {

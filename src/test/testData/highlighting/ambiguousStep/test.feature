@@ -1,6 +1,6 @@
-Feature: Some interesting feature
+Feature: ambiguous step
 
-  Scenario: Consumption of a cookie
+  Scenario: steps with multiple matching definitions
     Given <warning descr="Ambiguous step reference with 2 definitions: the step is my_path">the step is <info descr="null">my_path</info></warning>
     Given <warning descr="Ambiguous step reference with 3 definitions: another step is my_path blah!">another step is <info descr="null">my_path</info> blah!</warning>
     And this step is very unambiguous

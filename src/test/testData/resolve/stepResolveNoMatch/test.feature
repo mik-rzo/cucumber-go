@@ -1,4 +1,4 @@
 Feature: resolve no match
 
-  Scenario: demo
+  Scenario: step has no matching definition
     Given <caret>this step has no matching definition

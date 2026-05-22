@@ -6,12 +6,12 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func myStep() error {
+func theFollowingIsNotHighlighted() error {
 	return nil
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`^the following is not highlighted:$`, myStep)
+	ctx.Step(`^the following is not highlighted:$`, theFollowingIsNotHighlighted)
 }
 
 func TestFeatures(t *testing.T) {

@@ -1,7 +1,7 @@
 Feature: step usages
 
-  Scenario: demo 1
+  Scenario: greet hello
     Given I say "hello"
 
-  Scenario: demo 2
+  Scenario: greet world
     Given I say "world"

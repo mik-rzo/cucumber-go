@@ -1,6 +1,7 @@
-Feature: Basic Arithmetic
-  Scenario: Does not highlight step variable
-    Then the "<info descr="null">some variable</info>" is not highlighted:
+Feature: step with docstring
+
+  Scenario: docstring content is not highlighted
+    Then the following is not highlighted:
       """
       This is a doc string.
       """

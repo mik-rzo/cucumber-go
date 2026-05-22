@@ -1,4 +1,4 @@
-package guttericon
+package multiplematches
 
 import (
 	"testing"
@@ -6,17 +6,22 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func iRunTheScenario() error {
+func iPerformAnAction() error {
 	return nil
 }
 
-func iCheckTheResult() error {
+func iPerformAnotherAction() error {
+	return nil
+}
+
+func iPerformNActions(n int) error {
 	return nil
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`^I run the scenario$`, iRunTheScenario)
-	ctx.Step(`^I check the result$`, iCheckTheResult)
+	ctx.Step(`^I perform an action$`, iPerformAnAction)
+	ctx.Step(`^I perform another action$`, iPerformAnotherAction)
+	ctx.Step(`^I perform (\d+) actions$`, iPerformNActions)
 }
 
 func TestFeatures(t *testing.T) {

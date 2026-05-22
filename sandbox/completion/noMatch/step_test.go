@@ -1,4 +1,4 @@
-package guttericon
+package nomatch
 
 import (
 	"testing"
@@ -6,17 +6,12 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func iRunTheScenario() error {
-	return nil
-}
-
-func iCheckTheResult() error {
+func anEntirelyDifferentStep() error {
 	return nil
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`^I run the scenario$`, iRunTheScenario)
-	ctx.Step(`^I check the result$`, iCheckTheResult)
+	ctx.Step(`^an entirely different step$`, anEntirelyDifferentStep)
 }
 
 func TestFeatures(t *testing.T) {

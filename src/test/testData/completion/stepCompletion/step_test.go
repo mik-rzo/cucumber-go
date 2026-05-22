@@ -1,4 +1,4 @@
-package guttericon
+package stepcompletion
 
 import (
 	"testing"
@@ -6,17 +6,12 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func iRunTheScenario() error {
-	return nil
-}
-
-func iCheckTheResult() error {
+func iPerformAnAction() error {
 	return nil
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`^I run the scenario$`, iRunTheScenario)
-	ctx.Step(`^I check the result$`, iCheckTheResult)
+	ctx.Step(`^I perform an action$`, iPerformAnAction)
 }
 
 func TestFeatures(t *testing.T) {

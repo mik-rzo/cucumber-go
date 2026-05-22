@@ -16,11 +16,6 @@ class StepDefinitionCreatorTest : GoCodeInsightFixtureTestCase() {
 
     private val creator = StepDefinitionCreator()
 
-    private fun tempPsiDir(): PsiDirectory {
-        val vf = myFixture.tempDirFixture.findOrCreateDir(".")
-        return PsiManager.getInstance(project).findDirectory(vf)!!
-    }
-
     private fun projectPsiDir(): PsiDirectory {
         val vf = myFixture.findFileInTempDir("test.feature")!!.parent
         return PsiManager.getInstance(project).findDirectory(vf)!!
@@ -44,7 +39,9 @@ class StepDefinitionCreatorTest : GoCodeInsightFixtureTestCase() {
     }
 
     fun testCreateStepDefinitionContainerStructure() {
-        val goFile = createContainer(tempPsiDir(), "demo_test.go")
+        val dir = PsiManager.getInstance(project)
+            .findDirectory(myFixture.tempDirFixture.findOrCreateDir("."))!!
+        val goFile = createContainer(dir, "demo_test.go")
         val text = goFile.text
         assertTrue(text.contains("package steps"))
         assertTrue(text.contains("\"testing\""))
@@ -96,7 +93,11 @@ class StepDefinitionCreatorTest : GoCodeInsightFixtureTestCase() {
         val goFile = createContainer(projectPsiDir(), "test_test.go")
         addStep(step, goFile)
         addStep(step, goFile)
-        assertEquals(1, "func iDoSomething".toRegex().findAll(goFile.text).count())
+        val text = goFile.text
+        // Function declaration is de-duplicated (a second one would break Go compilation);
+        // ctx.Step registration is not — godog surfaces the ambiguity at runtime instead.
+        assertEquals(1, "func iDoSomething".toRegex().findAll(text).count())
+        assertEquals(2, "ctx\\.Step\\(".toRegex().findAll(text).count())
     }
 
     fun testCreateStepDefinitionExistingFile() {

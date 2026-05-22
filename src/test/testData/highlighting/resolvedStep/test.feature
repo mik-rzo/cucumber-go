@@ -1,4 +1,4 @@
 Feature: resolved step
 
-  Scenario: demo
+  Scenario: step has a matching definition
     Given there's a step definition linked to this step

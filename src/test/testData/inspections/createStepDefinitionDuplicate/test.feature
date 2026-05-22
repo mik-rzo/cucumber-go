@@ -1,3 +1,3 @@
 Feature: duplicate
-  Scenario: demo
+  Scenario: same step added twice
     Given I do something

@@ -1,3 +1,3 @@
 Feature: special chars
-  Scenario: demo
+  Scenario: step contains quoted text
     Given I say "hello"

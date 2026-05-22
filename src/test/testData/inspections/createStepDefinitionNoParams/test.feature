@@ -1,3 +1,3 @@
 Feature: no params
-  Scenario: demo
+  Scenario: step has no parameters
     Given I do something

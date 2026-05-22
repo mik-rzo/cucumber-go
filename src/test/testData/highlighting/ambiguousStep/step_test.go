@@ -6,24 +6,24 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func test1a(path string) error { return nil }
-func test1b(path string) error { return nil }
-func test2a(path string) error { return nil }
-func test2b(path string) error { return nil }
-func test2c(path string) error { return nil }
-func unambiguousStep() error   { return nil }
-func testA(path string) error  { return nil }
-func testB(path string) error  { return nil }
+func theStepIsCucumberExpr(path string) error      { return nil }
+func theStepIsRegex(path string) error             { return nil }
+func anotherStepDuplicate1(path string) error      { return nil }
+func anotherStepDuplicate2(path string) error      { return nil }
+func anotherStepDuplicate3(path string) error      { return nil }
+func unambiguousStep() error                       { return nil }
+func branchNarrowPattern(path string) error        { return nil }
+func branchBroadPattern(path string) error         { return nil }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`the step is {word}`, test1a)
-	ctx.Step(`^the step is (.+)$`, test1b)
-	ctx.Step(`another step is {word} blah!`, test2a)
-	ctx.Step(`another step is {word} blah!`, test2b)
-	ctx.Step(`another step is {word} blah!`, test2c)
+	ctx.Step(`the step is {word}`, theStepIsCucumberExpr)
+	ctx.Step(`^the step is (.+)$`, theStepIsRegex)
+	ctx.Step(`another step is {word} blah!`, anotherStepDuplicate1)
+	ctx.Step(`another step is {word} blah!`, anotherStepDuplicate2)
+	ctx.Step(`another step is {word} blah!`, anotherStepDuplicate3)
 	ctx.Step(`this step is very unambiguous`, unambiguousStep)
-	ctx.Step(`^(current)? branch ([^ ]+)$`, testA)
-	ctx.Step(`^(current )?branch (\S+)(?: in '(.+)')?$`, testB)
+	ctx.Step(`^(current)? branch ([^ ]+)$`, branchNarrowPattern)
+	ctx.Step(`^(current )?branch (\S+)(?: in '(.+)')?$`, branchBroadPattern)
 }
 
 func TestFeatures(t *testing.T) {

@@ -6,12 +6,12 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func myStep(docString *godog.DocString) error {
+func myStep() error {
 	return nil
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`^the step is not highlighted:$`, myStep)
+	ctx.Step(`^the following is not highlighted:$`, myStep)
 }
 
 func TestFeatures(t *testing.T) {

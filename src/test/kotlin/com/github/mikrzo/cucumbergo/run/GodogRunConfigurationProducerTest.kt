@@ -30,34 +30,34 @@ class GodogRunConfigurationProducerTest : GoCodeInsightFixtureTestCase() {
 
     fun testScenarioRun() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
-        myFixture.configureByFile(getTestName(true) + "/test.feature")
+        myFixture.configureByFile(getTestName(true) + "/scenario.feature")
         val config = produceFromContext()
         assertNotNull("Godog producer did not produce a config", config)
-        assertEquals("""^\QTestTest\E$/^TheApplicationStarts$""", config!!.pattern)
+        assertEquals("""^\QTestScenario\E$/^TheApplicationStarts$""", config!!.pattern)
         assertCommonGodogConfig(config)
     }
 
     fun testScenarioOutlineRun() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
-        myFixture.configureByFile(getTestName(true) + "/test.feature")
+        myFixture.configureByFile(getTestName(true) + "/outline.feature")
         val config = produceFromContext()
         assertNotNull("Godog producer did not produce a config", config)
-        assertEquals("""^\QTestTest\E$/^TheResponseCodeIsChecked(#\d+)?$""", config!!.pattern)
+        assertEquals("""^\QTestOutline\E$/^TheResponseCodeIsChecked(#\d+)?$""", config!!.pattern)
         assertCommonGodogConfig(config)
     }
 
     fun testFeatureLevelRun() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
-        myFixture.configureByFile(getTestName(true) + "/test.feature")
+        myFixture.configureByFile(getTestName(true) + "/whole.feature")
         val config = produceFromContext()
         assertNotNull("Godog producer did not produce a config", config)
-        assertEquals("""^\QTestTest\E$""", config!!.pattern)
+        assertEquals("""^\QTestWhole\E$""", config!!.pattern)
         assertCommonGodogConfig(config)
     }
 
     fun testNoStepContainers() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
-        myFixture.configureByFile(getTestName(true) + "/test.feature")
+        myFixture.configureByFile(getTestName(true) + "/orphan.feature")
         assertNull("expected no Godog config when no step containers exist", produceFromContext())
     }
 }

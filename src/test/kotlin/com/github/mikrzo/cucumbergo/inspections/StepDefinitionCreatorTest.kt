@@ -7,6 +7,7 @@ import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiManager
 import com.intellij.psi.util.PsiTreeUtil
+import org.jetbrains.plugins.cucumber.inspections.CucumberStepInspection
 import org.jetbrains.plugins.cucumber.psi.GherkinFile
 import org.jetbrains.plugins.cucumber.psi.GherkinStep
 
@@ -98,6 +99,17 @@ class StepDefinitionCreatorTest : GoCodeInsightFixtureTestCase() {
         // ctx.Step registration is not — godog surfaces the ambiguity at runtime instead.
         assertEquals(1, "func iDoSomething".toRegex().findAll(text).count())
         assertEquals(2, "ctx\\.Step\\(".toRegex().findAll(text).count())
+    }
+
+    fun testCreateStepDefDoesNotInvalidateExistingStepDef() {
+        myFixture.enableInspections(CucumberStepInspection())
+        myFixture.copyDirectoryToProject(getTestName(true), "")
+        val step = gherkinStep(getTestName(true) + "/test.feature", "I do something new")
+        val vf = myFixture.findFileInTempDir("step_test.go")!!
+        val goFile = PsiManager.getInstance(project).findFile(vf) as GoFile
+        addStep(step, goFile)
+        myFixture.configureByFile(getTestName(true) + "/test.feature")
+        myFixture.testHighlighting(true, true, true)
     }
 
     fun testCreateStepDefinitionExistingFile() {

@@ -7,6 +7,8 @@ import icons.CucumberIcons
 
 class CucumberLineMarkerProviderTest : GoCodeInsightFixtureTestCase() {
 
+    override fun getTestDataPath() = "src/test/testData"
+
     private val bt = '`'
 
     private fun configureGoFile(callExpr: String) {

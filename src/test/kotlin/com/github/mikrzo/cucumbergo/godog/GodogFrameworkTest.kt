@@ -4,6 +4,8 @@ import com.goide.GoCodeInsightFixtureTestCase
 
 class GodogFrameworkTest : GoCodeInsightFixtureTestCase() {
 
+    override fun getTestDataPath() = "src/test/testData"
+
     fun testUsesGodogWhenImportPresent() {
         myFixture.configureByText(
             "step_test.go",

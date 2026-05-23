@@ -1,4 +1,4 @@
-package guttericon
+package run
 
 import (
 	"testing"
@@ -6,22 +6,10 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func theServerIsRunning() error {
-	return nil
-}
-
-func iSendARequest() error {
-	return nil
-}
-
-func iReceiveAResponse() error {
-	return nil
-}
+func theServerIsRunning() error { return nil }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Given(`^the server is running$`, theServerIsRunning)
-	ctx.When(`^I send a request$`, iSendARequest)
-	ctx.Then(`^I receive a response$`, iReceiveAResponse)
+	ctx.Step(`^the server is running$`, theServerIsRunning)
 }
 
 func TestFeatures(t *testing.T) {

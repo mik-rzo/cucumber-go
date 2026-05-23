@@ -6,12 +6,12 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func iHaveAPassingStep() error {
+func iRunThisScenarioWithGodog() error {
 	return nil
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`^I have a passing step$`, iHaveAPassingStep)
+	ctx.Step(`^I run this scenario with godog$`, iRunThisScenarioWithGodog)
 }
 
 func TestFeatures(t *testing.T) {

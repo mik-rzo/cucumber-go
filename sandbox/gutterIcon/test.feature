@@ -1,5 +1,6 @@
-Feature: gutter icon navigation
+Feature: gutter icon
 
-  Scenario: gutter icons link feature steps to Go handlers
-    Given I run the scenario
-    Then I check the result
+  Scenario: open step_test.go to see the Cucumber gutter icons next to each step definition
+    Given the server is running
+    When I send a request
+    Then I receive a response

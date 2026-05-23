@@ -6,17 +6,22 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func iRunTheScenario() error {
+func theServerIsRunning() error {
 	return nil
 }
 
-func iCheckTheResult() error {
+func iSendARequest() error {
+	return nil
+}
+
+func iReceiveAResponse() error {
 	return nil
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`^I run the scenario$`, iRunTheScenario)
-	ctx.Step(`^I check the result$`, iCheckTheResult)
+	ctx.Given(`^the server is running$`, theServerIsRunning)
+	ctx.When(`^I send a request$`, iSendARequest)
+	ctx.Then(`^I receive a response$`, iReceiveAResponse)
 }
 
 func TestFeatures(t *testing.T) {

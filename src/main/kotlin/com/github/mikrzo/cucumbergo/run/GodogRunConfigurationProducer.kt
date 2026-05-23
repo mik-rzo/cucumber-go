@@ -61,25 +61,6 @@ class GodogRunConfigurationProducer protected constructor() :
             configuration.setGeneratedName()
             return true
         }
-//        if (element is PsiDirectory) {
-//            val dir = element.virtualFile
-//            if (!FileTypeIndex.containsFileOfType(
-//                    GherkinFileType.INSTANCE,
-//                    GlobalSearchScopesCore.directoryScope(element.getProject(), dir, true)
-//                )
-//            ) {
-//                return false
-//            }
-//            val directoryPath = dir.path
-//            configuration.testFramework = GodogFramework.INSTANCE
-//            configuration.directoryPath = directoryPath
-//            configuration.workingDirectory = directoryPath
-//            configuration.kind = Kind.DIRECTORY
-//            configuration.goToolParams = GoRunUtil.filterOutInstallParameter(configuration.goToolParams)
-//            configuration.setGeneratedName()
-//
-//            return true
-//        }
         return false
     }
 }

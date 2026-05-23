@@ -14,7 +14,7 @@ func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`^I navigate to this handler$`, iNavigateToThisHandler)
 }
 
-func TestFeatures(t *testing.T) {
+func TestResolve(t *testing.T) {
 	suite := godog.TestSuite{
 		ScenarioInitializer: InitializeScenario,
 		Options: &godog.Options{

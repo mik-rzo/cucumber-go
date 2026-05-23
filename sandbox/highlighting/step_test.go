@@ -14,7 +14,7 @@ func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`^I have a resolved step$`, iHaveAResolvedStep)
 }
 
-func TestFeatures(t *testing.T) {
+func TestHighlighting(t *testing.T) {
 	suite := godog.TestSuite{
 		ScenarioInitializer: InitializeScenario,
 		Options: &godog.Options{

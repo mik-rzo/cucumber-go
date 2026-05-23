@@ -14,7 +14,7 @@ func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`^I have an existing step definition$`, iHaveAnExistingStepDefinition)
 }
 
-func TestFeatures(t *testing.T) {
+func TestStepCreation(t *testing.T) {
 	suite := godog.TestSuite{
 		ScenarioInitializer: InitializeScenario,
 		Options: &godog.Options{

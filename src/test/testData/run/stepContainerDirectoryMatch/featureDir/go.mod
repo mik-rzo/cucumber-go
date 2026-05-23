@@ -1,4 +1,4 @@
-module resolve
+module featuredir
 
 go 1.21.9
 

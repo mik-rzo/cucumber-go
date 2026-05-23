@@ -9,6 +9,7 @@ import com.goide.execution.testing.GoTestRunConfiguration
 import com.goide.execution.testing.GoTestRunConfigurationProducerBase
 import com.goide.psi.GoFile
 import com.intellij.execution.actions.ConfigurationContext
+import com.intellij.openapi.module.ModuleUtilCore
 import com.intellij.openapi.util.Ref
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
@@ -27,11 +28,16 @@ class GodogRunConfigurationProducer protected constructor() :
         if (element.containingFile is GherkinFile) {
             val file = element.containingFile.virtualFile
 
-            // assuming all steps are in the same directory
-            CucumberExtension().getStepDefinitionContainers(element.containingFile as GherkinFile).firstOrNull().let {
+            // assuming all steps are in the same directory as the feature file
+            val featureDir = file.parent
+            CucumberExtension().getStepDefinitionContainers(element.containingFile as GherkinFile)
+                .filter { it.virtualFile.parent == featureDir }
+                .firstOrNull().let {
                 if (it == null) {
                     return false
                 }
+                val module = ModuleUtilCore.findModuleForPsiElement(it) ?: return false
+                configuration.setModule(module)
                 configuration.workingDirectory = it.virtualFile.parent.path
                 configuration.`package` = (it as GoFile).getImportPath(false).toString()
             }

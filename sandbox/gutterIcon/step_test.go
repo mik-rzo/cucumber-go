@@ -24,7 +24,7 @@ func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Then(`^I receive a response$`, iReceiveAResponse)
 }
 
-func TestFeatures(t *testing.T) {
+func TestGutterIcon(t *testing.T) {
 	suite := godog.TestSuite{
 		ScenarioInitializer: InitializeScenario,
 		Options: &godog.Options{

@@ -23,13 +23,13 @@ class GodogRunConfigurationProducerTest : GoCodeInsightFixtureTestCase() {
     private fun assertCommonGodogConfig(config: GoTestRunConfiguration) {
         assertEquals(GodogFramework.INSTANCE, config.testFramework)
         assertEquals(Kind.PACKAGE, config.kind)
-        val stepFile = myFixture.findFileInTempDir("step_test.go")
+        val stepFile = myFixture.findFileInTempDir("${getTestName(true)}/step_test.go")
         assertNotNull("step_test.go not found in temp dir", stepFile)
         assertEquals(stepFile!!.parent.path, config.workingDirectory)
     }
 
     fun testScenarioRun() {
-        myFixture.copyDirectoryToProject(getTestName(true), "")
+        myFixture.copyDirectoryToProject(getTestName(true), getTestName(true))
         myFixture.configureByFile(getTestName(true) + "/scenario.feature")
         val config = produceFromContext()
         assertNotNull("Godog producer did not produce a config", config)
@@ -38,7 +38,7 @@ class GodogRunConfigurationProducerTest : GoCodeInsightFixtureTestCase() {
     }
 
     fun testScenarioOutlineRun() {
-        myFixture.copyDirectoryToProject(getTestName(true), "")
+        myFixture.copyDirectoryToProject(getTestName(true), getTestName(true))
         myFixture.configureByFile(getTestName(true) + "/outline.feature")
         val config = produceFromContext()
         assertNotNull("Godog producer did not produce a config", config)
@@ -47,7 +47,7 @@ class GodogRunConfigurationProducerTest : GoCodeInsightFixtureTestCase() {
     }
 
     fun testFeatureLevelRun() {
-        myFixture.copyDirectoryToProject(getTestName(true), "")
+        myFixture.copyDirectoryToProject(getTestName(true), getTestName(true))
         myFixture.configureByFile(getTestName(true) + "/whole.feature")
         val config = produceFromContext()
         assertNotNull("Godog producer did not produce a config", config)
@@ -55,8 +55,18 @@ class GodogRunConfigurationProducerTest : GoCodeInsightFixtureTestCase() {
         assertCommonGodogConfig(config)
     }
 
-    fun testNoStepContainers() {
+    fun testStepContainerDirectoryMatch() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
+        myFixture.configureByFile("featureDir/feature.feature")
+        val config = produceFromContext()
+        assertNotNull("Godog producer did not produce a config", config)
+        val stepFile = myFixture.findFileInTempDir("featureDir/step_test.go")
+        assertNotNull("step_test.go not found in featureDir", stepFile)
+        assertEquals(stepFile!!.parent.path, config!!.workingDirectory)
+    }
+
+    fun testNoStepContainers() {
+        myFixture.copyDirectoryToProject(getTestName(true), getTestName(true))
         myFixture.configureByFile(getTestName(true) + "/orphan.feature")
         assertNull("expected no Godog config when no step containers exist", produceFromContext())
     }

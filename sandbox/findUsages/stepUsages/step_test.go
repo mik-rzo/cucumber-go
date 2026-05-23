@@ -14,7 +14,7 @@ func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`^I say "([^"]*)"$`, theUsageString)
 }
 
-func TestFeatures(t *testing.T) {
+func TestStepUsages(t *testing.T) {
 	suite := godog.TestSuite{
 		ScenarioInitializer: InitializeScenario,
 		Options: &godog.Options{

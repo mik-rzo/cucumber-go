@@ -14,7 +14,7 @@ func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`^I run this scenario with godog$`, iRunThisScenarioWithGodog)
 }
 
-func TestFeatures(t *testing.T) {
+func TestRunConfiguration(t *testing.T) {
 	suite := godog.TestSuite{
 		ScenarioInitializer: InitializeScenario,
 		Options: &godog.Options{

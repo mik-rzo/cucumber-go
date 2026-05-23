@@ -1,4 +1,4 @@
-module resolve
+module otherdir
 
 go 1.21.9
 

@@ -14,7 +14,7 @@ func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`^I complete the task$`, iCompleteTheTask)
 }
 
-func TestFeatures(t *testing.T) {
+func TestSingleMatch(t *testing.T) {
 	suite := godog.TestSuite{
 		ScenarioInitializer: InitializeScenario,
 		Options: &godog.Options{

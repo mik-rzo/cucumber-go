@@ -14,7 +14,7 @@ func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`^an entirely different step$`, anEntirelyDifferentStep)
 }
 
-func TestFeatures(t *testing.T) {
+func TestNoMatch(t *testing.T) {
 	suite := godog.TestSuite{
 		ScenarioInitializer: InitializeScenario,
 		Options: &godog.Options{

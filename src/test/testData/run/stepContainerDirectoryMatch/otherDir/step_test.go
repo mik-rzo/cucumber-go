@@ -1,4 +1,4 @@
-package stepnousages
+package otherdir
 
 import (
 	"testing"
@@ -6,15 +6,13 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func nobodyIsUsingMe() error {
-	return nil
-}
+func aStepDefinedInTheOtherDirectory() error { return nil }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`^nobody is using me$`, nobodyIsUsingMe)
+	ctx.Step(`^a step defined in the other directory$`, aStepDefinedInTheOtherDirectory)
 }
 
-func TestStepNoUsages(t *testing.T) {
+func TestFeatures(t *testing.T) {
 	suite := godog.TestSuite{
 		ScenarioInitializer: InitializeScenario,
 		Options: &godog.Options{

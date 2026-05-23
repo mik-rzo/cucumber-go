@@ -24,7 +24,7 @@ func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`^I perform (\d+) actions$`, iPerformNActions)
 }
 
-func TestFeatures(t *testing.T) {
+func TestMultipleMatches(t *testing.T) {
 	suite := godog.TestSuite{
 		ScenarioInitializer: InitializeScenario,
 		Options: &godog.Options{

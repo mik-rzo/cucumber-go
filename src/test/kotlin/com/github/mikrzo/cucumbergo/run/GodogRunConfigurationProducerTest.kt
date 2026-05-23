@@ -2,6 +2,7 @@ package com.github.mikrzo.cucumbergo.run
 
 import com.github.mikrzo.cucumbergo.godog.GodogFramework
 import com.goide.GoCodeInsightFixtureTestCase
+import com.goide.execution.GoBuildingRunConfiguration.Kind
 import com.goide.execution.testing.GoTestRunConfiguration
 import com.intellij.execution.actions.ConfigurationContext
 import com.intellij.ide.DataManager
@@ -19,13 +20,21 @@ class GodogRunConfigurationProducerTest : GoCodeInsightFixtureTestCase() {
         return ours?.configuration as GoTestRunConfiguration?
     }
 
+    private fun assertCommonGodogConfig(config: GoTestRunConfiguration) {
+        assertEquals(GodogFramework.INSTANCE, config.testFramework)
+        assertEquals(Kind.PACKAGE, config.kind)
+        val stepFile = myFixture.findFileInTempDir("step_test.go")
+        assertNotNull("step_test.go not found in temp dir", stepFile)
+        assertEquals(stepFile!!.parent.path, config.workingDirectory)
+    }
+
     fun testScenarioRun() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile(getTestName(true) + "/test.feature")
         val config = produceFromContext()
         assertNotNull("Godog producer did not produce a config", config)
         assertEquals("""^\QTestTest\E$/^TheApplicationStarts$""", config!!.pattern)
-        assertEquals(GodogFramework.INSTANCE, config.testFramework)
+        assertCommonGodogConfig(config)
     }
 
     fun testScenarioOutlineRun() {
@@ -34,7 +43,7 @@ class GodogRunConfigurationProducerTest : GoCodeInsightFixtureTestCase() {
         val config = produceFromContext()
         assertNotNull("Godog producer did not produce a config", config)
         assertEquals("""^\QTestTest\E$/^TheResponseCodeIsChecked(#\d+)?$""", config!!.pattern)
-        assertEquals(GodogFramework.INSTANCE, config.testFramework)
+        assertCommonGodogConfig(config)
     }
 
     fun testFeatureLevelRun() {
@@ -43,7 +52,7 @@ class GodogRunConfigurationProducerTest : GoCodeInsightFixtureTestCase() {
         val config = produceFromContext()
         assertNotNull("Godog producer did not produce a config", config)
         assertEquals("""^\QTestTest\E$""", config!!.pattern)
-        assertEquals(GodogFramework.INSTANCE, config.testFramework)
+        assertCommonGodogConfig(config)
     }
 
     fun testNoStepContainers() {

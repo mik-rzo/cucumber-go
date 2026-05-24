@@ -6,10 +6,6 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func theresAStepDefinition() error {
-	return nil
-}
-
 func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`^there's a step definition for this step$`, theresAStepDefinition)
 }
@@ -26,4 +22,8 @@ func TestFeatures(t *testing.T) {
 	if suite.Run() != 0 {
 		t.Fatal("non-zero status returned, failed to run feature tests")
 	}
+}
+
+func theresAStepDefinition() error {
+	return nil
 }

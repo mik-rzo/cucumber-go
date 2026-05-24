@@ -6,8 +6,6 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func aStepDefinedInTheFeatureDirectory() error { return nil }
-
 func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`^a step defined in the feature directory$`, aStepDefinedInTheFeatureDirectory)
 }
@@ -25,3 +23,5 @@ func TestFeatures(t *testing.T) {
 		t.Fatal("non-zero status returned, failed to run feature tests")
 	}
 }
+
+func aStepDefinedInTheFeatureDirectory() error { return nil }

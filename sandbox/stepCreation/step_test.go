@@ -6,10 +6,6 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func iHaveAnExistingStepDefinition() error {
-	return nil
-}
-
 func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`^I have an existing step definition$`, iHaveAnExistingStepDefinition)
 }
@@ -26,4 +22,8 @@ func TestStepCreation(t *testing.T) {
 	if suite.Run() != 0 {
 		t.Fatal("non-zero status returned, failed to run feature tests")
 	}
+}
+
+func iHaveAnExistingStepDefinition() error {
+	return nil
 }

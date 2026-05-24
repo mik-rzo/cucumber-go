@@ -6,10 +6,6 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func iNavigateToThisHandler() error {
-	return nil
-}
-
 func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`^I navigate to this handler$`, iNavigateToThisHandler)
 }
@@ -26,4 +22,8 @@ func TestResolve(t *testing.T) {
 	if suite.Run() != 0 {
 		t.Fatal("non-zero status returned, failed to run feature tests")
 	}
+}
+
+func iNavigateToThisHandler() error {
+	return nil
 }

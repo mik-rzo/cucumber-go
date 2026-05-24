@@ -6,10 +6,6 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func iHaveAResolvedStep() error {
-	return nil
-}
-
 func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`^I have a resolved step$`, iHaveAResolvedStep)
 }
@@ -26,4 +22,8 @@ func TestHighlighting(t *testing.T) {
 	if suite.Run() != 0 {
 		t.Fatal("non-zero status returned, failed to run feature tests")
 	}
+}
+
+func iHaveAResolvedStep() error {
+	return nil
 }

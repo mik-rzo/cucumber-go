@@ -6,10 +6,6 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func nobodyIsUsingMe() error {
-	return nil
-}
-
 func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`^nobody is using me$`, nobodyIsUsingMe)
 }
@@ -26,4 +22,8 @@ func TestStepNoUsages(t *testing.T) {
 	if suite.Run() != 0 {
 		t.Fatal("non-zero status returned, failed to run feature tests")
 	}
+}
+
+func nobodyIsUsingMe() error {
+	return nil
 }

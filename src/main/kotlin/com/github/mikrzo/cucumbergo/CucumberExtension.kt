@@ -14,7 +14,6 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
 import com.intellij.psi.PsiRecursiveElementWalkingVisitor
-import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.GlobalSearchScopes
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.indexing.FileBasedIndex
@@ -49,16 +48,7 @@ class CucumberExtension : AbstractCucumberExtension() {
         else
             module.getModuleWithDependenciesAndLibrariesScope(true)
                 .uniteWith(module.moduleContentWithDependenciesScope)
-        return loadStepsFor(module, scope)
-    }
 
-    // No `override` — compiles against 261.x where this method doesn't exist yet, but satisfies the
-    // abstract method added in 262.x at runtime via JVM signature resolution.
-    fun loadStepsFor(module: Module): List<AbstractStepDefinition> =
-        loadStepsFor(module, module.getModuleWithDependenciesAndLibrariesScope(true)
-            .uniteWith(module.moduleContentWithDependenciesScope))
-
-    private fun loadStepsFor(module: Module, scope: GlobalSearchScope): List<AbstractStepDefinition> {
         val fileBasedIndex = FileBasedIndex.getInstance()
         val project = module.project
         val result = mutableListOf<AbstractStepDefinition>()
@@ -97,6 +87,14 @@ class CucumberExtension : AbstractCucumberExtension() {
 
         return result
     }
+
+    // 262.x (GoLand 2026.2) added a second abstract loadStepsFor(Module) — without the PsiFile
+    // parameter — to CucumberJvmExtensionPoint. Omitting it causes AbstractMethodError at runtime.
+    // `override` is absent because the method doesn't exist in the 261.x compile target; JVM
+    // signature resolution satisfies the interface at runtime instead.
+    @Suppress("unused")
+    fun loadStepsFor(module: Module): List<AbstractStepDefinition> =
+        loadStepsFor(null, module)
 
     private fun findStepContainerDir(featureFile: VirtualFile): VirtualFile? {
         var dir = featureFile.parent

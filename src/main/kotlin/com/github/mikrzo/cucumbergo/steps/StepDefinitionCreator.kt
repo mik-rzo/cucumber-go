@@ -6,6 +6,7 @@ import com.goide.psi.GoFunctionDeclaration
 import com.goide.psi.impl.GoElementFactory
 import com.intellij.openapi.application.WriteAction
 import com.intellij.psi.PsiDirectory
+import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
@@ -79,15 +80,12 @@ class StepDefinitionCreator : AbstractStepDefinitionCreator() {
             }
         if (current == null) {
             WriteAction.run<RuntimeException> {
-                (file as GoFile).add(
-                    GoElementFactory.createFunctionDeclaration(
-                        file.project,
-                        stepName,
-                        stepSignature.toString(),
-                        "{\nreturn ctx, godog.ErrPending\n}",
-                        file
-                    )
-                )
+                val document = PsiDocumentManager.getInstance(file.project).getDocument(file)!!
+                val currentText = document.text
+                val separator = if (currentText.endsWith("\n")) "\n" else "\n\n"
+                val funcDecl = "func $stepName$stepSignature {\n\treturn ctx, godog.ErrPending\n}"
+                document.insertString(document.textLength, "$separator$funcDecl\n")
+                PsiDocumentManager.getInstance(file.project).commitDocument(document)
             }
         }
 

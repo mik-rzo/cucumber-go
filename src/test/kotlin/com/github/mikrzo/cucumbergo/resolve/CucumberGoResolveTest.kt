@@ -9,6 +9,23 @@ class CucumberGoResolveTest : GoCodeInsightFixtureTestCase() {
 
     override fun getTestDataPath() = "src/test/testData/resolve"
 
+    fun testStepResolveQuotePattern() {
+        myFixture.copyDirectoryToProject(getTestName(true), "")
+        myFixture.configureByFile(getTestName(true) + "/test.feature")
+        val ref = myFixture.file.findReferenceAt(myFixture.caretOffset)
+        assertNotNull("No reference at caret position in step text", ref)
+        val resolved = ref!!.resolve()
+        assertNotNull("Step did not resolve to a definition", resolved)
+        val resolvedCall = resolved as GoCallExpr
+        val regex = StepDefinition(resolvedCall).getCucumberRegex()
+        assertEquals("""^there's a step definition for this step$""", regex)
+        assertEquals(
+            "Resolved to the wrong ctx.Step call",
+            "theresAStepDefinition",
+            resolvedCall.argumentList.expressionList.getOrNull(1)?.text,
+        )
+    }
+
     fun testStepResolveBacktickPattern() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile(getTestName(true) + "/test.feature")

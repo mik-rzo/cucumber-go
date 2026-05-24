@@ -1,4 +1,4 @@
-package stepresolvebacktickpattern
+package stepresolvequotepattern
 
 import (
 	"testing"
@@ -11,7 +11,7 @@ func theresAStepDefinition() error {
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`^there's a step definition for this step$`, theresAStepDefinition)
+	ctx.Step("^there's a step definition for this step$", theresAStepDefinition)
 }
 
 func TestFeatures(t *testing.T) {

@@ -14,6 +14,8 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
 import com.intellij.psi.PsiRecursiveElementWalkingVisitor
+import com.intellij.psi.search.GlobalSearchScope
+import com.intellij.psi.search.GlobalSearchScopes
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.indexing.FileBasedIndex
 import org.jetbrains.plugins.cucumber.BDDFrameworkType
@@ -40,17 +42,25 @@ class CucumberExtension : AbstractCucumberExtension() {
         return GoStepDefinitionCreator()
     }
 
-    override fun loadStepsFor(featureFile: PsiFile?, module: Module): List<AbstractStepDefinition> =
-        loadStepsFor(module)
+    override fun loadStepsFor(featureFile: PsiFile?, module: Module): List<AbstractStepDefinition> {
+        val stepContainerDir = featureFile?.virtualFile?.let { findStepContainerDir(it) }
+        val scope = if (stepContainerDir != null)
+            GlobalSearchScopes.directoryScope(module.project, stepContainerDir, false)
+        else
+            module.getModuleWithDependenciesAndLibrariesScope(true)
+                .uniteWith(module.moduleContentWithDependenciesScope)
+        return loadStepsFor(module, scope)
+    }
 
     // No `override` — compiles against 261.x where this method doesn't exist yet, but satisfies the
     // abstract method added in 262.x at runtime via JVM signature resolution.
-    fun loadStepsFor(module: Module): List<AbstractStepDefinition> {
+    fun loadStepsFor(module: Module): List<AbstractStepDefinition> =
+        loadStepsFor(module, module.getModuleWithDependenciesAndLibrariesScope(true)
+            .uniteWith(module.moduleContentWithDependenciesScope))
+
+    private fun loadStepsFor(module: Module, scope: GlobalSearchScope): List<AbstractStepDefinition> {
         val fileBasedIndex = FileBasedIndex.getInstance()
         val project = module.project
-        val scope = module
-            .getModuleWithDependenciesAndLibrariesScope(true)
-            .uniteWith(module.moduleContentWithDependenciesScope)
         val result = mutableListOf<AbstractStepDefinition>()
         val processedFiles = mutableSetOf<VirtualFile>()
 
@@ -86,6 +96,16 @@ class CucumberExtension : AbstractCucumberExtension() {
         }
 
         return result
+    }
+
+    private fun findStepContainerDir(featureFile: VirtualFile): VirtualFile? {
+        var dir = featureFile.parent
+        while (dir != null) {
+            if (dir.children.any { it.name.endsWith("_test.go") }) return dir
+            if (dir.findChild("go.mod") != null) break
+            dir = dir.parent
+        }
+        return null
     }
 
     override fun getStepDefinitionContainers(featureFile: GherkinFile): Collection<PsiFile> {

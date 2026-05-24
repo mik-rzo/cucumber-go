@@ -1,4 +1,4 @@
-package resolvenomatch
+package stepresolvequotepattern
 
 import (
 	"testing"
@@ -7,7 +7,7 @@ import (
 )
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`^some other step entirely$`, someOtherStepEntirely)
+	ctx.Step("^there's a step definition for this step$", theresAStepDefinition)
 }
 
 func TestFeatures(t *testing.T) {
@@ -24,6 +24,6 @@ func TestFeatures(t *testing.T) {
 	}
 }
 
-func someOtherStepEntirely() error {
+func theresAStepDefinition() error {
 	return nil
 }

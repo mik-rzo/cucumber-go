@@ -6,10 +6,6 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func iRunThisScenarioWithGodog() error {
-	return nil
-}
-
 func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`^I run this scenario with godog$`, iRunThisScenarioWithGodog)
 }
@@ -26,4 +22,8 @@ func TestRunConfiguration(t *testing.T) {
 	if suite.Run() != 0 {
 		t.Fatal("non-zero status returned, failed to run feature tests")
 	}
+}
+
+func iRunThisScenarioWithGodog() error {
+	return nil
 }

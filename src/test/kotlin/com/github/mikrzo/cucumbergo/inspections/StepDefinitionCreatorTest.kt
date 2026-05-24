@@ -122,5 +122,7 @@ class StepDefinitionCreatorTest : GoCodeInsightFixtureTestCase() {
         assertTrue(text.contains("func iDoSomethingNew("))
         assertTrue(text.contains("func iDoSomething("))
         assertEquals(2, "ctx\\.Step\\(".toRegex().findAll(text).count())
+        assertTrue("new step def must be preceded by a blank line", text.contains("\n\nfunc iDoSomethingNew("))
+        assertTrue("file must end with a trailing newline", text.endsWith("\n"))
     }
 }

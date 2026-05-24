@@ -6,18 +6,6 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func iPerformAnAction() error {
-	return nil
-}
-
-func iPerformAnotherAction() error {
-	return nil
-}
-
-func iPerformNActions(n int) error {
-	return nil
-}
-
 func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`^I perform an action$`, iPerformAnAction)
 	ctx.Step(`^I perform another action$`, iPerformAnotherAction)
@@ -36,4 +24,16 @@ func TestMultipleMatches(t *testing.T) {
 	if suite.Run() != 0 {
 		t.Fatal("non-zero status returned, failed to run feature tests")
 	}
+}
+
+func iPerformAnAction() error {
+	return nil
+}
+
+func iPerformAnotherAction() error {
+	return nil
+}
+
+func iPerformNActions(n int) error {
+	return nil
 }

@@ -6,10 +6,6 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func theResponseCodeIs(code int) error {
-	return nil
-}
-
 func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`the response code is {int}<caret>`, theResponseCodeIs)
 }
@@ -26,4 +22,8 @@ func TestFeatures(t *testing.T) {
 	if suite.Run() != 0 {
 		t.Fatal("non-zero status returned, failed to run feature tests")
 	}
+}
+
+func theResponseCodeIs(code int) error {
+	return nil
 }

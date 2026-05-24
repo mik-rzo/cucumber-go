@@ -1,4 +1,4 @@
-package resolvenomatch
+package featurepkg
 
 import (
 	"testing"
@@ -7,7 +7,7 @@ import (
 )
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`^some other step entirely$`, someOtherStepEntirely)
+	ctx.Step(`^a shared step$`, aSharedStep)
 }
 
 func TestFeatures(t *testing.T) {
@@ -15,7 +15,7 @@ func TestFeatures(t *testing.T) {
 		ScenarioInitializer: InitializeScenario,
 		Options: &godog.Options{
 			Format:   "pretty",
-			Paths:    []string{"."},
+			Paths:    []string{"features"},
 			TestingT: t,
 		},
 	}
@@ -24,6 +24,4 @@ func TestFeatures(t *testing.T) {
 	}
 }
 
-func someOtherStepEntirely() error {
-	return nil
-}
+func aSharedStep() error { return nil }

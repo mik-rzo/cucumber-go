@@ -6,8 +6,6 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func theServerIsRunning() error { return nil }
-
 func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`^the server is running$`, theServerIsRunning)
 }
@@ -25,3 +23,5 @@ func TestFeatures(t *testing.T) {
 		t.Fatal("non-zero status returned, failed to run feature tests")
 	}
 }
+
+func theServerIsRunning() error { return nil }

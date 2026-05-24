@@ -6,15 +6,6 @@ import (
 	"github.com/cucumber/godog"
 )
 
-func theStepIsCucumberExpr(path string) error      { return nil }
-func theStepIsRegex(path string) error             { return nil }
-func anotherStepDuplicate1(path string) error      { return nil }
-func anotherStepDuplicate2(path string) error      { return nil }
-func anotherStepDuplicate3(path string) error      { return nil }
-func unambiguousStep() error                       { return nil }
-func branchNarrowPattern(path string) error        { return nil }
-func branchBroadPattern(path string) error         { return nil }
-
 func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`the step is {word}`, theStepIsCucumberExpr)
 	ctx.Step(`^the step is (.+)$`, theStepIsRegex)
@@ -39,3 +30,19 @@ func TestFeatures(t *testing.T) {
 		t.Fatal("non-zero status returned, failed to run feature tests")
 	}
 }
+
+func theStepIsCucumberExpr(path string) error      { return nil }
+
+func theStepIsRegex(path string) error             { return nil }
+
+func anotherStepDuplicate1(path string) error      { return nil }
+
+func anotherStepDuplicate2(path string) error      { return nil }
+
+func anotherStepDuplicate3(path string) error      { return nil }
+
+func unambiguousStep() error                       { return nil }
+
+func branchNarrowPattern(path string) error        { return nil }
+
+func branchBroadPattern(path string) error         { return nil }

@@ -54,10 +54,10 @@
 
 - Step Definition Index
 
-[Unreleased]: https://github.com/mik-rzo/cucumber-go/compare/v0.3.0...HEAD
-[0.3.0]: https://github.com/mik-rzo/cucumber-go/compare/01f706d...v0.3.0
-[0.2.3]: https://github.com/nikolaymatrosov/cucumber-go/compare/v0.2.2...v0.2.3
-[0.2.2]: https://github.com/nikolaymatrosov/cucumber-go/compare/v0.2.1...v0.2.2
-[0.2.1]: https://github.com/nikolaymatrosov/cucumber-go/compare/v0.2.0...v0.2.1
-[0.2.0]: https://github.com/nikolaymatrosov/cucumber-go/compare/v0.1.0...v0.2.0
-[0.1.0]: https://github.com/nikolaymatrosov/cucumber-go/commits/v0.1.0
+[Unreleased]: https://github.com/mik-rzo/cucumber-go/compare/0.3.0...HEAD
+[0.3.0]: https://github.com/mik-rzo/cucumber-go/compare/0.2.3...0.3.0
+[0.2.3]: https://github.com/mik-rzo/cucumber-go/compare/0.2.2...0.2.3
+[0.2.2]: https://github.com/mik-rzo/cucumber-go/compare/0.2.1...0.2.2
+[0.2.1]: https://github.com/mik-rzo/cucumber-go/compare/0.2.0...0.2.1
+[0.2.0]: https://github.com/mik-rzo/cucumber-go/compare/0.1.0...0.2.0
+[0.1.0]: https://github.com/mik-rzo/cucumber-go/commits/0.1.0

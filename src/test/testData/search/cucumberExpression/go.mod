@@ -1,4 +1,4 @@
-module stepusages
+module cucumberexpression
 
 go 1.21.9
 

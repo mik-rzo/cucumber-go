@@ -1,4 +1,4 @@
-package stepusages
+package cucumberexpression
 
 import (
 	"testing"
@@ -7,10 +7,10 @@ import (
 )
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`^I say <caret>"([^"]*)"$`, iSay)
+	ctx.Step(`the response code is {int}`, theResponseCodeIs)
 }
 
-func TestFeatures(t *testing.T) {
+func TestStepUsagesIntParameter(t *testing.T) {
 	suite := godog.TestSuite{
 		ScenarioInitializer: InitializeScenario,
 		Options: &godog.Options{
@@ -24,6 +24,6 @@ func TestFeatures(t *testing.T) {
 	}
 }
 
-func iSay(phrase string) error {
+func theResponseCodeIs(code int) error {
 	return nil
 }

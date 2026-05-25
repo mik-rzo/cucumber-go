@@ -1,4 +1,4 @@
-package stepusagesintparameter
+package nousages
 
 import (
 	"testing"
@@ -7,10 +7,10 @@ import (
 )
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`the response code is {int}`, theResponseCodeIs)
+	ctx.Step(`^nobody is using me$`, nobodyIsUsingMe)
 }
 
-func TestStepUsagesIntParameter(t *testing.T) {
+func TestStepNoUsages(t *testing.T) {
 	suite := godog.TestSuite{
 		ScenarioInitializer: InitializeScenario,
 		Options: &godog.Options{
@@ -24,6 +24,6 @@ func TestStepUsagesIntParameter(t *testing.T) {
 	}
 }
 
-func theResponseCodeIs(code int) error {
+func nobodyIsUsingMe() error {
 	return nil
 }

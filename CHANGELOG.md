@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+- fix: restrict plugin to GoLand by declaring `com.intellij.modules.goland` dependency
+
 ## [1.0.0] - 2026-05-25
 
 - feat: migrate to IntelliJ Platform Gradle Plugin 2.x and target GoLand 2026.1 by @mik-rzo in https://github.com/mik-rzo/cucumber-go/pull/1

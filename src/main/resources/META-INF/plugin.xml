@@ -5,6 +5,7 @@
     <vendor>mik-rzo</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.goland</depends>
     <depends>org.jetbrains.plugins.go</depends>
     <depends>gherkin</depends>
 

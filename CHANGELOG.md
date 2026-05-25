@@ -4,8 +4,6 @@
 
 ## [Unreleased]
 
-## [0.3.0] - 2026-05-25
-
 - feat: migrate to IntelliJ Platform Gradle Plugin 2.x and target GoLand 2026.1 by @mik-rzo in https://github.com/mik-rzo/cucumber-go/pull/1
 - fix: select step container in the same directory as the feature file by @mik-rzo in https://github.com/mik-rzo/cucumber-go/pull/18
 - fix: creating step definition invalidates existing step definitions by @mik-rzo in https://github.com/mik-rzo/cucumber-go/pull/19
@@ -54,8 +52,7 @@
 
 - Step Definition Index
 
-[Unreleased]: https://github.com/mik-rzo/cucumber-go/compare/v0.3.0...HEAD
-[0.3.0]: https://github.com/mik-rzo/cucumber-go/compare/01f706d...v0.3.0
+[Unreleased]: https://github.com/mik-rzo/cucumber-go/compare/01f706d...HEAD
 [0.2.3]: https://github.com/nikolaymatrosov/cucumber-go/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/nikolaymatrosov/cucumber-go/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/nikolaymatrosov/cucumber-go/compare/v0.2.0...v0.2.1

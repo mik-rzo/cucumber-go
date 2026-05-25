@@ -4,7 +4,7 @@
 
 ## [Unreleased]
 
-- fix: restrict plugin to GoLand by declaring `com.intellij.modules.goland` dependency
+- fix: restrict plugin to GoLand by declaring `com.intellij.modules.goland` dependency by @mik-rzo in https://github.com/mik-rzo/cucumber-go/pull/35
 
 ## [1.0.0] - 2026-05-25
 

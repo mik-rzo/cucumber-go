@@ -1,4 +1,4 @@
-package stepnousages
+package nousages
 
 import (
 	"testing"
@@ -10,7 +10,7 @@ func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`^nobody is using me$`, nobodyIsUsingMe)
 }
 
-func TestStepNoUsages(t *testing.T) {
+func TestFeatures(t *testing.T) {
 	suite := godog.TestSuite{
 		ScenarioInitializer: InitializeScenario,
 		Options: &godog.Options{

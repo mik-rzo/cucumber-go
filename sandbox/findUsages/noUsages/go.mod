@@ -1,4 +1,4 @@
-module stepnousages
+module nousages
 
 go 1.21.9
 

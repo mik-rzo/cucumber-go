@@ -1,4 +1,4 @@
-package stepusagesintparameter
+package cucumberexpression
 
 import (
 	"testing"

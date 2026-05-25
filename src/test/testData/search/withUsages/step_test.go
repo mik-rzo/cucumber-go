@@ -1,4 +1,4 @@
-package stepnousages
+package withusages
 
 import (
 	"testing"
@@ -7,7 +7,7 @@ import (
 )
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`^nobody is using me$`, nobodyIsUsingMe)
+	ctx.Step(`^I say <caret>"([^"]*)"$`, iSay)
 }
 
 func TestFeatures(t *testing.T) {
@@ -24,6 +24,6 @@ func TestFeatures(t *testing.T) {
 	}
 }
 
-func nobodyIsUsingMe() error {
+func iSay(phrase string) error {
 	return nil
 }

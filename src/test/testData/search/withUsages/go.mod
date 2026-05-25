@@ -1,4 +1,4 @@
-module stepnousages
+module withusages
 
 go 1.21.9
 

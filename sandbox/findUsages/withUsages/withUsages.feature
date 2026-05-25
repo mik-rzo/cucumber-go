@@ -1,4 +1,4 @@
-Feature: find usages - step usages
+Feature: find usages - with usages
 
   Scenario: open step_test.go, place caret on the step pattern and ⌥ + F7 to find all matching Gherkin steps
     Given I say "hello"

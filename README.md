@@ -1,19 +1,19 @@
 # Cucumber Go
 
 <!-- Plugin description -->
-Cucumber Go plugin provides support for Cucumber testing tools with step definitions written in Go.
+<p>Cucumber Go plugin provides support for Cucumber testing tools with step definitions written in Go.</p>
+<h2>Features</h2>
+<ul>
+  <li>Go to step definition</li>
+  <li>Syntax highlighting</li>
+  <li>Step completion</li>
+  <li>Find usages</li>
+  <li>Step definition generation</li>
+  <li>Gutter icon on step definitions</li>
+  <li>Automatic godog framework detection</li>
+  <li>Run configurations for features and scenarios</li>
+</ul>
 <!-- Plugin description end -->
-
-## Features
-
-- Go to step definition
-- Syntax highlighting
-- Step completion
-- Find usages
-- Step definition generation
-- Gutter icon on step definitions
-- Automatic godog framework detection
-- Run configurations for features and scenarios
 
 ## Installation
 

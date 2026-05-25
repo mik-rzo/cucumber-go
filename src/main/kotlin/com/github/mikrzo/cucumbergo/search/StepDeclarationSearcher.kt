@@ -37,7 +37,7 @@ class StepDeclarationSearcher : PomDeclarationSearcher() {
                     var stepName = elem.expressionList.getOrNull(0)?.text
                     if (listOf("Given", "When", "Then", "Step").contains(keyword) && stepName != null) {
                         stepName = stepName.replace("`", "")
-                        getStepDeclaration(candidate, "$stepName")
+                        getStepDeclaration(candidate, stepName)
                     } else {
                         null
                     }

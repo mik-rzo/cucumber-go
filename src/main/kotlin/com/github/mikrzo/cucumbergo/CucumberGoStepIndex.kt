@@ -52,5 +52,5 @@ class CucumberGoStepIndex : CucumberStepIndex() {
 }
 
 val INDEX_ID = ID.create<Boolean, List<Int>>("go.cucumber.step")
-val GODOG_PACKAGE = "github.com/cucumber/godog"
+const val GODOG_PACKAGE = "github.com/cucumber/godog"
 val PACKAGES = arrayOf(GODOG_PACKAGE)

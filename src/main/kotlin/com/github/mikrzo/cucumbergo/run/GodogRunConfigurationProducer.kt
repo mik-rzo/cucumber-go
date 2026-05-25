@@ -1,7 +1,7 @@
 package com.github.mikrzo.cucumbergo.run
 
 import com.github.mikrzo.cucumbergo.CucumberExtension
-import com.github.mikrzo.cucumbergo.ToPascalCase
+import com.github.mikrzo.cucumbergo.toPascalCase
 import com.github.mikrzo.cucumbergo.godog.GodogFramework
 import com.goide.execution.GoBuildingRunConfiguration.Kind
 import com.goide.execution.GoRunUtil
@@ -17,7 +17,7 @@ import org.jetbrains.plugins.cucumber.psi.GherkinFile
 import org.jetbrains.plugins.cucumber.psi.GherkinScenario
 import org.jetbrains.plugins.cucumber.psi.GherkinScenarioOutline
 
-class GodogRunConfigurationProducer protected constructor() :
+class GodogRunConfigurationProducer private constructor() :
     GoTestRunConfigurationProducerBase(GodogFramework.INSTANCE) {
     override fun setupConfigurationFromContext(
         configuration: GoTestRunConfiguration,
@@ -31,8 +31,7 @@ class GodogRunConfigurationProducer protected constructor() :
             // assuming all steps are in the same directory as the feature file
             val featureDir = file.parent
             CucumberExtension().getStepDefinitionContainers(element.containingFile as GherkinFile)
-                .filter { it.virtualFile.parent == featureDir }
-                .firstOrNull().let {
+                .firstOrNull { it.virtualFile.parent == featureDir }.let {
                 if (it == null) {
                     return false
                 }
@@ -55,12 +54,12 @@ class GodogRunConfigurationProducer protected constructor() :
                 GherkinScenarioOutline::class.java
             )
 
-            var pattern = "^\\QTest" + ToPascalCase(file.nameWithoutExtension) + "\\E\$"
+            var pattern = $$"^\\QTest$${toPascalCase(file.nameWithoutExtension)}\\E$"
 
             if (scenario != null) {
-                pattern = pattern + "/^" + ToPascalCase(scenario.scenarioName) + "$"
+                pattern = pattern + "/^" + toPascalCase(scenario.scenarioName) + "$"
             } else if (scenarioOutline != null) {
-                pattern = pattern + "/^" + ToPascalCase(scenarioOutline.scenarioName) + "(#\\d+)?$"
+                pattern = pattern + "/^" + toPascalCase(scenarioOutline.scenarioName) + "(#\\d+)?$"
             }
             configuration.pattern = pattern
 

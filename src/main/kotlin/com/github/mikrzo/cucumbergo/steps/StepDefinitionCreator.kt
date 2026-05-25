@@ -31,7 +31,7 @@ class StepDefinitionCreator : AbstractStepDefinitionCreator() {
                 return featureFile.manager.findDirectory(stepsDir.virtualFile)
             }
         }
-        return stepsDir
+        return null
     }
 
     override fun createStepDefinitionContainer(directory: PsiDirectory, name: String): PsiFile {

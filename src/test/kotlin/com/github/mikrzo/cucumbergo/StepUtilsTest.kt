@@ -44,21 +44,21 @@ class StepUtilsTest {
 
     @Test
     fun toPascalCaseTwoWords() {
-        assertEquals("HelloWorld", ToPascalCase("hello world"))
+        assertEquals("HelloWorld", toPascalCase("hello world"))
     }
 
     @Test
     fun toPascalCaseSingleWord() {
-        assertEquals("Single", ToPascalCase("single"))
+        assertEquals("Single", toPascalCase("single"))
     }
 
     @Test
     fun toPascalCaseAlreadyCapitalized() {
-        assertEquals("AlreadyCapitalized", ToPascalCase("already Capitalized"))
+        assertEquals("AlreadyCapitalized", toPascalCase("already Capitalized"))
     }
 
     @Test
     fun toPascalCaseEmpty() {
-        assertEquals("", ToPascalCase(""))
+        assertEquals("", toPascalCase(""))
     }
 }

@@ -18,11 +18,6 @@ GoLand IDE plugin (Kotlin, IntelliJ Platform Gradle Plugin 2.x) adding godog/Cuc
 
 Tests spin up an in-process IDE sandbox per class — slow. Prefer single-test runs.
 
-## Gotchas
-
-- **Do not add `override` to `CucumberExtension.loadStepsFor(module: Module)`.** Missing modifier is intentional — satisfies a 262.x abstract method via JVM signature resolution while still compiling against 261.x. Adding `override` breaks the build. The scope must stay `getModuleWithDependenciesAndLibrariesScope(true).uniteWith(moduleContentWithDependenciesScope)` so dependency steps are found.
-- **Keep the `<!-- Plugin description -->` markers in README.md** — `build.gradle.kts` extracts that block into the published plugin manifest.
-
 ## Branch naming
 
 `<type>/<short-kebab-description>`
@@ -34,16 +29,17 @@ Tests spin up an in-process IDE sandbox per class — slow. Prefer single-test r
 - `docs` — documentation only
 - `chore` — CI, build, or tooling changes
 
-## PR title format
+Always agree the branch name with the user before checking out and starting work.
 
-This section only applies when raising pull requests. Pull request titles should follow this format:
+## Commit and PR title format
+
+Commit messages and PR titles should follow this format:
 
 `<prefix>: <message>`
 
-- Extract the prefix from the PR's branch name (e.g., branch `test/my-feature` → prefix `test`)
+- Extract the prefix from the branch name (e.g., branch `test/my-feature` → prefix `test`)
 - Lowercase only the first letter of the message
 - Example: `feat: migrate to IntelliJ Platform Gradle Plugin 2.x and target GoLand 2026.1`
-- This convention applies to PR titles only — commit messages do not follow this format
 
 ## Reference
 

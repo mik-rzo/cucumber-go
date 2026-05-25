@@ -26,13 +26,6 @@ object GoParameterTypeManager : ParameterTypeManager {
         nameToParameterTypeMap.putAll(defaultJvmParameterTypes)
     }
 
-    fun addParameterType(name: String, parameterType: String, declaration: SmartPsiElementPointer<PsiElement>) {
-        synchronized(this) {
-            nameToParameterTypeMap[name] = parameterType
-            nameToDeclarationMap[name] = declaration
-        }
-    }
-
     override fun getParameterTypeValue(name: String): String? {
         synchronized(this) {
             return nameToParameterTypeMap[name]

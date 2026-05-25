@@ -24,14 +24,13 @@ class StepDefinitionCreator : AbstractStepDefinitionCreator() {
     private fun getDefaultGoStepDefinitionFolderPath(step: GherkinStep): PsiDirectory? {
         val featureDir = step.containingFile.containingDirectory
         val featureFile = step.containingFile
-        var stepsDir: PsiDirectory? = null
         if (featureDir != null) {
-            stepsDir = featureDir.findSubdirectory("steps")
+            val stepsDir = featureDir.findSubdirectory("steps")
             if (stepsDir != null) {
                 return featureFile.manager.findDirectory(stepsDir.virtualFile)
             }
         }
-        return stepsDir
+        return null
     }
 
     override fun createStepDefinitionContainer(directory: PsiDirectory, name: String): PsiFile {

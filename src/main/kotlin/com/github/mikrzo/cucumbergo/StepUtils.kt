@@ -20,7 +20,7 @@ fun <T> inReadAction(body: () -> T): T {
     }
 }
 
-fun ToPascalCase(s: String): String {
+fun toPascalCase(s: String): String {
     return s
         .split(" ")
         .joinToString("") { s ->

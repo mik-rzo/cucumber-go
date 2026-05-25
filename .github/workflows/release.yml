@@ -6,6 +6,11 @@ name: Release
 on:
   release:
     types: [prereleased, released]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to publish (e.g. v1.0.0)"
+        required: true
 
 jobs:
 
@@ -22,7 +27,7 @@ jobs:
       - name: Fetch Sources
         uses: actions/checkout@v6
         with:
-          ref: ${{ github.event.release.tag_name }}
+          ref: ${{ github.event.release.tag_name || inputs.tag }}
 
       # Set up Java environment for the next steps
       - name: Setup Java
@@ -53,7 +58,7 @@ jobs:
 
       # Update Unreleased section with the current release note
       - name: Patch Changelog
-        if: ${{ steps.properties.outputs.changelog != '' }}
+        if: ${{ github.event_name == 'release' && steps.properties.outputs.changelog != '' }}
         env:
           CHANGELOG: ${{ steps.properties.outputs.changelog }}
         run: |
@@ -72,11 +77,11 @@ jobs:
       - name: Upload Release Asset
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload ${{ github.event.release.tag_name }} ./build/distributions/* --clobber
+        run: gh release upload ${{ github.event.release.tag_name || inputs.tag }} ./build/distributions/* --clobber
 
       # Create a pull request
       - name: Create Pull Request
-        if: ${{ steps.properties.outputs.changelog != '' }}
+        if: ${{ github.event_name == 'release' && steps.properties.outputs.changelog != '' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |

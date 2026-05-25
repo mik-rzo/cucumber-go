@@ -140,6 +140,7 @@ intellijPlatform {
 changelog {
     groups.empty()
     repositoryUrl = properties("pluginRepositoryUrl")
+    tagPrefix = "v"
 }
 
 // Configure Gradle Kover Plugin - read more: https://github.com/Kotlin/kotlinx-kover#configuration

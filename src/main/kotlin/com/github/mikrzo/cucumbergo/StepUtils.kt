@@ -1,6 +1,7 @@
 package com.github.mikrzo.cucumbergo
 
 import com.goide.psi.GoCallExpr
+import com.goide.utils.GoStringUtil
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.psi.PsiElement
 import kotlin.collections.joinToString
@@ -25,12 +26,9 @@ fun extractStepPattern(argument: PsiElement?): String? {
         }
         return null
     }
-    return when {
-        // Raw (backtick) strings don't process escapes, so backslashes are literal.
-        argument.text.startsWith("`")  -> argument.text.removeSurrounding("`")
-        argument.text.startsWith("\"") -> argument.text.removeSurrounding("\"").replace("\\\\", "\\")
-        else -> null
-    }
+    val text = argument.text
+    if (!text.startsWith("`") && !text.startsWith("\"")) return null
+    return GoStringUtil.unescapeStringLiteralText(text)
 }
 
 fun <T> inReadAction(body: () -> T): T {

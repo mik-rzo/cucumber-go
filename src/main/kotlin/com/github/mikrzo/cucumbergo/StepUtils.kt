@@ -1,6 +1,8 @@
 package com.github.mikrzo.cucumbergo
 
+import com.goide.psi.GoCallExpr
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.psi.PsiElement
 import kotlin.collections.joinToString
 
 class StepUtils {
@@ -10,6 +12,22 @@ class StepUtils {
         }
     }
 
+}
+
+fun extractStepPattern(argument: PsiElement?): String? {
+    if (argument == null) return null
+    if (argument is GoCallExpr) {
+        val funcText = argument.children.getOrNull(0)?.text
+        if (funcText == "regexp.MustCompile" || funcText == "regexp.Compile") {
+            return extractStepPattern(argument.argumentList.expressionList.getOrNull(0))
+        }
+        return null
+    }
+    return when {
+        argument.text.startsWith("`")  -> argument.text.removeSurrounding("`").replace("\\\\", "\\")
+        argument.text.startsWith("\"") -> argument.text.removeSurrounding("\"").replace("\\\\", "\\")
+        else -> argument.text
+    }
 }
 
 fun <T> inReadAction(body: () -> T): T {

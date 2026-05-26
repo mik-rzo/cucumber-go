@@ -1,5 +1,6 @@
 package com.github.mikrzo.cucumbergo.search
 
+import com.github.mikrzo.cucumbergo.extractStepPattern
 import com.goide.psi.GoCallExpr
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.LineMarkerProvider
@@ -39,7 +40,7 @@ class CucumberLineMarkerProvider : LineMarkerProvider {
             return null
         }
         val textElement = element.children[1].children[0]
-        val stepName = textElement.text.replace("`", "")
+        val stepName = extractStepPattern(textElement) ?: return null
         return LineMarkerInfo(
             textElement.firstChild,
             textElement.textRange,

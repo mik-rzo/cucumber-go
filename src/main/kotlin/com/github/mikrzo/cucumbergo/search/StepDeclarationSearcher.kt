@@ -1,6 +1,7 @@
 package com.github.mikrzo.cucumbergo.search
 
 import com.github.mikrzo.cucumbergo.StepDeclaration
+import com.github.mikrzo.cucumbergo.extractStepPattern
 import com.github.mikrzo.cucumbergo.inReadAction
 import com.goide.psi.GoArgumentList
 import com.goide.psi.GoCallExpr
@@ -34,10 +35,9 @@ class StepDeclarationSearcher : PomDeclarationSearcher() {
             argList?.let { elem ->
                 (argList.parent as? GoCallExpr)?.let { candidate ->
                     val keyword = candidate.children[0].lastChild.text
-                    var stepName = elem.expressionList.getOrNull(0)?.text
-                    if (listOf("Given", "When", "Then", "Step").contains(keyword) && stepName != null) {
-                        stepName = stepName.replace("`", "")
-                        getStepDeclaration(candidate, stepName)
+                    val patternArg = elem.expressionList.getOrNull(0)
+                    if (listOf("Given", "When", "Then", "Step").contains(keyword) && patternArg != null) {
+                        extractStepPattern(patternArg)?.let { getStepDeclaration(candidate, it) }
                     } else {
                         null
                     }

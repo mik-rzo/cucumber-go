@@ -8,7 +8,8 @@ import (
 )
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(regexp.MustCompile(`^there is a regexp step$`), thereIsARegexpStep)
+	ctx.Step(regexp.MustCompile(`^there is a regexp must compile step$`), thereIsARegexpMustCompileStep)
+	ctx.Step(regexp.Compile(`^there is a regexp compile step$`), thereIsARegexpCompileStep)
 }
 
 func TestFeatures(t *testing.T) {
@@ -25,6 +26,10 @@ func TestFeatures(t *testing.T) {
 	}
 }
 
-func thereIsARegexpStep() error {
+func thereIsARegexpMustCompileStep() error {
+	return nil
+}
+
+func thereIsARegexpCompileStep() error {
 	return nil
 }

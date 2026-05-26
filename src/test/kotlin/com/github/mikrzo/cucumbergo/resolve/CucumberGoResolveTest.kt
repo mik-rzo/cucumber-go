@@ -61,17 +61,30 @@ class CucumberGoResolveTest : GoCodeInsightFixtureTestCase() {
     fun testStepResolveRegexpPattern() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile(getTestName(true) + "/test.feature")
-        val ref = myFixture.file.findReferenceAt(myFixture.caretOffset)
-        assertNotNull("No reference at caret position in step text", ref)
+        val carets = myFixture.editor.caretModel.allCarets
+
+        val ref = myFixture.file.findReferenceAt(carets[0].offset)
+        assertNotNull("No reference at regexp.MustCompile step", ref)
         val resolved = ref!!.resolve()
-        assertNotNull("Step did not resolve to a definition", resolved)
+        assertNotNull("regexp.MustCompile step did not resolve to a definition", resolved)
         val resolvedCall = resolved as GoCallExpr
         val regex = StepDefinition(resolvedCall).getCucumberRegex()
-        assertEquals("""^there is a regexp step$""", regex)
+        assertEquals("""^there is a regexp must compile step$""", regex)
         assertEquals(
             "Resolved to the wrong ctx.Step call",
-            "thereIsARegexpStep",
+            "thereIsARegexpMustCompileStep",
             resolvedCall.argumentList.expressionList.getOrNull(1)?.text,
+        )
+
+        val ref2 = myFixture.file.findReferenceAt(carets[1].offset)
+        assertNotNull("No reference at regexp.Compile step", ref2)
+        val resolved2 = ref2!!.resolve()
+        assertNotNull("regexp.Compile step did not resolve to a definition", resolved2)
+        val resolvedCall2 = resolved2 as GoCallExpr
+        assertEquals(
+            "Resolved to the wrong ctx.Step call",
+            "thereIsARegexpCompileStep",
+            resolvedCall2.argumentList.expressionList.getOrNull(1)?.text,
         )
     }
 

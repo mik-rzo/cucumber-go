@@ -14,6 +14,8 @@ class StepUtils {
 
 }
 
+/** Returns the step pattern text, or null if [argument] is not a recognised
+ *  step pattern (string literal or regexp.MustCompile/Compile call). */
 fun extractStepPattern(argument: PsiElement?): String? {
     if (argument == null) return null
     if (argument is GoCallExpr) {

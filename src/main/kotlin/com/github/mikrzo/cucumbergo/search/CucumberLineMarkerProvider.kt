@@ -40,6 +40,8 @@ class CucumberLineMarkerProvider : LineMarkerProvider {
             return null
         }
         val textElement = element.children[1].children[0]
+        // stepName = null means first arg is a call we don't recognise as a step pattern
+        // (not a string literal, not regexp.MustCompile/Compile) — skip the marker
         val stepName = extractStepPattern(textElement) ?: return null
         return LineMarkerInfo(
             textElement.firstChild,

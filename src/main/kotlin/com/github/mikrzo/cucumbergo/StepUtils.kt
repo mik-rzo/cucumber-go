@@ -26,7 +26,8 @@ fun extractStepPattern(argument: PsiElement?): String? {
         return null
     }
     return when {
-        argument.text.startsWith("`")  -> argument.text.removeSurrounding("`").replace("\\\\", "\\")
+        // Raw (backtick) strings don't process escapes, so backslashes are literal.
+        argument.text.startsWith("`")  -> argument.text.removeSurrounding("`")
         argument.text.startsWith("\"") -> argument.text.removeSurrounding("\"").replace("\\\\", "\\")
         else -> argument.text
     }

@@ -1,4 +1,4 @@
-module stepresolveregexpbacktickescape
+module stepresolveregexpbackticknoescape
 
 go 1.21.9
 

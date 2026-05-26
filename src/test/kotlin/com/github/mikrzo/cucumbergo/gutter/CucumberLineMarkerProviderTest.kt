@@ -58,7 +58,7 @@ class CucumberLineMarkerProviderTest : GoCodeInsightFixtureTestCase() {
         assertNoCucumberMarker()
     }
 
-    fun testRegexpStepHasMarker() {
+    fun testRegexpMustCompileStepHasMarker() {
         myFixture.configureByText(
             "step_test.go",
             "package steptest\n\nimport (\n    \"regexp\"\n\n    \"github.com/cucumber/godog\"\n)\n\nfunc stub() error { return nil }\n\nfunc InitializeScenario(ctx *godog.ScenarioContext) {\n    ctx.Step(regexp.MustCompile(${bt}^a regexp step$${bt}), stub)\n}"

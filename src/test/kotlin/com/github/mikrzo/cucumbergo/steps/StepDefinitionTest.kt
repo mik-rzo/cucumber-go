@@ -43,9 +43,10 @@ class StepDefinitionTest : GoCodeInsightFixtureTestCase() {
         assertTrue("Expected expanded regex to contain a digit class", regex.contains("\\d"))
     }
 
-    fun testDoubleSlashCollapsed() {
-        // Go backtick string `^foo\\bar$` has two literal backslashes; getStepDefinitionText collapses to one
-        val callExpr = configureBacktickStep("^foo\\\\bar\$")
-        assertEquals("^foo\\bar\$", StepDefinition(callExpr).cucumberRegex)
+    fun testBacktickBackslashesPreserved() {
+        // Go raw (backtick) strings don't process escapes, so `^foo\\bar$` is two
+        // literal backslashes and must be preserved
+        val callExpr = configureBacktickStep("""^foo\\bar$""")
+        assertEquals("""^foo\\bar$""", StepDefinition(callExpr).cucumberRegex)
     }
 }

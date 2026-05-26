@@ -23,6 +23,18 @@ class CucumberGoFindUsagesTest : GoCodeInsightFixtureTestCase() {
         )
     }
 
+    // regexp.MustCompile-wrapped pattern: unwrapped by extractStepPattern before matching
+    fun testRegexpUsages() {
+        myFixture.copyDirectoryToProject(getTestName(true), "")
+        val usages = myFixture.testFindUsagesUsingAction("step_test.go").map { it.toString() }.toTypedArray()
+        assertEquals(2, usages.size)
+        assertSameElements(
+            usages,
+            "4|Given| |I say \"hello\"",
+            "7|Given| |I say \"world\"",
+        )
+    }
+
     fun testNoUsages() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile("step_test.go")

@@ -1,10 +1,12 @@
 package com.github.mikrzo.cucumbergo.search
 
+import com.github.mikrzo.cucumbergo.extractStepPattern
 import com.goide.psi.GoCallExpr
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.LineMarkerProvider
 import com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment.RIGHT
 import com.intellij.psi.PsiElement
+import com.intellij.psi.util.PsiTreeUtil
 import icons.CucumberIcons.Cucumber
 
 class CucumberLineMarkerProvider : LineMarkerProvider {
@@ -39,9 +41,14 @@ class CucumberLineMarkerProvider : LineMarkerProvider {
             return null
         }
         val textElement = element.children[1].children[0]
-        val stepName = textElement.text.replace("`", "")
+        // stepName = null means first arg is a call we don't recognise as a step pattern
+        // (not a string literal, not regexp.MustCompile/Compile) — skip the marker
+        val stepName = extractStepPattern(textElement) ?: return null
+        // Anchor must be a leaf; firstChild is a leaf for string literals but a
+        // reference expression for regexp.MustCompile(...), so descend to the leaf.
+        val anchor = PsiTreeUtil.getDeepestFirst(textElement)
         return LineMarkerInfo(
-            textElement.firstChild,
+            anchor,
             textElement.textRange,
             Cucumber,
             { stepName },

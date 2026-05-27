@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+- feat: support regexp.MustCompile/Compile as ctx.Step pattern argument by @mik-rzo in https://github.com/mik-rzo/cucumber-go/pull/44
+
 ## [1.0.1] - 2026-05-25
 
 - fix: restrict plugin to GoLand by declaring `com.intellij.modules.goland` dependency by @mik-rzo in https://github.com/mik-rzo/cucumber-go/pull/35

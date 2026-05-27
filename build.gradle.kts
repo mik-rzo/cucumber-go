@@ -127,6 +127,12 @@ intellijPlatform {
         }
     }
 
+    caching {
+        ides {
+            enabled = true
+        }
+    }
+
     pluginVerification {
         ides {
             recommended()

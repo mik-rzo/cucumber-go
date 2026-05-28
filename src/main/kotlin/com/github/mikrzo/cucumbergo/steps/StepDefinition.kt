@@ -19,12 +19,13 @@ class StepDefinition(callExpr: GoCallExpr) : AbstractStepDefinition(callExpr) {
 
     override fun getVariableNames(): List<String> = listOf()
 
-    // getCucumberRegex() in base calls getExpression(), so override both to decouple them:
+    // getCucumberRegex() in base class calls getExpression(), so override both to decouple them.
+
     // getCucumberRegex() returns the regex form used for step matching;
-    // getExpression() returns the raw literal so GherkinStepRenameProcessor can distinguish
-    // cukex from regex (it checks expression != cucumberRegex for cukex steps).
     override fun getCucumberRegex(): String? = getCucumberRegexFromElement(element)
 
+    // getExpression() returns the raw literal so GherkinStepRenameProcessor can distinguish
+    // cukex from regex (it checks expression != cucumberRegex for cukex steps).
     override fun getExpression(): String? = getStepDefinitionText()
 
     override fun setValue(newValue: String) {

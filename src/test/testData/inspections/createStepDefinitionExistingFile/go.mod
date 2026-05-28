@@ -1,4 +1,4 @@
-module doesnotinvalidateexistingstepdef
+module createstepdefinitionexistingfile
 
 go 1.21.9
 

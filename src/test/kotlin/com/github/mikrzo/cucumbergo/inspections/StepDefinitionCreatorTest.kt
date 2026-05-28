@@ -101,28 +101,24 @@ class StepDefinitionCreatorTest : GoCodeInsightFixtureTestCase() {
         assertEquals(2, "ctx\\.Step\\(".toRegex().findAll(text).count())
     }
 
-    fun testCreateStepDefDoesNotInvalidateExistingStepDef() {
+    fun testCreateStepDefinitionExistingFile() {
         myFixture.enableInspections(CucumberStepInspection())
         myFixture.copyDirectoryToProject(getTestName(true), "")
         val step = gherkinStep(getTestName(true) + "/test.feature", "I do something new")
         val vf = myFixture.findFileInTempDir("step_test.go")!!
         val goFile = PsiManager.getInstance(project).findFile(vf) as GoFile
         addStep(step, goFile)
-        myFixture.configureByFile(getTestName(true) + "/test.feature")
-        myFixture.testHighlighting(true, true, true)
-    }
 
-    fun testCreateStepDefinitionExistingFile() {
-        myFixture.copyDirectoryToProject(getTestName(true), "")
-        val step = gherkinStep(getTestName(true) + "/test.feature", "I do something new")
-        val vf = myFixture.findFileInTempDir("step_test.go")!!
-        val goFile = PsiManager.getInstance(project).findFile(vf) as GoFile
-        addStep(step, goFile)
+        // File structure: new function appended alongside existing one, correct formatting
         val text = goFile.text
         assertTrue(text.contains("func iDoSomethingNew("))
         assertTrue(text.contains("func iDoSomething("))
         assertEquals(2, "ctx\\.Step\\(".toRegex().findAll(text).count())
         assertTrue("new step def must be preceded by a blank line", text.contains("\n\nfunc iDoSomethingNew("))
         assertTrue("file must end with a trailing newline", text.endsWith("\n"))
+
+        // Highlighting: existing step stays resolved after the new one is added
+        myFixture.configureByFile(getTestName(true) + "/test.feature")
+        myFixture.testHighlighting(true, true, true)
     }
 }

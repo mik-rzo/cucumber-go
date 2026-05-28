@@ -43,6 +43,31 @@ class StepUtilsTest {
     }
 
     @Test
+    fun toGoQuotedLiteralSimple() {
+        assertEquals("\"hello world\"", toGoQuotedLiteral("hello world"))
+    }
+
+    @Test
+    fun toGoQuotedLiteralEscapesBackslash() {
+        assertEquals("\"a\\\\b\"", toGoQuotedLiteral("a\\b"))
+    }
+
+    @Test
+    fun toGoQuotedLiteralEscapesDoubleQuote() {
+        assertEquals("\"say \\\"hi\\\"\"", toGoQuotedLiteral("say \"hi\""))
+    }
+
+    @Test
+    fun toGoBacktickLiteralSimple() {
+        assertEquals("`hello world`", toGoBacktickLiteral("hello world"))
+    }
+
+    @Test
+    fun toGoBacktickLiteralFallsBackToQuotedWhenContainsBacktick() {
+        assertEquals("\"has `backtick`\"", toGoBacktickLiteral("has `backtick`"))
+    }
+
+    @Test
     fun toPascalCaseTwoWords() {
         assertEquals("HelloWorld", toPascalCase("hello world"))
     }

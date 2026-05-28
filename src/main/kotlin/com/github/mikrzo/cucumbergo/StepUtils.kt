@@ -39,6 +39,16 @@ fun <T> inReadAction(body: () -> T): T {
     }
 }
 
+fun toGoQuotedLiteral(value: String): String {
+    val escaped = value.replace("\\", "\\\\").replace("\"", "\\\"")
+    return "\"$escaped\""
+}
+
+fun toGoBacktickLiteral(value: String): String {
+    if (value.contains('`')) return toGoQuotedLiteral(value)
+    return "`$value`"
+}
+
 fun toPascalCase(s: String): String {
     return s
         .split(" ")

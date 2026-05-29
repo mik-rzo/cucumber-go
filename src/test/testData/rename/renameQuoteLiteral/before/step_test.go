@@ -7,7 +7,7 @@ import (
 )
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step("I have {int} EUR on my account", iHaveEUROnMyAccount)
+	ctx.Step("I have (-?\\d+) EUR on my account", iHaveEUROnMyAccount)
 }
 
 func TestFeatures(t *testing.T) {

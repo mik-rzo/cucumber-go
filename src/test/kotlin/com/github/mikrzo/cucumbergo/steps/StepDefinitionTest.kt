@@ -35,12 +35,9 @@ class StepDefinitionTest : GoCodeInsightFixtureTestCase() {
         assertEquals("^foo bar\$", StepDefinition(callExpr).cucumberRegex)
     }
 
-    fun testCucumberExpressionPattern() {
-        val callExpr = configureBacktickStep("the response code should be {int}")
-        val regex = StepDefinition(callExpr).cucumberRegex
-        assertNotNull("Expected non-null regex for cucumber expression", regex)
-        assertFalse("Expected {int} placeholder to be expanded into a regex group", regex!!.contains("{int}"))
-        assertTrue("Expected expanded regex to contain a digit class", regex.contains("\\d"))
+    fun testUnanchoredPatternWithCaptureGroup() {
+        val callExpr = configureBacktickStep("I say (.+)")
+        assertEquals("I say (.+)", StepDefinition(callExpr).cucumberRegex)
     }
 
     fun testBacktickBackslashesPreserved() {

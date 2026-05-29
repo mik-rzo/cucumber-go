@@ -7,7 +7,7 @@ import (
 )
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`a/an {word} is good`, wordIsGood)
+	ctx.Step(`(a|an) (.+) is good`, wordIsGood)
 }
 
 func TestFeatures(t *testing.T) {

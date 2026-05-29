@@ -1,4 +1,4 @@
-module cucumberexpression
+module capturegroup
 
 go 1.21.9
 

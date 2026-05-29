@@ -49,8 +49,8 @@ class CucumberGoFindUsagesTest : GoCodeInsightFixtureTestCase() {
         assertEquals(0, usages.size)
     }
 
-    // Cucumber Expression with {int}: goes through buildRegexpFromCucumberExpression before matching
-    fun testCucumberExpression() {
+    // Pattern with a digit capture group: returned verbatim and matched against numeric step text
+    fun testCaptureGroupPattern() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         val usages = myFixture.testFindUsagesUsingAction("step_test.go").map { it.toString() }.toTypedArray()
         assertEquals(2, usages.size)

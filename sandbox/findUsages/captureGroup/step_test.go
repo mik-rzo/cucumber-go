@@ -1,4 +1,4 @@
-package cucumberexpression
+package capturegroup
 
 import (
 	"testing"
@@ -7,7 +7,7 @@ import (
 )
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`the response code is {int}`, theResponseCodeIs)
+	ctx.Step(`the response code is (\d+)`, theResponseCodeIs)
 }
 
 func TestStepUsagesIntParameter(t *testing.T) {

@@ -35,6 +35,11 @@ class StepDefinitionTest : GoCodeInsightFixtureTestCase() {
         assertEquals("^foo bar\$", StepDefinition(callExpr).cucumberRegex)
     }
 
+    fun testUnanchoredPatternWithCaptureGroupReturnedVerbatim() {
+        val callExpr = configureBacktickStep("I say (.+)")
+        assertEquals("I say (.+)", StepDefinition(callExpr).cucumberRegex)
+    }
+
     fun testBacktickBackslashesPreserved() {
         // Go raw (backtick) strings don't process escapes, so `^foo\\bar$` is two
         // literal backslashes and must be preserved

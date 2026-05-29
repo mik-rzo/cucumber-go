@@ -35,7 +35,7 @@ class StepDefinitionTest : GoCodeInsightFixtureTestCase() {
         assertEquals("^foo bar\$", StepDefinition(callExpr).cucumberRegex)
     }
 
-    fun testUnanchoredPatternWithCaptureGroupReturnedVerbatim() {
+    fun testUnanchoredPatternWithCaptureGroup() {
         val callExpr = configureBacktickStep("I say (.+)")
         assertEquals("I say (.+)", StepDefinition(callExpr).cucumberRegex)
     }

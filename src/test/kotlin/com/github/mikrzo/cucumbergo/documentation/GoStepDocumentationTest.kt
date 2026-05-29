@@ -12,7 +12,7 @@ class GoStepDocumentationTest : GoCodeInsightFixtureTestCase() {
 
     override fun getTestDataPath() = "src/test/testData/documentation"
 
-    fun testPlainFunction() {
+    fun testFunction() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile(getTestName(true) + "/test.feature")
 
@@ -36,7 +36,7 @@ class GoStepDocumentationTest : GoCodeInsightFixtureTestCase() {
         assertTrue("Documentation should contain the handler's doc comment", html.contains("verifies the basket item count"))
     }
 
-    fun testMethodValue() {
+    fun testMethod() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile(getTestName(true) + "/test.feature")
 
@@ -60,7 +60,7 @@ class GoStepDocumentationTest : GoCodeInsightFixtureTestCase() {
         assertTrue("Documentation should contain the handler's doc comment", html.contains("verifies the basket item count"))
     }
 
-    fun testAnonymousFunction() {
+    fun testAnonymous() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile(getTestName(true) + "/test.feature")
         val element = myFixture.file.findElementAt(myFixture.caretOffset)!!

@@ -28,6 +28,9 @@
                 implementationClass="com.github.mikrzo.cucumbergo.search.CucumberLineMarkerProvider"/>
         <runConfigurationProducer
                 implementation="com.github.mikrzo.cucumbergo.run.GodogRunConfigurationProducer"/>
+
+        <platform.backend.documentation.psiTargetProvider
+                implementation="com.github.mikrzo.cucumbergo.GoStepDocumentationTargetProvider"/>
     </extensions>
 
 

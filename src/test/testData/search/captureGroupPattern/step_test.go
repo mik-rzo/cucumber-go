@@ -7,7 +7,7 @@ import (
 )
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`the response code is {int}<caret>`, theResponseCodeIs)
+	ctx.Step(`the response code is (\d+)<caret>`, theResponseCodeIs)
 }
 
 func TestFeatures(t *testing.T) {

@@ -7,26 +7,14 @@ import com.goide.psi.GoCallExpr
 import com.goide.psi.GoStringLiteral
 import com.goide.psi.impl.GoElementFactory
 import com.intellij.psi.PsiElement
-import org.jetbrains.plugins.cucumber.CucumberUtil
 import org.jetbrains.plugins.cucumber.steps.AbstractStepDefinition
 
 
 class StepDefinition(callExpr: GoCallExpr) : AbstractStepDefinition(callExpr) {
-    companion object {
-        const val REGEX_START = "^"
-        const val REGEX_END = "$"
-    }
 
     override fun getVariableNames(): List<String> = listOf()
 
-    // getCucumberRegex() in base class calls getExpression(), so override both to decouple them.
-
-    // getCucumberRegex() returns the regex form used for step matching;
-    override fun getCucumberRegex(): String? = getCucumberRegexFromElement(element)
-
-    // getExpression() returns the raw literal so GherkinStepRenameProcessor can distinguish
-    // cukex from regex (it checks expression != cucumberRegex for cukex steps).
-    override fun getExpression(): String? = getStepDefinitionText()
+    override fun getCucumberRegexFromElement(element: PsiElement?): String? = getStepDefinitionText()
 
     override fun setValue(newValue: String) {
         val callExpr = element as? GoCallExpr ?: return
@@ -48,15 +36,6 @@ class StepDefinition(callExpr: GoCallExpr) : AbstractStepDefinition(callExpr) {
                 }
             }
         }
-    }
-
-    override fun getCucumberRegexFromElement(element: PsiElement?): String? {
-
-        val text = getStepDefinitionText() ?: return null
-        if (text.startsWith(REGEX_START) || text.endsWith(REGEX_END)) {
-            return text
-        }
-        return CucumberUtil.buildRegexpFromCucumberExpression(text, GoParameterTypeManager)
     }
 
     private fun getStepDefinitionText(): String? {

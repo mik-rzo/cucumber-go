@@ -35,14 +35,6 @@ class StepDefinitionTest : GoCodeInsightFixtureTestCase() {
         assertEquals("^foo bar\$", StepDefinition(callExpr).cucumberRegex)
     }
 
-    fun testCucumberExpressionPattern() {
-        val callExpr = configureBacktickStep("the response code should be {int}")
-        val regex = StepDefinition(callExpr).cucumberRegex
-        assertNotNull("Expected non-null regex for cucumber expression", regex)
-        assertFalse("Expected {int} placeholder to be expanded into a regex group", regex!!.contains("{int}"))
-        assertTrue("Expected expanded regex to contain a digit class", regex.contains("\\d"))
-    }
-
     fun testBacktickBackslashesPreserved() {
         // Go raw (backtick) strings don't process escapes, so `^foo\\bar$` is two
         // literal backslashes and must be preserved

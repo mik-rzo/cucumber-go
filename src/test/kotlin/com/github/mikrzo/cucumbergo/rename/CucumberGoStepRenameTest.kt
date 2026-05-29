@@ -16,7 +16,7 @@ class CucumberGoStepRenameTest : GoCodeInsightFixtureTestCase() {
         myFixture.checkResultByFile("step_test.go", "$name/after/step_test.go", false)
     }
 
-    fun testRenameQuoteLiteral() = doTest("I possess the amount of {int} USD on my acc")
+    fun testRenameQuoteLiteral() = doTest("I possess the amount of (-?\\d+) USD on my acc")
 
     fun testRenamePreservesNonAscii() = doTest("teraz jestem bardzo głodny")
 

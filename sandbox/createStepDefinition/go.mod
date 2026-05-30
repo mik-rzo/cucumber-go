@@ -1,4 +1,4 @@
-module stepCreation
+module createstepdefinition
 
 go 1.21.9
 

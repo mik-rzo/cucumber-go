@@ -1,4 +1,4 @@
-Feature: step creation
+Feature: create step definition
 
   Scenario: existing step (already has a definition)
     Given I have an existing step definition

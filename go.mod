@@ -1,4 +1,4 @@
-module resolve
+module github.com/mik-rzo/cucumber-go
 
 go 1.21.9
 

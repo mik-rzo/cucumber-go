@@ -8,6 +8,7 @@
   <li>Syntax highlighting</li>
   <li>Step completion</li>
   <li>Find usages</li>
+  <li>Step renaming</li>
   <li>Step definition generation</li>
   <li>Gutter icon on step definitions</li>
   <li>Automatic godog framework detection</li>

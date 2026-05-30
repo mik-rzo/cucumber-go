@@ -10,7 +10,7 @@ type ovenSteps struct{}
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
 	o := &ovenSteps{}
-	ctx.Step(`^the dough has been kneaded for (\d+) minutes$`, theDoughHasBeenKneadedForMinutes)
+	ctx.Step(`^the dough has been proofed for (\d+) hours$`, theDoughHasBeenProofedForHours)
 	ctx.Step(`^the dough is baked at (\d+) degrees for (\d+) minutes$`, o.theDoughIsBakedAtDegreesForMinutes)
 	ctx.Step(`^the bread is left to cool completely$`, theBreadIsLeftToCoolCompletely)
 	ctx.Step(`^ingredients are not found$`, ingredientsAreNotFound)
@@ -30,8 +30,8 @@ func TestDocumentation(t *testing.T) {
 	}
 }
 
-// theDoughHasBeenKneadedForMinutes checks that the dough was worked for the required duration to develop gluten.
-func theDoughHasBeenKneadedForMinutes(minutes int) error {
+// theDoughHasBeenProofedForHours checks that the dough was left to rise for the required duration.
+func theDoughHasBeenProofedForHours(hours int) error {
 	return nil
 }
 

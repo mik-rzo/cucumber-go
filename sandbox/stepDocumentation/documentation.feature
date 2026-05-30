@@ -1,7 +1,12 @@
-Feature: hover documentation
+Feature: step documentation
 
-  Scenario: place caret on a step and ⌃ + Q to see the Go handler's doc comment
-    Given the dough has been kneaded for 10 minutes
+  Scenario: hover over a step to see the Go handler's doc comment
+    Given the dough has been proofed for 10 hours
+    When the dough is baked at 220 degrees for 30 minutes
+    Then the bread is left to cool completely
+
+  Scenario: place caret on a step and press F1 to see the Go handler's doc comment
+    Given the dough has been proofed for 10 hours
     When the dough is baked at 220 degrees for 30 minutes
     Then the bread is left to cool completely
 

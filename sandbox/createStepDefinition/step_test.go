@@ -1,4 +1,4 @@
-package stepcreation
+package createstepdefinition
 
 import (
 	"testing"

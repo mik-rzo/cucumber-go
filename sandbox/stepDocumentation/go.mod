@@ -1,4 +1,4 @@
-module documentation
+module stepdocumentation
 
 go 1.21.9
 

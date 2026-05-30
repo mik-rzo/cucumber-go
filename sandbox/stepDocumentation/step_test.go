@@ -1,4 +1,4 @@
-package documentation
+package stepdocumentation
 
 import (
 	"testing"

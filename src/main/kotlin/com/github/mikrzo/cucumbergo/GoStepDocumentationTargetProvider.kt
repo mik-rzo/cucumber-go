@@ -1,5 +1,6 @@
 package com.github.mikrzo.cucumbergo
 
+import com.goide.documentation.GoDocumentationProvider
 import com.goide.psi.GoCallExpr
 import com.goide.psi.GoReferenceExpression
 import com.intellij.lang.documentation.psi.createPsiDocumentationTarget
@@ -16,6 +17,7 @@ class GoStepDocumentationTargetProvider : PsiDocumentationTargetProvider {
         val callExpr = definition.element as? GoCallExpr ?: return null
         val handlerArg = callExpr.argumentList.expressionList.getOrNull(1) ?: return null
         val resolved = (handlerArg as? GoReferenceExpression)?.resolve() ?: return null
+        if (GoDocumentationProvider.getCommentsForElement(resolved).isEmpty()) return null
         return createPsiDocumentationTarget(resolved, originalElement)
     }
 }

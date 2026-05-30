@@ -5,5 +5,5 @@ Feature: hover documentation
     When the dough is baked at 220 degrees for 30 minutes
     Then the bread is left to cool completely
 
-  Scenario: anonymous function handlers show no documentation
+  Scenario: step handlers with no doc comment show no documentation
     Given ingredients are not found

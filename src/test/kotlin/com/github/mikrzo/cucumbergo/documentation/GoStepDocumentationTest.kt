@@ -67,4 +67,12 @@ class GoStepDocumentationTest : GoCodeInsightFixtureTestCase() {
         val target = GoStepDocumentationTargetProvider().documentationTarget(element, element)
         assertNull("Expected no documentation target for step with anonymous function handler", target)
     }
+
+    fun testNoDocComment() {
+        myFixture.copyDirectoryToProject(getTestName(true), "")
+        myFixture.configureByFile(getTestName(true) + "/test.feature")
+        val element = myFixture.file.findElementAt(myFixture.caretOffset)!!
+        val target = GoStepDocumentationTargetProvider().documentationTarget(element, element)
+        assertNull("Expected no documentation target for step whose handler has no doc comment", target)
+    }
 }

@@ -18,6 +18,13 @@ GoLand IDE plugin (Kotlin, IntelliJ Platform Gradle Plugin 2.x) adding godog/Cuc
 
 Tests spin up an in-process IDE sandbox per class — slow. Prefer single-test runs.
 
+## Git workflow
+
+- Never commit directly to main — always create a feature branch first.
+- Never push directly to main — always raise a PR.
+- Use `git mv` for renames.
+- Prefer non-interactive autosquash for fixups; do not amend commits without confirming first.
+
 ## Branch naming
 
 `<type>/<short-kebab-description>`
@@ -41,6 +48,11 @@ Commit messages and PR titles should follow this format:
 - Lowercase only the first letter of the message
 - Example: `feat: migrate to IntelliJ Platform Gradle Plugin 2.x and target GoLand 2026.1`
 
+## Naming
+
+- Align fixture, scenario, and test names with the surrounding directory naming conventions.
+- Avoid generic placeholder names.
+
 ## Reference
 
 - **Reference plugin**: `cucumber-java` in [JetBrains/intellij-plugins](https://github.com/JetBrains/intellij-plugins/tree/master/cucumber-java) — use as the pattern source for test structure, fixture layout, and functional behaviour.
@@ -52,3 +64,6 @@ Commit messages and PR titles should follow this format:
 - **Fixture layout**: per-test-method subdir named after `getTestName(true)` (lowercased method name minus `test`) under an area-prefixed `getTestDataPath()`. `myFixture.copyDirectoryToProject` resolves from `getTestDataPath()`, not `getBasePath()`. Mirror `simple/` for layout.
 - **Highlighting fixtures** use inline `<info>`/`<error>`/`<warning>` markers; always call `testHighlighting(true, true, true)` and enable `CucumberStepInspection` before asserting unresolved-step errors.
 - **Bug-fix PRs include a regression test** that would have caught the bug.
+- **Before fixing a bug**, write a failing test that demonstrates it — confirm it fails for the right reason before implementing the fix.
+- **After fixing**, re-run the test and confirm it is green.
+- **Do not assert on `package` or module import paths** in sandbox tests — the sandbox does not resolve them reliably.

@@ -6,6 +6,8 @@ import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionProvider
 import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.codeInsight.completion.CompletionType
+import com.intellij.codeInsight.completion.InsertionContext
+import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementDecorator
 import com.intellij.patterns.PlatformPatterns.psiElement
 import com.intellij.psi.util.PsiTreeUtil
@@ -30,16 +32,26 @@ class StepCompletionContributor : CompletionContributor() {
                 result.runRemainingContributors(parameters) { completionResult ->
                     val element = completionResult.getLookupElement()
                     if (element.psiElement is GoCallExpr) {
-                        val wrapped = LookupElementDecorator.withInsertHandler(element) { ctx, _ ->
-                            // After insertion, any already-typed suffix beyond the caret remains — delete it.
-                            ctx.commitDocument()
-                            val atTail = ctx.file.findElementAt(ctx.tailOffset - 1) ?: return@withInsertHandler
-                            val step = PsiTreeUtil.getParentOfType(atTail, GherkinStep::class.java)
-                                ?: return@withInsertHandler
-                            val ref = step.references.firstOrNull() ?: return@withInsertHandler
-                            val refEnd = step.textRange.startOffset + ref.rangeInElement.endOffset
-                            if (refEnd > ctx.tailOffset) {
-                                ctx.document.deleteString(ctx.tailOffset, refEnd)
+                        val wrapped = object : LookupElementDecorator<LookupElement>(element) {
+                            override fun handleInsert(ctx: InsertionContext) {
+                                // Delete any already-typed suffix BEFORE the original handler runs, so
+                                // the live template (builder.run for capture groups) starts on a clean
+                                // document and is not killed by a subsequent edit.
+                                val insertedEnd = ctx.startOffset + lookupString.length
+                                ctx.commitDocument()
+                                val atStart = ctx.file.findElementAt(ctx.startOffset)
+                                val step = atStart?.let {
+                                    PsiTreeUtil.getParentOfType(it, GherkinStep::class.java)
+                                }
+                                val ref = step?.references?.firstOrNull()
+                                if (ref != null && step != null) {
+                                    val refEnd = step.textRange.startOffset + ref.rangeInElement.endOffset
+                                    if (refEnd > insertedEnd) {
+                                        ctx.document.deleteString(insertedEnd, refEnd)
+                                        ctx.commitDocument()
+                                    }
+                                }
+                                super.handleInsert(ctx)
                             }
                         }
                         result.passResult(completionResult.withLookupElement(wrapped))

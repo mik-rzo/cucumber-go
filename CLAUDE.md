@@ -9,7 +9,7 @@ GoLand IDE plugin (Kotlin, IntelliJ Platform Gradle Plugin 2.x) adding godog/Cuc
 ```sh
 ./gradlew buildPlugin                          # .zip under build/distributions/
 ./gradlew runIde                               # launch sandbox GoLand
-./gradlew check                                # tests + verifyPlugin
+./gradlew check                                # tests
 
 # Single class or method (FQCN = fully-qualified class name, package + class):
 ./gradlew test --tests "<FQCN>"
@@ -61,7 +61,7 @@ Commit messages and PR titles should follow this format:
 ## Test conventions
 
 - **Method naming**: classes extending a platform base (e.g. `GoCodeInsightFixtureTestCase`) discover via JUnit 3 — `test` prefix is mandatory. Pure `@Test`-annotated JUnit 4 tests drop the prefix.
-- **Fixture layout**: per-test-method subdir named after `getTestName(true)` (lowercased method name minus `test`) under an area-prefixed `getTestDataPath()`. `myFixture.copyDirectoryToProject` resolves from `getTestDataPath()`, not `getBasePath()`. Mirror `simple/` for layout.
+- **Fixture layout**: per-test-method subdir named after `getTestName(true)` (lowercased method name minus `test`) under `getTestDataPath()`, which is usually area-prefixed (e.g. `src/test/testData/resolve`) but is the bare `src/test/testData` root for some classes. `myFixture.copyDirectoryToProject` resolves from `getTestDataPath()`, not `getBasePath()`.
 - **Highlighting fixtures** use inline `<info>`/`<error>`/`<warning>` markers; always call `testHighlighting(true, true, true)` and enable `CucumberStepInspection` before asserting unresolved-step errors.
 - **Bug-fix PRs include a regression test** that would have caught the bug.
 - **Before fixing a bug**, write a failing test that demonstrates it — confirm it fails for the right reason before implementing the fix.

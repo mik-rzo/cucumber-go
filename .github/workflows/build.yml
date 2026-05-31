@@ -26,9 +26,37 @@ concurrency:
   
 jobs:
 
+  # Detect whether build-relevant files changed
+  changes:
+    name: Detect changed paths
+    runs-on: ubuntu-latest
+    outputs:
+      build: ${{ steps.filter.outputs.build }}
+    steps:
+
+      - name: Fetch Sources
+        uses: actions/checkout@v6
+
+      - name: Check changed paths
+        id: filter
+        uses: dorny/paths-filter@v4
+        with:
+          filters: |
+            build:
+              - 'src/**'
+              - 'build.gradle.kts'
+              - 'settings.gradle.kts'
+              - 'gradle/**'
+              - 'gradlew'
+              - 'gradlew.bat'
+              - 'gradle.properties'
+              - '.github/workflows/**'
+
   # Prepare environment and build the plugin
   build:
     name: Build
+    needs: [ changes ]
+    if: needs.changes.outputs.build == 'true'
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.properties.outputs.version }}
@@ -96,7 +124,8 @@ jobs:
   # Run tests and upload a code coverage report
   test:
     name: Test
-    needs: [ build ]
+    needs: [ changes, build ]
+    if: needs.changes.outputs.build == 'true'
     runs-on: ubuntu-latest
     steps:
 
@@ -138,7 +167,8 @@ jobs:
   # Run Qodana inspections and provide report
   inspectCode:
     name: Inspect code
-    needs: [ build ]
+    needs: [ changes, build ]
+    if: needs.changes.outputs.build == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -174,7 +204,8 @@ jobs:
   # Run plugin structure verification along with IntelliJ Plugin Verifier
   verify:
     name: Verify plugin
-    needs: [ build ]
+    needs: [ changes, build ]
+    if: needs.changes.outputs.build == 'true'
     runs-on: ubuntu-latest
     steps:
 

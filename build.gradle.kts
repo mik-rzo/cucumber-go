@@ -1,6 +1,8 @@
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
+import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+import org.jetbrains.intellij.platform.gradle.models.ProductRelease
 
 fun properties(key: String) = providers.gradleProperty(key)
 fun environment(key: String) = providers.environmentVariable(key)
@@ -129,7 +131,13 @@ intellijPlatform {
 
     pluginVerification {
         ides {
-            recommended()
+            select {
+                types.set(listOf(IntelliJPlatformType.GoLand, IntelliJPlatformType.IntellijIdeaUltimate))
+                channels.set(listOf(
+                    ProductRelease.Channel.RELEASE,
+                    ProductRelease.Channel.EAP,
+                ))
+            }
         }
     }
 

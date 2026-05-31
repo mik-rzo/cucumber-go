@@ -88,6 +88,19 @@ class CucumberExtension : AbstractCucumberExtension() {
         return result
     }
 
+    // 242.x–253.x had two-parameter isStepLikeFile(child, parent) and isWritableStepLikeFile(child,
+    // parent) as abstract methods. The `parent` parameter was leftover (JetBrains even left a
+    // "ToDo: remove parent" comment) and was dropped for the one-param signatures in 261.x. Since
+    // we compile against 261.x, only the one-param `override`s exist; the shims below satisfy the
+    // two-param abstract contract at runtime on 242.x–253.x without confusing the 261.x compiler.
+    @Suppress("unused")
+    fun isStepLikeFile(child: PsiElement, @Suppress("UNUSED_PARAMETER") parent: PsiElement): Boolean =
+        isStepLikeFile(child)
+
+    @Suppress("unused")
+    fun isWritableStepLikeFile(child: PsiElement, @Suppress("UNUSED_PARAMETER") parent: PsiElement): Boolean =
+        isWritableStepLikeFile(child)
+
     // 262.x (GoLand 2026.2) added a second abstract loadStepsFor(Module) — without the PsiFile
     // parameter — to CucumberJvmExtensionPoint. Omitting it causes AbstractMethodError at runtime.
     // `override` is absent because the method doesn't exist in the 261.x compile target; JVM

@@ -36,39 +36,42 @@ class CucumberGoCompletionTest : GoCodeInsightFixtureTestCase() {
     fun testStepCompletionMidWord() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile(getTestName(true) + "/" + getTestName(true) + "_before.feature")
+        // A mid-word match isn't auto-inserted (it would overwrite trailing text), so unlike a
+        // single end-of-line match the lookup stays open and completeBasic returns it (non-null).
         val result = myFixture.completeBasic()
-        if (result != null) {
-            val lookupStrings = result.map { it.lookupString }
-            assertEquals("Expected exactly 1 completion item, got $lookupStrings", 1, result.size)
-            myFixture.lookup.currentItem = result[0]
-            myFixture.type('\n')
-        }
+        assertNotNull("Expected a one-item lookup; a mid-word match is not auto-inserted", result)
+        val lookupStrings = result!!.map { it.lookupString }
+        assertEquals("Expected exactly 1 completion item, got $lookupStrings", 1, result.size)
+        myFixture.lookup.currentItem = result[0]
+        myFixture.type('\n')
         myFixture.checkResultByFile(getTestName(true) + "/" + getTestName(true) + "_after.feature")
     }
 
     fun testStepCompletionMidWordRegexCapture() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile(getTestName(true) + "/" + getTestName(true) + "_before.feature")
+        // A mid-word match isn't auto-inserted (it would overwrite trailing text), so unlike a
+        // single end-of-line match the lookup stays open and completeBasic returns it (non-null).
         val result = myFixture.completeBasic()
-        if (result != null) {
-            val lookupStrings = result.map { it.lookupString }
-            assertEquals("Expected exactly 1 completion item, got $lookupStrings", 1, result.size)
-            myFixture.lookup.currentItem = result[0]
-            myFixture.type('\n')
-        }
+        assertNotNull("Expected a one-item lookup; a mid-word match is not auto-inserted", result)
+        val lookupStrings = result!!.map { it.lookupString }
+        assertEquals("Expected exactly 1 completion item, got $lookupStrings", 1, result.size)
+        myFixture.lookup.currentItem = result[0]
+        myFixture.type('\n')
         myFixture.checkResultByFile(getTestName(true) + "/" + getTestName(true) + "_after.feature")
     }
 
     fun testStepCompletionMidWordReplacesUnmatchedTail() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile(getTestName(true) + "/" + getTestName(true) + "_before.feature")
+        // A mid-word match isn't auto-inserted (it would overwrite trailing text), so unlike a
+        // single end-of-line match the lookup stays open and completeBasic returns it (non-null).
         val result = myFixture.completeBasic()
-        if (result != null) {
-            val lookupStrings = result.map { it.lookupString }
-            assertEquals("Expected exactly 1 completion item, got $lookupStrings", 1, result.size)
-            myFixture.lookup.currentItem = result[0]
-            myFixture.type('\n')
-        }
+        assertNotNull("Expected a one-item lookup; a mid-word match is not auto-inserted", result)
+        val lookupStrings = result!!.map { it.lookupString }
+        assertEquals("Expected exactly 1 completion item, got $lookupStrings", 1, result.size)
+        myFixture.lookup.currentItem = result[0]
+        myFixture.type('\n')
         myFixture.checkResultByFile(getTestName(true) + "/" + getTestName(true) + "_after.feature")
     }
 

@@ -53,10 +53,59 @@ Commit messages and PR titles should follow this format:
 - Align fixture, scenario, and test names with the surrounding directory naming conventions.
 - Avoid generic placeholder names.
 
-## Reference
+## Browsing SDK source
 
-- **Reference plugin**: `cucumber-java` in [JetBrains/intellij-plugins](https://github.com/JetBrains/intellij-plugins/tree/master/cucumber-java) — use as the pattern source for test structure, fixture layout, and functional behaviour.
-- **Dependent plugin**: `gherkin` in [JetBrains/intellij-plugins](https://github.com/JetBrains/intellij-plugins/tree/master/cucumber) — both the reference plugin `cucumber-java` and this plugin `cucumber-go` rely on `gherkin`
+Prefer browsing GitHub source over decompiling local SDK jars — source has comments and Javadoc, class hierarchies are easier to navigate, and build-versioned branches allow exact version matching.
+
+- **`intellij-community`** ([JetBrains/intellij-community](https://github.com/JetBrains/intellij-community)) — IntelliJ Platform (`com.intellij.*`)
+- **`intellij-plugins`** ([JetBrains/intellij-plugins](https://github.com/JetBrains/intellij-plugins)) — gherkin and cucumber-java plugins
+
+Both repos have versioned branches matching IntelliJ build numbers exactly (e.g. `262.6228`). When investigating a plugin verifier deprecation, browse the branch that matches the flagged build rather than `master`.
+
+### Browsing a class on GitHub
+
+1. Find the file path by searching the repo:
+   ```sh
+   gh api "search/code?q=<ClassName>+repo:JetBrains/intellij-plugins" --jq '.items[].path'
+   # or for platform classes:
+   gh api "search/code?q=<ClassName>+repo:JetBrains/intellij-community" --jq '.items[].path'
+   ```
+2. Get the raw URL for the file at a specific build branch, then fetch it:
+   ```sh
+   gh api "repos/JetBrains/intellij-plugins/contents/<path/to/File.java>?ref=<build>" --jq '.download_url'
+   curl -s "<url>"
+   ```
+
+Example — `CucumberJvmExtensionPoint` on build `262.6228`:
+```sh
+gh api "search/code?q=CucumberJvmExtensionPoint+repo:JetBrains/intellij-plugins" --jq '.items[].path'
+gh api "repos/JetBrains/intellij-plugins/contents/cucumber/src/org/jetbrains/plugins/cucumber/CucumberJvmExtensionPoint.java?ref=262.6228" --jq '.download_url'
+```
+
+### Decompiling a local SDK jar
+
+Use when the class is not in `intellij-community` or `intellij-plugins` (e.g. Go plugin APIs).
+
+1. Find the jar in the Gradle transform cache. Go plugin classes are inside the GoLand
+   distribution transform under `plugins/go-plugin/lib/`:
+   ```sh
+   # For Go plugin classes:
+   find ~/.gradle/caches -path "*/goland-*/plugins/go-plugin/lib/*.jar"
+   # For other plugins (e.g. gherkin):
+   find ~/.gradle/caches -name "*.jar" -path "*<plugin-name>*" | grep -v sources
+   ```
+2. Confirm the class is present:
+   ```sh
+   jar tf <path/to/plugin.jar> | grep ClassName
+   ```
+3. Extract and decompile:
+   ```sh
+   cd /tmp && mkdir decompile && cd decompile
+   jar xf <path/to/plugin.jar> <org/example/ClassName.class>
+   javap -p <org/example/ClassName.class>
+   ```
+
+**Exception:** Go plugin APIs (`com.goide.*`, `org.jetbrains.plugins.go`) are not open source — decompile the local SDK jar for those.
 
 ## Test conventions
 

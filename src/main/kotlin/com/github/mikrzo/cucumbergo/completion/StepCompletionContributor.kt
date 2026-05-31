@@ -30,7 +30,7 @@ class StepCompletionContributor : CompletionContributor() {
             ) {
                 // Wrap each step definition element with a fixed insert handler.
                 result.runRemainingContributors(parameters) { completionResult ->
-                    val element = completionResult.getLookupElement()
+                    val element = completionResult.lookupElement
                     if (element.psiElement is GoCallExpr) {
                         val wrapped = object : LookupElementDecorator<LookupElement>(element) {
                             override fun handleInsert(ctx: InsertionContext) {

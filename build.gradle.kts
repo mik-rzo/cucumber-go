@@ -1,5 +1,6 @@
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
+import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 fun properties(key: String) = providers.gradleProperty(key)
@@ -129,7 +130,9 @@ intellijPlatform {
 
     pluginVerification {
         ides {
-            recommended()
+            select {
+                types.set(listOf(IntelliJPlatformType.GoLand, IntelliJPlatformType.IntellijIdeaUltimate))
+            }
         }
     }
 

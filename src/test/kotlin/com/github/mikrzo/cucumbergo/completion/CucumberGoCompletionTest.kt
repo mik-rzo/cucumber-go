@@ -59,6 +59,19 @@ class CucumberGoCompletionTest : GoCodeInsightFixtureTestCase() {
         myFixture.checkResultByFile(getTestName(true) + "/" + getTestName(true) + "_after.feature")
     }
 
+    fun testStepCompletionMidWordReplacesUnmatchedTail() {
+        myFixture.copyDirectoryToProject(getTestName(true), "")
+        myFixture.configureByFile(getTestName(true) + "/" + getTestName(true) + "_before.feature")
+        val result = myFixture.completeBasic()
+        if (result != null) {
+            val lookupStrings = result.map { it.lookupString }
+            assertEquals("Expected exactly 1 completion item, got $lookupStrings", 1, result.size)
+            myFixture.lookup.currentItem = result[0]
+            myFixture.type('\n')
+        }
+        myFixture.checkResultByFile(getTestName(true) + "/" + getTestName(true) + "_after.feature")
+    }
+
     fun testStepCompletionMultipleMatches() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile(getTestName(true) + "/" + getTestName(true) + "_before.feature")

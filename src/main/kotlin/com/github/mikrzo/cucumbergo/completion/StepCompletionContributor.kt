@@ -37,7 +37,7 @@ class StepCompletionContributor : CompletionContributor() {
                                 // Delete any already-typed suffix BEFORE the original handler runs, so
                                 // the live template (builder.run for capture groups) starts on a clean
                                 // document and is not killed by a subsequent edit.
-                                val insertedEnd = ctx.startOffset + lookupString.length
+                                val insertedEnd = ctx.tailOffset // end of the just-inserted lookup string
                                 ctx.commitDocument()
                                 val atStart = ctx.file.findElementAt(ctx.startOffset)
                                 val step = atStart?.let {

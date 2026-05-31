@@ -14,6 +14,11 @@
 
     <extensions defaultExtensionNs="com.intellij">
 
+        <completion.contributor
+                language="Gherkin"
+                order="first"
+                implementationClass="com.github.mikrzo.cucumbergo.completion.StepCompletionContributor"/>
+
         <fileBasedIndex implementation="com.github.mikrzo.cucumbergo.CucumberGoStepIndex"/>
 
         <pom.declarationSearcher implementation="com.github.mikrzo.cucumbergo.search.StepDeclarationSearcher"/>

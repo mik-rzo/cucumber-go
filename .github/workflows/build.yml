@@ -50,6 +50,7 @@ jobs:
               - 'gradlew'
               - 'gradlew.bat'
               - 'gradle.properties'
+              - 'qodana.yml'
               - '.github/workflows/**'
 
   # Prepare environment and build the plugin

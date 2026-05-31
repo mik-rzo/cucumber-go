@@ -17,12 +17,11 @@ class CucumberGoCompletionTest : GoCodeInsightFixtureTestCase() {
     fun testStepCompletionNoMatch() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile(getTestName(true) + "/" + getTestName(true) + ".feature")
+        // A no-match completion returns an empty array, never null (only a single auto-inserted
+        // match yields null), so assert that contract explicitly.
         val result = myFixture.completeBasic()
-        val stepLookupStrings = result?.map { it.lookupString }.orEmpty()
-        assertTrue(
-            "Expected no completion items, got $stepLookupStrings",
-            stepLookupStrings.isEmpty(),
-        )
+        assertNotNull("Expected an empty (non-null) result for no match", result)
+        assertEmpty("Expected no completion items", result!!.map { it.lookupString })
     }
 
     fun testStepCompletionRegexCapture() {

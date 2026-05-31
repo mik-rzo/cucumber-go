@@ -31,11 +31,7 @@ class StepCompletionContributor : CompletionContributor() {
                     val element = completionResult.getLookupElement()
                     if (element.psiElement is GoCallExpr) {
                         val wrapped = LookupElementDecorator.withInsertHandler(element) { ctx, _ ->
-                            // LookupElementDecorator.withInsertHandler calls super.handleInsert
-                            // before this lambda, so the original StepInsertHandler has already
-                            // run and the lookup string has been inserted. Any already-typed
-                            // suffix beyond the caret (e.g. the "form" in "I per|form") is still
-                            // present in the document. Delete it.
+                            // After insertion, any already-typed suffix beyond the caret remains — delete it.
                             ctx.commitDocument()
                             val atTail = ctx.file.findElementAt(ctx.tailOffset - 1) ?: return@withInsertHandler
                             val step = PsiTreeUtil.getParentOfType(atTail, GherkinStep::class.java)

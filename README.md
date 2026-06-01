@@ -17,12 +17,25 @@
 
 ## Installation
 
+The plugin works with both GoLand and IntelliJ IDEA Ultimate, and requires the following plugins to be installed:
+
+- **[Go](https://plugins.jetbrains.com/plugin/9568-go)** — bundled with GoLand; install manually on IntelliJ IDEA Ultimate.
+- **[Gherkin](https://plugins.jetbrains.com/plugin/9164-gherkin)** — install manually on both GoLand and IntelliJ IDEA Ultimate.
+
+### From the JetBrains Marketplace
+
+The plugin is available in the [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/31954-cucumber-for-go/). Install it
+directly in GoLand or IntelliJ IDEA Ultimate from <kbd>Settings</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd>,
+then search for _Cucumber for Go_.
+
+### Manual installation
+
 1. From the project root, build the plugin with:
 
    ```sh
    ./gradlew clean buildPlugin
    ```
 
-2. In GoLand, go to <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>.
+2. In GoLand, go to <kbd>Settings</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>.
 3. Select the generated `.zip` archive from `cucumber-go/build/distributions/`.
 

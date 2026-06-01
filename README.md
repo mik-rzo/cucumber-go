@@ -5,7 +5,6 @@
 <h2>Features</h2>
 <ul>
   <li>Go to step definition</li>
-  <li>Syntax highlighting</li>
   <li>Step completion</li>
   <li>Find usages</li>
   <li>Step renaming</li>

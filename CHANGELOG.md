@@ -5,6 +5,10 @@
 ## [Unreleased]
 
 - feat: support regexp.MustCompile/Compile as ctx.Step pattern argument by @mik-rzo in https://github.com/mik-rzo/cucumber-go/pull/44
+- feat: implement step rename for quoted, backtick, and regexp.MustCompile patterns by @mik-rzo in https://github.com/mik-rzo/cucumber-go/pull/48
+- fix: unanchored regex patterns not matched correctly by @mik-rzo in https://github.com/mik-rzo/cucumber-go/pull/49
+- feat: target IntelliJ IDEA Ultimate alongside GoLand and include compatibility from 2024.2 onwards by @mik-rzo in https://github.com/mik-rzo/cucumber-go/pull/55
+- fix: step completion mid-word no longer leaves trailing suffix or breaks capture group caret by @mik-rzo in https://github.com/mik-rzo/cucumber-go/pull/56
 
 ## [1.0.1] - 2026-05-25
 

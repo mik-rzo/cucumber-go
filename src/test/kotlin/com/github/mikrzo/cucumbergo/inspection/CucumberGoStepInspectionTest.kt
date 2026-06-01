@@ -1,11 +1,11 @@
-package com.github.mikrzo.cucumbergo.highlighting
+package com.github.mikrzo.cucumbergo.inspection
 
 import com.goide.GoCodeInsightFixtureTestCase
 import org.jetbrains.plugins.cucumber.inspections.CucumberStepInspection
 
-class CucumberGoHighlightingTest : GoCodeInsightFixtureTestCase() {
+class CucumberGoStepInspectionTest : GoCodeInsightFixtureTestCase() {
 
-    override fun getTestDataPath() = "src/test/testData/highlighting"
+    override fun getTestDataPath() = "src/test/testData/inspection"
 
     private fun doTest() {
         myFixture.enableInspections(CucumberStepInspection())

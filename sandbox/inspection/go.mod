@@ -1,4 +1,4 @@
-module highlighting
+module inspection
 
 go 1.21.9
 

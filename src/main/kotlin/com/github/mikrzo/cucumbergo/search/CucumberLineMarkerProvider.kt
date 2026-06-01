@@ -10,31 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil
 import icons.CucumberIcons.Cucumber
 
 class CucumberLineMarkerProvider : LineMarkerProvider {
-    private val keywords = listOf("Given", "When", "Then", "Step") // TODO: fix it
-//    protected fun collectNavigationMarkers(
-//        element: PsiElement,
-//        result: MutableCollection<RelatedItemLineMarkerInfo<*>?>
-//    ) {
-//        if (element !is GoCallExpr) {
-//            return
-//        }
-//        println(element.children[0].references)
-//        if (element.children.size == 2 && keywords.contains(element.children[0].text)) {
-//            val stepName = element.children[1].text
-//            result.add(
-//                RelatedItemLineMarkerInfo(
-//                    element,
-//                    element.textRange,
-//                    Cucumber,
-//                    { stepName },
-//                    null,
-//                    RIGHT,
-//                    { stepName })
-//            )
-//        } else {
-//            null
-//        }
-//    }
+    private val keywords = listOf("Given", "When", "Then", "Step")
 
     override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<*>? {
         if (!validCandidate(element)) {

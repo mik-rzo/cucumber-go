@@ -1,4 +1,4 @@
-package com.github.mikrzo.cucumbergo.inspections
+package com.github.mikrzo.cucumbergo.creation
 
 import com.github.mikrzo.cucumbergo.steps.StepDefinitionCreator
 import com.goide.GoCodeInsightFixtureTestCase
@@ -13,7 +13,7 @@ import org.jetbrains.plugins.cucumber.psi.GherkinStep
 
 class StepDefinitionCreatorTest : GoCodeInsightFixtureTestCase() {
 
-    override fun getTestDataPath() = "src/test/testData/inspections"
+    override fun getTestDataPath() = "src/test/testData/creation"
 
     private val creator = StepDefinitionCreator()
 

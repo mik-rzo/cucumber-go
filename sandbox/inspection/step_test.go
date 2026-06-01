@@ -1,4 +1,4 @@
-package highlighting
+package inspection
 
 import (
 	"testing"
@@ -10,7 +10,7 @@ func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`^I have a resolved step$`, iHaveAResolvedStep)
 }
 
-func TestHighlighting(t *testing.T) {
+func TestInspection(t *testing.T) {
 	suite := godog.TestSuite{
 		ScenarioInitializer: InitializeScenario,
 		Options: &godog.Options{

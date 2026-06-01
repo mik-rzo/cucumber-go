@@ -89,8 +89,8 @@ class CucumberExtension : AbstractCucumberExtension() {
     }
 
     // 242.x–253.x had two-parameter isStepLikeFile(child, parent) and isWritableStepLikeFile(child,
-    // parent) as abstract methods. The `parent` parameter was leftover (JetBrains even left a
-    // "ToDo: remove parent" comment) and was dropped for the one-param signatures in 261.x. Since
+    // parent) as abstract methods. The `parent` parameter was leftover (JetBrains flagged it for
+    // removal in a to-do comment) and was dropped for the one-param signatures in 261.x. Since
     // we compile against 261.x, only the one-param `override`s exist; the shims below satisfy the
     // two-param abstract contract at runtime on 242.x–253.x without confusing the 261.x compiler.
     @Suppress("unused")

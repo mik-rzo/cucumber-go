@@ -120,6 +120,9 @@ class CucumberExtension : AbstractCucumberExtension() {
     }
 
     override fun getStepDefinitionContainers(featureFile: GherkinFile): Collection<PsiFile> {
+        // TEMPORARY: test verifier gate — findModulesForFile added in 251, absent in 242/243
+        @Suppress("UNUSED_VARIABLE") val unused =
+            ModuleUtilCore.findModulesForFile(featureFile.virtualFile ?: return emptyList(), featureFile.project)
         val module = ModuleUtilCore.findModuleForPsiElement(featureFile)
         val steps = module?.let { mod ->
             loadStepsFor(featureFile, mod)

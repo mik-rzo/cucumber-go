@@ -6,11 +6,9 @@
 # - Run the 'runPluginVerifier' task.
 # - Create a draft release.
 #
-# The workflow is triggered on push and pull_request events.
+# The workflow is triggered on push, pull_request, workflow_dispatch events.
 #
 # GitHub Actions reference: https://help.github.com/en/actions
-#
-## JBIJPPTPL
 
 name: Build
 on:
@@ -322,6 +320,11 @@ jobs:
           name: pluginVerifier-result
           pattern: pluginVerifier-result-*
           delete-merged: true
+
+      # Fail the job (and the required status check) if any verify leg failed
+      - name: Check verification result
+        if: needs.verify.result != 'success'
+        run: exit 1
 
   # Prepare a draft release for GitHub Releases page for the manual verification
   # If accepted and published, release workflow would be triggered

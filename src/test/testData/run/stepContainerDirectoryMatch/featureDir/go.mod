@@ -1,4 +1,4 @@
-module featuredir
+module stepcontainerdirectorymatchfeaturedir
 
 go 1.21.9
 

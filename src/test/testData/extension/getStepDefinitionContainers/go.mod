@@ -1,4 +1,4 @@
-module getstepdefinitioncontainers
+module extensiongetstepdefinitioncontainers
 
 go 1.21.9
 

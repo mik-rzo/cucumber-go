@@ -1,4 +1,4 @@
-module stepwithdocstring
+module inspectionstepwithdocstring
 
 go 1.21.9
 

@@ -1,4 +1,4 @@
-module loadstepsformodulewithdefinitions
+module extensionloadstepsformodulewithdefinitions
 
 go 1.21.9
 

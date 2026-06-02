@@ -1,4 +1,4 @@
-package featuredir
+package stepcontainerdirectorymatchfeaturedir
 
 import (
 	"testing"

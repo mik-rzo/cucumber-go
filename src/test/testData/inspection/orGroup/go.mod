@@ -1,4 +1,4 @@
-module orgroup
+module inspectionorgroup
 
 go 1.21.9
 

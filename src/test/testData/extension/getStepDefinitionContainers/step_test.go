@@ -1,4 +1,4 @@
-package getstepdefinitioncontainers
+package extensiongetstepdefinitioncontainers
 
 import (
 	"github.com/cucumber/godog"

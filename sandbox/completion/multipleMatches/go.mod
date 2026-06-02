@@ -1,4 +1,4 @@
-module multiplematches
+module completionmultiplematches
 
 go 1.21.9
 

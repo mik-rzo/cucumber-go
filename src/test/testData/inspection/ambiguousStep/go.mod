@@ -1,4 +1,4 @@
-module ambiguousstep
+module inspectionambiguousstep
 
 go 1.21.9
 

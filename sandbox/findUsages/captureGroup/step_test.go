@@ -1,4 +1,4 @@
-package capturegroup
+package findusagescapturegroup
 
 import (
 	"testing"

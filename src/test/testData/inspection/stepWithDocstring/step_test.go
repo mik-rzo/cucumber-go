@@ -1,4 +1,4 @@
-package stepwithdocstring
+package inspectionstepwithdocstring
 
 import (
 	"testing"

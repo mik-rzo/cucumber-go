@@ -1,4 +1,4 @@
-package loadstepsformodulewithdefinitions
+package extensionloadstepsformodulewithdefinitions
 
 import (
 	"github.com/cucumber/godog"

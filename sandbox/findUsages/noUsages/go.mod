@@ -1,4 +1,4 @@
-module nousages
+module findusagesnousages
 
 go 1.21.9
 

@@ -1,4 +1,4 @@
-module scenarioparameter
+module inspectionscenarioparameter
 
 go 1.21.9
 

@@ -1,4 +1,4 @@
-package regexpusages
+package searchregexpusages
 
 import (
 	"regexp"

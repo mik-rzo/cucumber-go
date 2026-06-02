@@ -1,4 +1,4 @@
-package scenarioparameter
+package inspectionscenarioparameter
 
 import (
 	"testing"

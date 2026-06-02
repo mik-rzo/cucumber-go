@@ -1,4 +1,4 @@
-package withusages
+package findusageswithusages
 
 import (
 	"testing"

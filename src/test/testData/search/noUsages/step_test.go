@@ -1,4 +1,4 @@
-package nousages
+package searchnousages
 
 import (
 	"testing"

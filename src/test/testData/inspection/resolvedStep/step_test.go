@@ -1,4 +1,4 @@
-package resolvedstep
+package inspectionresolvedstep
 
 import (
 	"testing"

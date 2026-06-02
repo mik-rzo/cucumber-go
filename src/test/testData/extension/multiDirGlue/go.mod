@@ -1,4 +1,4 @@
-module multidirglue
+module extensionmultidirglue
 
 go 1.21.9
 

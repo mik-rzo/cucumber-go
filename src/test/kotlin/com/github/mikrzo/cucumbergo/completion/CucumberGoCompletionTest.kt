@@ -6,7 +6,7 @@ class CucumberGoCompletionTest : GoCodeInsightFixtureTestCase() {
 
     override fun getTestDataPath() = "src/test/testData/completion"
 
-    fun testStepCompletion() {
+    fun testStep() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile(getTestName(true) + "/" + getTestName(true) + "_before.feature")
         val result = myFixture.completeBasic()
@@ -14,7 +14,7 @@ class CucumberGoCompletionTest : GoCodeInsightFixtureTestCase() {
         myFixture.checkResultByFile(getTestName(true) + "/" + getTestName(true) + "_after.feature")
     }
 
-    fun testStepCompletionNoMatch() {
+    fun testStepNoMatch() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile(getTestName(true) + "/" + getTestName(true) + ".feature")
         // A no-match completion returns an empty array, never null (only a single auto-inserted
@@ -24,7 +24,7 @@ class CucumberGoCompletionTest : GoCodeInsightFixtureTestCase() {
         assertEmpty("Expected no completion items", result!!.map { it.lookupString })
     }
 
-    fun testStepCompletionRegexCapture() {
+    fun testStepRegexCapture() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile(getTestName(true) + "/" + getTestName(true) + "_before.feature")
         val result = myFixture.completeBasic()
@@ -32,7 +32,7 @@ class CucumberGoCompletionTest : GoCodeInsightFixtureTestCase() {
         myFixture.checkResultByFile(getTestName(true) + "/" + getTestName(true) + "_after.feature")
     }
 
-    fun testStepCompletionMidWord() {
+    fun testStepMidWord() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile(getTestName(true) + "/" + getTestName(true) + "_before.feature")
         // A mid-word match isn't auto-inserted (it would overwrite trailing text), so unlike a
@@ -46,7 +46,7 @@ class CucumberGoCompletionTest : GoCodeInsightFixtureTestCase() {
         myFixture.checkResultByFile(getTestName(true) + "/" + getTestName(true) + "_after.feature")
     }
 
-    fun testStepCompletionMidWordRegexCapture() {
+    fun testStepMidWordRegexCapture() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile(getTestName(true) + "/" + getTestName(true) + "_before.feature")
         // A mid-word match isn't auto-inserted (it would overwrite trailing text), so unlike a
@@ -60,7 +60,7 @@ class CucumberGoCompletionTest : GoCodeInsightFixtureTestCase() {
         myFixture.checkResultByFile(getTestName(true) + "/" + getTestName(true) + "_after.feature")
     }
 
-    fun testStepCompletionMidWordReplacesUnmatchedTail() {
+    fun testStepMidWordReplacesUnmatchedTail() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile(getTestName(true) + "/" + getTestName(true) + "_before.feature")
         // A mid-word match isn't auto-inserted (it would overwrite trailing text), so unlike a
@@ -74,7 +74,7 @@ class CucumberGoCompletionTest : GoCodeInsightFixtureTestCase() {
         myFixture.checkResultByFile(getTestName(true) + "/" + getTestName(true) + "_after.feature")
     }
 
-    fun testStepCompletionMultipleMatches() {
+    fun testStepMultipleMatches() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile(getTestName(true) + "/" + getTestName(true) + "_before.feature")
         val result = myFixture.completeBasic()

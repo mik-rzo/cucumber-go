@@ -1,4 +1,4 @@
-module cucumberexpression
+module searchcapturegrouppattern
 
 go 1.21.9
 

@@ -314,7 +314,7 @@ jobs:
     steps:
 
       # Combine the per-leg reports and delete the partials
-      - name: Collect Plugin Verifier Results
+      - name: Upload Plugin Verifier Results
         uses: actions/upload-artifact/merge@v7
         with:
           name: pluginVerifier-result

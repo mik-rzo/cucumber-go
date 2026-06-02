@@ -298,8 +298,8 @@ jobs:
       - name: Run Plugin Verification tasks
         run: ./gradlew verifyPlugin -PverifyIdeType=${{ matrix.ideType }} -PverifyYear=${{ matrix.year }}
 
-      # Collect this leg's Plugin Verifier Result under a unique name (merged later)
-      - name: Collect Plugin Verifier Result
+      # Upload this leg's Plugin Verifier Result under a unique name (collected later)
+      - name: Upload Plugin Verifier Result
         if: ${{ always() }}
         uses: actions/upload-artifact@v7
         with:
@@ -309,14 +309,14 @@ jobs:
   # Merge the per-leg verifier results into a single `pluginVerifier-result` artifact
   # holding every verified IDE's report.
   verifyReport:
-    name: Verify plugin report
+    name: Collect plugin verifier results
     needs: [ changes, verify ]
     if: ${{ always() && needs.changes.outputs.build == 'true' }}
     runs-on: ubuntu-latest
     steps:
 
       # Combine the per-leg reports and delete the partials
-      - name: Merge Plugin Verifier Results
+      - name: Collect Plugin Verifier Results
         uses: actions/upload-artifact/merge@v7
         with:
           name: pluginVerifier-result

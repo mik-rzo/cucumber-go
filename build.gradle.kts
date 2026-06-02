@@ -132,11 +132,27 @@ intellijPlatform {
     pluginVerification {
         ides {
             select {
-                types.set(listOf(IntelliJPlatformType.GoLand, IntelliJPlatformType.IntellijIdeaUltimate))
+                // CI matrixes verification by IDE type and release year to keep each matrix job's disk
+                // footprint lean (see .github/workflows/build.yml). Both properties are optional:
+                // when absent (e.g. local `verifyPlugin`) the full type list and build range apply.
+                val ideType = properties("verifyIdeType").orNull
+                types.set(when (ideType) {
+                    "GoLand" -> listOf(IntelliJPlatformType.GoLand)
+                    "IntellijIdeaUltimate" -> listOf(IntelliJPlatformType.IntellijIdeaUltimate)
+                    else -> listOf(IntelliJPlatformType.GoLand, IntelliJPlatformType.IntellijIdeaUltimate)
+                })
                 channels.set(listOf(
                     ProductRelease.Channel.RELEASE,
                     ProductRelease.Channel.EAP,
                 ))
+                // When verifyYear is set, restrict verification to that year's IDE builds; never
+                // below pluginSinceBuild.
+                properties("verifyYear").orNull?.let { year ->
+                    val yy = year.toInt() - 2000
+                    val sinceFloor = properties("pluginSinceBuild").get().toInt()
+                    sinceBuild.set(maxOf(yy * 10 + 1, sinceFloor).toString())
+                    untilBuild.set("${yy}9.*")
+                }
             }
         }
     }
@@ -171,5 +187,15 @@ tasks {
         // IntelliJ Platform Gradle Plugin 2.16.0 with platformType=GO does not set
         // idea.home.path automatically; PathManager.getHomePath() then fails in setUp.
         systemProperty("idea.home.path", intellijPlatform.platformPath.toString())
+    }
+
+    // Use the same filter as pluginVerification so the verifyMatrix job derives years from
+    // the same IDE set that verifyPlugin checks.
+    printProductsReleases {
+        types.set(listOf(IntelliJPlatformType.GoLand, IntelliJPlatformType.IntellijIdeaUltimate))
+        channels.set(listOf(
+            ProductRelease.Channel.RELEASE,
+            ProductRelease.Channel.EAP,
+        ))
     }
 }

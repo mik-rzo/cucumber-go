@@ -205,12 +205,66 @@ jobs:
           args: "--image jetbrains/qodana-jvm-community:2026.1"
           cache-default-branch-only: true
 
-  # Run plugin structure verification along with IntelliJ Plugin Verifier
-  verify:
-    name: Verify plugin
-    needs: [ changes, build ]
+  # Compute the verification matrix: one leg per (IDE type, release year). Years come from
+  # `printProductsReleases` (no IDE downloads), so new years are picked up automatically.
+  verifyMatrix:
+    name: Resolve verifier IDE matrix
+    needs: [ changes ]
     if: needs.changes.outputs.build == 'true'
     runs-on: ubuntu-latest
+    outputs:
+      include: ${{ steps.gen.outputs.include }}
+    steps:
+
+      # Check out current repository
+      - name: Fetch Sources
+        uses: actions/checkout@v6
+
+      # Set up Java environment for the next steps
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: zulu
+          java-version: 21
+
+      # Setup Gradle
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-provider: basic
+
+      # Derive the distinct release years and emit a matrix `include` list as JSON
+      - name: Generate matrix
+        id: gen
+        shell: bash
+        run: |
+          # printProductsReleases prints one IDE per line in two forms:
+          #   RELEASE: GO-2026.1.2  (version form, starts with "20")
+          #   EAP:     GO-262.6653.43  (build form; major's first two digits = year - 2000)
+          years=$(./gradlew printProductsReleases -q | grep -E '^(GO|IU)-' | while read -r line; do
+            v=${line#*-}
+            case "$v" in
+              20*) echo "${v%%.*}" ;;               # 2026.1.2 -> 2026
+              *)   m=${v%%.*}; echo "20${m:0:2}" ;;  # 262.6653.43 -> 2026
+            esac
+          done | sort -u)
+          include=$(for y in $years; do for t in GoLand IntellijIdeaUltimate; do
+            printf '{"ideType":"%s","year":"%s"}\n' "$t" "$y"; done; done \
+            | jq -sc '{include: .}')
+          echo "include=$include" >> "$GITHUB_OUTPUT"
+
+  # Run plugin structure verification along with IntelliJ Plugin Verifier.
+  # Matrixed by (IDE type, year) so each leg resolves only a few IDEs and keeps its disk
+  # footprint lean. Per-leg results are merged into a single artifact by the
+  # `verifyReport` job below.
+  verify:
+    name: Verify plugin (${{ matrix.ideType }} ${{ matrix.year }})
+    needs: [ changes, build, verifyMatrix ]
+    if: needs.changes.outputs.build == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.verifyMatrix.outputs.include) }}
     steps:
 
       # Free GitHub Actions Environment Disk Space
@@ -237,24 +291,41 @@ jobs:
         with:
           cache-provider: basic
 
-      # Run Verify Plugin task and IntelliJ Plugin Verifier tool
+      # Run Verify Plugin task and IntelliJ Plugin Verifier tool for this leg's IDEs
       - name: Run Plugin Verification tasks
-        run: ./gradlew verifyPlugin
+        run: ./gradlew verifyPlugin -PverifyIdeType=${{ matrix.ideType }} -PverifyYear=${{ matrix.year }}
 
-      # Collect Plugin Verifier Result
+      # Collect this leg's Plugin Verifier Result under a unique name (merged later)
       - name: Collect Plugin Verifier Result
         if: ${{ always() }}
         uses: actions/upload-artifact@v7
         with:
-          name: pluginVerifier-result
+          name: pluginVerifier-result-${{ matrix.ideType }}-${{ matrix.year }}
           path: ${{ github.workspace }}/build/reports/pluginVerifier
+
+  # Merge the per-leg verifier results into a single `pluginVerifier-result` artifact
+  # holding every verified IDE's report.
+  verifyReport:
+    name: Verify plugin report
+    needs: [ changes, verify ]
+    if: ${{ always() && needs.changes.outputs.build == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+
+      # Combine the per-leg reports and delete the partials
+      - name: Merge Plugin Verifier Results
+        uses: actions/upload-artifact/merge@v7
+        with:
+          name: pluginVerifier-result
+          pattern: pluginVerifier-result-*
+          delete-merged: true
 
   # Prepare a draft release for GitHub Releases page for the manual verification
   # If accepted and published, release workflow would be triggered
   releaseDraft:
     name: Release draft
     if: github.event_name != 'pull_request'
-    needs: [ build, test, inspectCode, verify ]
+    needs: [ build, test, inspectCode, verify, verifyReport ]
     runs-on: ubuntu-latest
     permissions:
       contents: write

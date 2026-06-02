@@ -307,7 +307,7 @@ jobs:
   # Merge the per-leg verifier results into a single `pluginVerifier-result` artifact
   # holding every verified IDE's report.
   verifyReport:
-    name: Collect plugin verifier results
+    name: Plugin verifier results
     needs: [ changes, verify ]
     if: ${{ always() && needs.changes.outputs.build == 'true' }}
     runs-on: ubuntu-latest

@@ -236,6 +236,9 @@ jobs:
         id: gen
         shell: bash
         run: |
+          # Fail the step if any stage of the pipeline below fails, rather than
+          # silently emitting an empty matrix (which would skip verification).
+          set -euo pipefail
           # printProductsReleases prints one IDE per line in two forms:
           #   RELEASE: GO-2026.1.2  (version form, starts with "20")
           #   EAP:     GO-262.6653.43  (build form; major's first two digits = year - 2000)
@@ -246,6 +249,10 @@ jobs:
               *)   m=${v%%.*}; echo "20${m:0:2}" ;;  # 262.6653.43 -> 2026
             esac
           done | sort -u)
+          if [ -z "$years" ]; then
+            echo "No release years resolved from printProductsReleases" >&2
+            exit 1
+          fi
           # ideType is the SDK enum passed to Gradle; jq adds ideName, the human-readable
           # label shown in the leg's job name.
           include=$(for y in $years; do for t in GoLand IntellijIdeaUltimate; do
@@ -313,17 +320,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      # Combine the per-leg reports and delete the partials
+      # Combine the per-leg reports and delete the partials. Only runs when the
+      # verify matrix actually executed — when it is skipped there are no
+      # per-leg artifacts and the merge would otherwise error.
       - name: Upload Plugin Verifier Results
+        if: needs.verify.result == 'success' || needs.verify.result == 'failure'
         uses: actions/upload-artifact/merge@v7
         with:
           name: pluginVerifier-result
           pattern: pluginVerifier-result-*
           delete-merged: true
 
-      # Fail the job (and the required status check) if any verify leg failed
+      # Fail the job (and the required status check) only if a verify leg failed.
+      # A skipped verify (e.g. no matrix legs) is handled by the verifyMatrix job.
       - name: Check verification result
-        if: needs.verify.result != 'success'
+        if: needs.verify.result == 'failure'
         run: exit 1
 
   # Prepare a draft release for GitHub Releases page for the manual verification

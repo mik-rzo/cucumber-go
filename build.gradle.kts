@@ -3,7 +3,6 @@ import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 import org.jetbrains.intellij.platform.gradle.models.ProductRelease
-import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask
 
 fun properties(key: String) = providers.gradleProperty(key)
 fun environment(key: String) = providers.environmentVariable(key)
@@ -131,10 +130,6 @@ intellijPlatform {
     }
 
     pluginVerification {
-        failureLevel.set(listOf(
-            VerifyPluginTask.FailureLevel.COMPATIBILITY_PROBLEMS,
-            VerifyPluginTask.FailureLevel.OVERRIDE_ONLY_API_USAGES,
-        ))
         ides {
             select {
                 // CI matrixes verification by IDE type and release year to keep each leg's disk

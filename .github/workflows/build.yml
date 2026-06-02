@@ -242,15 +242,22 @@ jobs:
           # printProductsReleases prints one IDE per line in two forms:
           #   RELEASE: GO-2026.1.2  (version form, starts with "20")
           #   EAP:     GO-262.6653.43  (build form; major's first two digits = year - 2000)
-          years=$(./gradlew printProductsReleases -q | grep -E '^(GO|IU)-' | while read -r line; do
+          raw=$(./gradlew printProductsReleases -q)
+          filtered=$(echo "$raw" | grep -E '^(GO|IU)-' || true)
+          echo "Filtered IDE lines:"
+          echo "$filtered"
+          years=$(echo "$filtered" | while read -r line; do
             v=${line#*-}
             case "$v" in
               20*) echo "${v%%.*}" ;;               # 2026.1.2 -> 2026
               *)   m=${v%%.*}; echo "20${m:0:2}" ;;  # 262.6653.43 -> 2026
             esac
           done | sort -u)
+          echo "Resolved years: $years"
           if [ -z "$years" ]; then
             echo "No release years resolved from printProductsReleases" >&2
+            echo "Raw output was:" >&2
+            echo "$raw" >&2
             exit 1
           fi
           # ideType is the SDK enum passed to Gradle; jq adds ideName, the human-readable
@@ -259,6 +266,7 @@ jobs:
             printf '{"ideType":"%s","year":"%s"}\n' "$t" "$y"; done; done \
             | jq -sc '{ "GoLand": "GoLand", "IntellijIdeaUltimate": "IntelliJ IDEA" } as $names
                       | {include: [ .[] | .ideName = $names[.ideType] ]}')
+          echo "Generated matrix include: $include"
           echo "include=$include" >> "$GITHUB_OUTPUT"
 
   # Run plugin structure verification along with IntelliJ Plugin Verifier.
@@ -335,7 +343,9 @@ jobs:
       # A skipped verify (e.g. no matrix jobs) is handled by the verifyMatrix job.
       - name: Check verification result
         if: needs.verify.result == 'failure'
-        run: exit 1
+        run: |
+          echo "One or more verify matrix jobs failed (needs.verify.result=${{ needs.verify.result }})" >&2
+          exit 1
 
   # Prepare a draft release for GitHub Releases page for the manual verification
   # If accepted and published, release workflow would be triggered

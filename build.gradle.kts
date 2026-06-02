@@ -132,7 +132,7 @@ intellijPlatform {
     pluginVerification {
         ides {
             select {
-                // CI matrixes verification by IDE type and release year to keep each leg's disk
+                // CI matrixes verification by IDE type and release year to keep each matrix job's disk
                 // footprint lean (see .github/workflows/build.yml). Both properties are optional:
                 // when absent (e.g. local `verifyPlugin`) the full type list and build range apply.
                 val ideType = properties("verifyIdeType").orNull
@@ -145,7 +145,8 @@ intellijPlatform {
                     ProductRelease.Channel.RELEASE,
                     ProductRelease.Channel.EAP,
                 ))
-                // Restrict this leg to the year's IDE build range, never below pluginSinceBuild.
+                // When verifyYear is set, restrict verification to that year's IDE builds; never
+                // below pluginSinceBuild.
                 properties("verifyYear").orNull?.let { year ->
                     val yy = year.toInt() - 2000
                     val sinceFloor = properties("pluginSinceBuild").get().toInt()

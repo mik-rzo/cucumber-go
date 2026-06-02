@@ -203,7 +203,7 @@ jobs:
           args: "--image jetbrains/qodana-jvm-community:2026.1"
           cache-default-branch-only: true
 
-  # Compute the verification matrix: one leg per (IDE type, release year). Years come from
+  # Compute the verification matrix: one matrix job per (IDE type, release year). Years come from
   # `printProductsReleases` (no IDE downloads), so new years are picked up automatically.
   verifyMatrix:
     name: Resolve verifier IDE matrix
@@ -254,7 +254,7 @@ jobs:
             exit 1
           fi
           # ideType is the SDK enum passed to Gradle; jq adds ideName, the human-readable
-          # label shown in the leg's job name.
+          # label shown in the matrix job's name.
           include=$(for y in $years; do for t in GoLand IntellijIdeaUltimate; do
             printf '{"ideType":"%s","year":"%s"}\n' "$t" "$y"; done; done \
             | jq -sc '{ "GoLand": "GoLand", "IntellijIdeaUltimate": "IntelliJ IDEA" } as $names
@@ -262,8 +262,8 @@ jobs:
           echo "include=$include" >> "$GITHUB_OUTPUT"
 
   # Run plugin structure verification along with IntelliJ Plugin Verifier.
-  # Matrixed by (IDE type, year) so each leg resolves only a few IDEs and keeps its disk
-  # footprint lean. Per-leg results are merged into a single artifact by the
+  # Matrixed by (IDE type, year) so each matrix job resolves only a few IDEs and keeps its disk
+  # footprint lean. Per-job results are merged into a single artifact by the
   # `verifyReport` job below.
   verify:
     name: Verify plugin (${{ matrix.ideName }} ${{ matrix.year }})
@@ -299,11 +299,11 @@ jobs:
         with:
           cache-provider: basic
 
-      # Run Verify Plugin task and IntelliJ Plugin Verifier tool for this leg's IDEs
+      # Run Verify Plugin task and IntelliJ Plugin Verifier tool for this job's IDEs
       - name: Run Plugin Verification tasks
         run: ./gradlew verifyPlugin -PverifyIdeType=${{ matrix.ideType }} -PverifyYear=${{ matrix.year }}
 
-      # Upload this leg's Plugin Verifier Result under a unique name (collected later)
+      # Upload this job's Plugin Verifier Result under a unique name (collected later)
       - name: Upload Plugin Verifier Result
         if: ${{ always() }}
         uses: actions/upload-artifact@v7
@@ -311,7 +311,7 @@ jobs:
           name: pluginVerifier-result-${{ matrix.ideType }}-${{ matrix.year }}
           path: ${{ github.workspace }}/build/reports/pluginVerifier
 
-  # Merge the per-leg verifier results into a single `pluginVerifier-result` artifact
+  # Merge the per-job verifier results into a single `pluginVerifier-result` artifact
   # holding every verified IDE's report.
   verifyReport:
     name: Plugin verifier results
@@ -320,9 +320,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      # Combine the per-leg reports and delete the partials. Only runs when the
+      # Combine the per-job reports and delete the partials. Only runs when the
       # verify matrix actually executed — when it is skipped there are no
-      # per-leg artifacts and the merge would otherwise error.
+      # per-job artifacts and the merge would otherwise error.
       - name: Upload Plugin Verifier Results
         if: needs.verify.result == 'success' || needs.verify.result == 'failure'
         uses: actions/upload-artifact/merge@v7
@@ -331,8 +331,8 @@ jobs:
           pattern: pluginVerifier-result-*
           delete-merged: true
 
-      # Fail the job (and the required status check) only if a verify leg failed.
-      # A skipped verify (e.g. no matrix legs) is handled by the verifyMatrix job.
+      # Fail the job (and the required status check) only if a verify matrix job failed.
+      # A skipped verify (e.g. no matrix jobs) is handled by the verifyMatrix job.
       - name: Check verification result
         if: needs.verify.result == 'failure'
         run: exit 1

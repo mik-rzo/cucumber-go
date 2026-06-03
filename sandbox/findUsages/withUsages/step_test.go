@@ -7,7 +7,7 @@ import (
 )
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
-	ctx.Step(`^I say "([^"]*)"$`, theUsageString)
+	ctx.Step(`^the forecast is clear$`, theForecastIsClear)
 }
 
 func TestStepUsages(t *testing.T) {
@@ -24,6 +24,6 @@ func TestStepUsages(t *testing.T) {
 	}
 }
 
-func theUsageString(arg1 string) error {
+func theForecastIsClear() error {
 	return nil
 }

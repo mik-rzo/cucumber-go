@@ -66,11 +66,12 @@ class CucumberLineMarkerProviderTest : GoCodeInsightFixtureTestCase() {
         assertOneCucumberMarker()
     }
 
-    fun testRegexpCompileStepHasMarker() {
+    fun testRegexpCompileStepNoMarker() {
+        // regexp.Compile (unlike MustCompile) isn't a valid ctx.Step argument, so it must not be recognised as a step.
         myFixture.configureByText(
             "step_test.go",
             "package steptest\n\nimport (\n    \"regexp\"\n\n    \"github.com/cucumber/godog\"\n)\n\nfunc stub() error { return nil }\n\nfunc InitializeScenario(ctx *godog.ScenarioContext) {\n    ctx.Step(regexp.Compile(${bt}^a regexp step$${bt}), stub)\n}"
         )
-        assertOneCucumberMarker()
+        assertNoCucumberMarker()
     }
 }

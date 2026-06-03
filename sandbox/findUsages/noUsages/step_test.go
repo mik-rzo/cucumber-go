@@ -1,4 +1,4 @@
-package nousages
+package findusagesnousages
 
 import (
 	"testing"

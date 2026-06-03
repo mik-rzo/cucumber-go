@@ -1,4 +1,4 @@
-module singlematch
+module completionsinglematch
 
 go 1.21.9
 

@@ -1,4 +1,4 @@
-package otherdir
+package stepcontainerdirectorymatchotherdir
 
 import (
 	"testing"

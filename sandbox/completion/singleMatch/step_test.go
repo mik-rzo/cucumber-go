@@ -1,4 +1,4 @@
-package singlematch
+package completionsinglematch
 
 import (
 	"testing"

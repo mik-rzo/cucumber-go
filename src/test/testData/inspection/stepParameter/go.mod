@@ -1,4 +1,4 @@
-module stepparameter
+module inspectionstepparameter
 
 go 1.21.9
 

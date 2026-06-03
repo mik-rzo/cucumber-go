@@ -1,4 +1,4 @@
-module otherdir
+module stepcontainerdirectorymatchotherdir
 
 go 1.21.9
 

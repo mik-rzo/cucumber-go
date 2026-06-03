@@ -1,4 +1,4 @@
-module nomatch
+module completionnomatch
 
 go 1.21.9
 

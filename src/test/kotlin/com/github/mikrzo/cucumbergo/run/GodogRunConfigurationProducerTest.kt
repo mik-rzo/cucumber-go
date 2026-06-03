@@ -28,7 +28,7 @@ class GodogRunConfigurationProducerTest : GoCodeInsightFixtureTestCase() {
         assertEquals(stepFile!!.parent.path, config.workingDirectory)
     }
 
-    fun testScenarioRun() {
+    fun testScenario() {
         myFixture.copyDirectoryToProject(getTestName(true), getTestName(true))
         myFixture.configureByFile(getTestName(true) + "/scenario.feature")
         val config = produceFromContext()
@@ -37,7 +37,7 @@ class GodogRunConfigurationProducerTest : GoCodeInsightFixtureTestCase() {
         assertCommonGodogConfig(config)
     }
 
-    fun testScenarioOutlineRun() {
+    fun testScenarioOutline() {
         myFixture.copyDirectoryToProject(getTestName(true), getTestName(true))
         myFixture.configureByFile(getTestName(true) + "/outline.feature")
         val config = produceFromContext()
@@ -46,7 +46,7 @@ class GodogRunConfigurationProducerTest : GoCodeInsightFixtureTestCase() {
         assertCommonGodogConfig(config)
     }
 
-    fun testFeatureLevelRun() {
+    fun testFeatureLevel() {
         myFixture.copyDirectoryToProject(getTestName(true), getTestName(true))
         myFixture.configureByFile(getTestName(true) + "/whole.feature")
         val config = produceFromContext()

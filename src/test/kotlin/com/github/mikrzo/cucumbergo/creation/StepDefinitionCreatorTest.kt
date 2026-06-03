@@ -52,7 +52,7 @@ class StepDefinitionCreatorTest : GoCodeInsightFixtureTestCase() {
         assertTrue(text.contains("func InitializeDemoScenario(ctx *godog.ScenarioContext)"))
     }
 
-    fun testCreateStepDefinitionNoParams() {
+    fun testNoParams() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         val step = gherkinStep(getTestName(true) + "/test.feature", "I do something")
         val goFile = createContainer(projectPsiDir(), "test_test.go")
@@ -62,7 +62,7 @@ class StepDefinitionCreatorTest : GoCodeInsightFixtureTestCase() {
         assertTrue(text.contains("ctx.Step("))
     }
 
-    fun testCreateStepDefinitionWithParam() {
+    fun testWithParam() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         val step = gherkinStep(getTestName(true) + "/test.feature", "I have <count> items")
         val goFile = createContainer(projectPsiDir(), "test_test.go")
@@ -70,7 +70,7 @@ class StepDefinitionCreatorTest : GoCodeInsightFixtureTestCase() {
         assertTrue(goFile.text.contains("count string"))
     }
 
-    fun testCreateStepDefinitionMultipleParams() {
+    fun testMultipleParams() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         val step = gherkinStep(getTestName(true) + "/test.feature", "I have <a> and <b>")
         val goFile = createContainer(projectPsiDir(), "test_test.go")
@@ -80,7 +80,7 @@ class StepDefinitionCreatorTest : GoCodeInsightFixtureTestCase() {
         assertTrue(text.contains("b string"))
     }
 
-    fun testCreateStepDefinitionSpecialChars() {
+    fun testSpecialChars() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         val step = gherkinStep(getTestName(true) + "/test.feature", "I say \"hello\"")
         val goFile = createContainer(projectPsiDir(), "test_test.go")
@@ -88,7 +88,7 @@ class StepDefinitionCreatorTest : GoCodeInsightFixtureTestCase() {
         assertTrue(goFile.text.contains("func iSayHello("))
     }
 
-    fun testCreateStepDefinitionDuplicate() {
+    fun testDuplicate() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         val step = gherkinStep(getTestName(true) + "/test.feature", "I do something")
         val goFile = createContainer(projectPsiDir(), "test_test.go")
@@ -101,7 +101,7 @@ class StepDefinitionCreatorTest : GoCodeInsightFixtureTestCase() {
         assertEquals(2, "ctx\\.Step\\(".toRegex().findAll(text).count())
     }
 
-    fun testCreateStepDefinitionExistingFile() {
+    fun testExistingFile() {
         myFixture.enableInspections(CucumberStepInspection())
         myFixture.copyDirectoryToProject(getTestName(true), "")
         val step = gherkinStep(getTestName(true) + "/test.feature", "I do something new")

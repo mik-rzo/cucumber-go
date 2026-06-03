@@ -1,4 +1,4 @@
-package stepparameter
+package inspectionstepparameter
 
 import (
 	"testing"

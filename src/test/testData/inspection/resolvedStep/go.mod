@@ -1,4 +1,4 @@
-module resolvedstep
+module inspectionresolvedstep
 
 go 1.21.9
 

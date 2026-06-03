@@ -1,4 +1,4 @@
-package cucumberexpression
+package searchcapturegrouppattern
 
 import (
 	"testing"

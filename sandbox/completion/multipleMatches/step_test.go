@@ -1,4 +1,4 @@
-package multiplematches
+package completionmultiplematches
 
 import (
 	"testing"

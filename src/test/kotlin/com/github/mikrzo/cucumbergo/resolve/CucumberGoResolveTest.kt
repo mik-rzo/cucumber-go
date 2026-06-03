@@ -9,7 +9,7 @@ class CucumberGoResolveTest : GoCodeInsightFixtureTestCase() {
 
     override fun getTestDataPath() = "src/test/testData/resolve"
 
-    fun testStepResolveQuotePattern() {
+    fun testQuotePattern() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile(getTestName(true) + "/test.feature")
         val ref = myFixture.file.findReferenceAt(myFixture.caretOffset)
@@ -26,7 +26,7 @@ class CucumberGoResolveTest : GoCodeInsightFixtureTestCase() {
         )
     }
 
-    fun testStepResolveBacktickPattern() {
+    fun testBacktickPattern() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile(getTestName(true) + "/test.feature")
         val ref = myFixture.file.findReferenceAt(myFixture.caretOffset)
@@ -43,7 +43,7 @@ class CucumberGoResolveTest : GoCodeInsightFixtureTestCase() {
         )
     }
 
-    fun testStepResolvePackageIsolation() {
+    fun testPackageIsolation() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile("featurepkg/features/test.feature")
         val ref = myFixture.file.findReferenceAt(myFixture.caretOffset)
@@ -58,7 +58,7 @@ class CucumberGoResolveTest : GoCodeInsightFixtureTestCase() {
         )
     }
 
-    fun testStepResolveRegexpPattern() {
+    fun testRegexpPattern() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile(getTestName(true) + "/test.feature")
         val carets = myFixture.editor.caretModel.allCarets
@@ -88,7 +88,7 @@ class CucumberGoResolveTest : GoCodeInsightFixtureTestCase() {
         )
     }
 
-    fun testStepResolveRegexpBacktickNoEscape() {
+    fun testRegexpBacktickNoEscape() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile(getTestName(true) + "/test.feature")
         val ref = myFixture.file.findReferenceAt(myFixture.caretOffset)
@@ -105,7 +105,7 @@ class CucumberGoResolveTest : GoCodeInsightFixtureTestCase() {
         )
     }
 
-    fun testStepResolveRegexpQuotedEscape() {
+    fun testRegexpQuotedEscape() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile(getTestName(true) + "/test.feature")
         val ref = myFixture.file.findReferenceAt(myFixture.caretOffset)
@@ -122,7 +122,7 @@ class CucumberGoResolveTest : GoCodeInsightFixtureTestCase() {
         )
     }
 
-    fun testStepResolveNoMatch() {
+    fun testNoMatch() {
         myFixture.copyDirectoryToProject(getTestName(true), "")
         myFixture.configureByFile(getTestName(true) + "/test.feature")
         val ref = myFixture.file.findReferenceAt(myFixture.caretOffset)

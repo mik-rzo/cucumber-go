@@ -1,4 +1,4 @@
-module withusages
+module searchwithusages
 
 go 1.21.9
 

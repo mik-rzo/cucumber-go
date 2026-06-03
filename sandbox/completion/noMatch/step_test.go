@@ -1,4 +1,4 @@
-package nomatch
+package completionnomatch
 
 import (
 	"testing"

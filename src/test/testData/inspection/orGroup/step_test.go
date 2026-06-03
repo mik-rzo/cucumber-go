@@ -1,4 +1,4 @@
-package orgroup
+package inspectionorgroup
 
 import (
 	"testing"

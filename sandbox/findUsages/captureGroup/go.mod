@@ -1,4 +1,4 @@
-module capturegroup
+module findusagescapturegroup
 
 go 1.21.9
 

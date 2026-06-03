@@ -1,4 +1,4 @@
-module regexpusages
+module searchregexpusages
 
 go 1.21.9
 

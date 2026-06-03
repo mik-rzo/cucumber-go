@@ -16,17 +16,17 @@ class CucumberGoStepRenameTest : GoCodeInsightFixtureTestCase() {
         myFixture.checkResultByFile("step_test.go", "$name/after/step_test.go", false)
     }
 
-    fun testRenameQuoteLiteral() = doTest("I possess the amount of (-?\\d+) USD on my acc")
+    fun testQuoteLiteral() = doTest("I possess the amount of (-?\\d+) USD on my acc")
 
-    fun testRenamePreservesNonAscii() = doTest("teraz jestem bardzo głodny")
+    fun testPreservesNonAscii() = doTest("teraz jestem bardzo głodny")
 
-    fun testRenameLeavesOtherStepDefsUntouched() = doTest("Me be satisfied")
+    fun testLeavesOtherStepDefsUntouched() = doTest("Me be satisfied")
 
-    fun testRenameAnchoredQuote() = doTest("I am not happy at all")
+    fun testAnchoredQuote() = doTest("I am not happy at all")
 
-    fun testRenameAnchoredQuoteWithCaptureGroup() = doTest("I spend (-?\\d+) USD")
+    fun testAnchoredQuoteWithCaptureGroup() = doTest("I spend (-?\\d+) USD")
 
-    fun testRenameFailsWithNoDefinition() {
+    fun testFailsWithNoDefinition() {
         val name = getTestName(true)
         myFixture.copyDirectoryToProject("$name/before", "")
         myFixture.configureByFile("test.feature")
@@ -38,7 +38,7 @@ class CucumberGoStepRenameTest : GoCodeInsightFixtureTestCase() {
         }
     }
 
-    fun testRenameBacktickLiteral() = doTest("Me be satisfied")
+    fun testBacktickLiteral() = doTest("Me be satisfied")
 
-    fun testRenameRegexpMustCompileLiteral() = doTest("there is now a different must compile step")
+    fun testRegexpMustCompileLiteral() = doTest("there is now a different must compile step")
 }

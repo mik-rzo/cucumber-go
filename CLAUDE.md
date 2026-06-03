@@ -43,7 +43,9 @@ The type describes the nature of the change and is used consistently across bran
 
 ## Debugging & diagnosis
 
-Before concluding a root cause, verify the hypothesis empirically — browse GitHub source, inspect plugin.xml, decompile bytecode, or run a probe. For API questions, browse GitHub source first (see Browsing plugin & platform sources); only decompile bytecode if the class is not available there. Never act on an unverified advisor conclusion. State your confidence level before proposing a fix.
+- Before concluding a root cause, verify the hypothesis empirically — browse GitHub source, inspect plugin.xml, decompile bytecode, or run a probe.
+- For API questions, browse GitHub source first (see Browsing plugin & platform sources); only decompile bytecode if the class is not available there.
+- Never act on an unverified advisor conclusion. State your confidence level before proposing a fix.
 
 ## Naming conventions
 

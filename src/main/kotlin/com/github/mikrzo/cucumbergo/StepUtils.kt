@@ -16,12 +16,15 @@ class StepUtils {
 }
 
 /** Returns the step pattern text, or null if [argument] is not a recognised
- *  step pattern (string literal or regexp.MustCompile/Compile call). */
+ *  step pattern (string literal or regexp.MustCompile call). */
 fun extractStepPattern(argument: PsiElement?): String? {
     if (argument == null) return null
     if (argument is GoCallExpr) {
         val funcText = argument.children.getOrNull(0)?.text
-        if (funcText == "regexp.MustCompile" || funcText == "regexp.Compile") {
+        // Only regexp.MustCompile returns a single *regexp.Regexp that ctx.Step accepts.
+        // regexp.Compile returns (*Regexp, error), so ctx.Step(regexp.Compile(...), fn) is a
+        // Go compile error and can't appear in compiling code.
+        if (funcText == "regexp.MustCompile") {
             return extractStepPattern(argument.argumentList.expressionList.getOrNull(0))
         }
         return null

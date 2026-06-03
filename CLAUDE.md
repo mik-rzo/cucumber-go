@@ -109,10 +109,15 @@ Use when the class is not in `intellij-community` or `intellij-plugins` (e.g. Go
 
 ## Test conventions
 
+### Fixture layout
+
 - **Method naming**: classes extending a platform base (e.g. `GoCodeInsightFixtureTestCase`) discover via JUnit 3 — `test` prefix is mandatory. Pure `@Test`-annotated JUnit 4 tests drop the prefix.
 - **Fixture layout**: per-test-method subdir named after `getTestName(true)` (lowercased method name minus `test`) under `getTestDataPath()`, which is usually area-prefixed (e.g. `src/test/testData/resolve`) but is the bare `src/test/testData` root for some classes. `myFixture.copyDirectoryToProject` resolves from `getTestDataPath()`, not `getBasePath()`.
 - **Inspection fixtures** use inline `<info>`/`<error>`/`<warning>` markers; always call `testHighlighting(true, true, true)` and enable `CucumberStepInspection` before asserting unresolved-step errors.
+- **Do not assert on `package` or module import paths** in sandbox tests — the sandbox does not resolve them reliably.
+
+### Bug-fix workflow
+
 - **Bug-fix PRs include a regression test** that would have caught the bug.
 - **Before fixing a bug**, write a failing test that demonstrates it — confirm it fails for the right reason before implementing the fix.
 - **After fixing**, re-run the test and confirm it is green.
-- **Do not assert on `package` or module import paths** in sandbox tests — the sandbox does not resolve them reliably.

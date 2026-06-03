@@ -107,7 +107,7 @@ Use when the class is not in `intellij-community` or `intellij-plugins` (e.g. Go
    javap -p <org/example/ClassName.class>
    ```
 
-**Exception:** Go plugin APIs (`com.goide.*`, `org.jetbrains.plugins.go`) are not open source — decompile the local SDK jar for those.
+**Exception:** Go plugin APIs (`com.goide.*`, `org.jetbrains.plugins.go`) are not open source — decompile the local jar for those.
 
 ## Test conventions
 

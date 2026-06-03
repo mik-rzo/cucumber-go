@@ -24,10 +24,11 @@ Tests spin up an in-process IDE sandbox per class — slow. Prefer single-test r
 - Never push directly to main — always raise a PR.
 - Use `git mv` for renames.
 - Prefer non-interactive autosquash for fixups; do not amend commits without confirming first.
+- Before committing, renaming, or deleting any file, show the intended change and wait for explicit approval.
 
-## Branch naming
+## Change types
 
-`<type>/<short-kebab-description>`
+The type describes the nature of the change and is used consistently across branch names, commit messages, and PR titles:
 
 - `feat` — new functionality
 - `fix` — bug fix
@@ -36,29 +37,28 @@ Tests spin up an in-process IDE sandbox per class — slow. Prefer single-test r
 - `docs` — documentation only
 - `chore` — CI, build, or tooling changes
 
-Always agree the branch name with the user before checking out and starting work.
+**Branch names:** `<type>/<short-kebab-description>` — always agree the branch name with the user before checking out and starting work.
 
-## Commit and PR title format
+**Commit messages and PR titles:** `<type>: <message>` — lowercase only the first letter of the message (e.g. `feat: add step rename support`).
 
-Commit messages and PR titles should follow this format:
+## Debugging & diagnosis
 
-`<prefix>: <message>`
+Before concluding a root cause, verify the hypothesis empirically — browse GitHub source, inspect plugin.xml, decompile bytecode, or run a probe. For API questions, browse GitHub source first (see Browsing plugin & platform sources); only decompile bytecode if the class is not available there. Never act on an unverified advisor conclusion. State your confidence level before proposing a fix.
 
-- Extract the prefix from the branch name (e.g., branch `test/my-feature` → prefix `test`)
-- Lowercase only the first letter of the message
-- Example: `feat: migrate to IntelliJ Platform Gradle Plugin 2.x and target GoLand 2026.1`
-
-## Naming
+## Naming conventions
 
 - Align fixture, scenario, and test names with the surrounding directory naming conventions.
 - Avoid generic placeholder names.
+- `module`/`package` names follow `lowercase(areaDir) + lowercase(leafDir)` for all two-level fixture hierarchies under `src/test/testData/` and `sandbox/`. Leaf directory names must not redundantly repeat the area prefix.
+  - e.g. `area=resolve, leaf=quotePattern` → `module/package: resolvequotepattern`
+- Kotlin test method names must stay in lockstep with fixture leaf directory names — `getTestName(true)` derives fixture paths dynamically from the method name.
 
-## Browsing SDK source
+## Browsing plugin & platform sources
 
-Prefer browsing GitHub source over decompiling local SDK jars — source has comments and Javadoc, class hierarchies are easier to navigate, and build-versioned branches allow exact version matching.
+Prefer browsing GitHub source over decompiling local jars — source has comments and Javadoc, class hierarchies are easier to navigate, and build-versioned branches allow exact version matching.
 
 - **`intellij-community`** ([JetBrains/intellij-community](https://github.com/JetBrains/intellij-community)) — IntelliJ Platform (`com.intellij.*`)
-- **`intellij-plugins`** ([JetBrains/intellij-plugins](https://github.com/JetBrains/intellij-plugins)) — gherkin and cucumber-java plugins
+- **`intellij-plugins`** ([JetBrains/intellij-plugins](https://github.com/JetBrains/intellij-plugins)) — Gherkin (`gherkin`) and Cucumber for Java (`cucumber-java`) plugins
 
 Both repos have versioned branches matching IntelliJ build numbers exactly (e.g. `262.6228`). When investigating a plugin verifier deprecation, browse the branch that matches the flagged build rather than `master`.
 
@@ -82,7 +82,7 @@ gh api "search/code?q=CucumberJvmExtensionPoint+repo:JetBrains/intellij-plugins"
 gh api "repos/JetBrains/intellij-plugins/contents/cucumber/src/org/jetbrains/plugins/cucumber/CucumberJvmExtensionPoint.java?ref=262.6228" --jq '.download_url'
 ```
 
-### Decompiling a local SDK jar
+### Decompiling a local jar
 
 Use when the class is not in `intellij-community` or `intellij-plugins` (e.g. Go plugin APIs).
 

@@ -38,4 +38,3 @@ then search for _Cucumber for Go_.
 
 2. In GoLand, go to <kbd>Settings</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>.
 3. Select the generated `.zip` archive from `cucumber-go/build/distributions/`.
-

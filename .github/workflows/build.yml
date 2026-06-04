@@ -336,6 +336,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      # Check out the repository for the summary script below.
+      - name: Fetch Sources
+        if: needs.verify.result == 'success' || needs.verify.result == 'failure'
+        uses: actions/checkout@v6
+
+      # Pull the per-job reports into the workspace so their verdicts can be compiled
+      # into a job summary. Must run before the merge step below, which deletes the
+      # per-job artifacts.
+      - name: Download Plugin Verifier Results
+        if: needs.verify.result == 'success' || needs.verify.result == 'failure'
+        uses: actions/download-artifact@v7
+        with:
+          pattern: pluginVerifier-result-*
+          path: pluginVerifier-reports
+          merge-multiple: true
+
+      # Compile every verified IDE's verdict and any flagged findings into the job summary.
+      - name: Summarize verifier results
+        if: needs.verify.result == 'success' || needs.verify.result == 'failure'
+        shell: bash
+        run: ./.github/scripts/plugin-verifier-summary.sh pluginVerifier-reports >> "$GITHUB_STEP_SUMMARY"
+
       # Combine the per-job reports and delete the partials. Only runs when the
       # verify matrix actually executed — when it is skipped there are no
       # per-job artifacts and the merge would otherwise error.

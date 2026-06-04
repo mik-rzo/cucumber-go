@@ -85,6 +85,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v6
         with:
           cache-provider: basic
+          add-job-summary: 'never'
 
       # Set environment variables
       - name: Export Properties
@@ -147,6 +148,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v6
         with:
           cache-provider: basic
+          add-job-summary: 'never'
 
       # Run tests
       - name: Run Tests
@@ -230,18 +232,25 @@ jobs:
         uses: gradle/actions/setup-gradle@v6
         with:
           cache-provider: basic
+          add-job-summary: 'never'
 
-      # Derive the distinct release years and emit a matrix `include` list as JSON
+      # Derive the distinct release years and emit a matrix `include` list as JSON.
+      #
+      # `set -euo pipefail` fails the step if any stage of the pipeline below fails,
+      # rather than silently emitting an empty matrix (which would skip verification).
+      #
+      # printProductsReleases prints one IDE per line in two forms:
+      #   RELEASE: GO-2026.1.2  (version form, starts with "20")
+      #   EAP:     GO-262.6653.43  (build form; major's first two digits = year - 2000)
+      # The case statement maps both forms to a 4-digit year.
+      #
+      # ideType is the SDK enum passed to Gradle; jq adds ideDisplayName, the human-readable
+      # form of ideType shown in the matrix job's name.
       - name: Generate matrix
         id: gen
         shell: bash
         run: |
-          # Fail the step if any stage of the pipeline below fails, rather than
-          # silently emitting an empty matrix (which would skip verification).
           set -euo pipefail
-          # printProductsReleases prints one IDE per line in two forms:
-          #   RELEASE: GO-2026.1.2  (version form, starts with "20")
-          #   EAP:     GO-262.6653.43  (build form; major's first two digits = year - 2000)
           raw=$(./gradlew printProductsReleases -q)
           filtered=$(echo "$raw" | grep -E '^(GO|IU)-' || true)
           echo "Filtered IDE lines:"
@@ -249,8 +258,8 @@ jobs:
           years=$(echo "$filtered" | while read -r line; do
             v=${line#*-}
             case "$v" in
-              20*) echo "${v%%.*}" ;;               # 2026.1.2 -> 2026
-              *)   m=${v%%.*}; echo "20${m:0:2}" ;;  # 262.6653.43 -> 2026
+              20*) echo "${v%%.*}" ;;
+              *)   m=${v%%.*}; echo "20${m:0:2}" ;;
             esac
           done | sort -u)
           echo "Resolved years: $years"
@@ -260,12 +269,10 @@ jobs:
             echo "$raw" >&2
             exit 1
           fi
-          # ideType is the SDK enum passed to Gradle; jq adds ideName, the human-readable
-          # label shown in the matrix job's name.
           include=$(for y in $years; do for t in GoLand IntellijIdeaUltimate; do
             printf '{"ideType":"%s","year":"%s"}\n' "$t" "$y"; done; done \
             | jq -sc '{ "GoLand": "GoLand", "IntellijIdeaUltimate": "IntelliJ IDEA" } as $names
-                      | {include: [ .[] | .ideName = $names[.ideType] ]}')
+                      | {include: [ .[] | .ideDisplayName = $names[.ideType] ]}')
           echo "Generated matrix include: $include"
           echo "include=$include" >> "$GITHUB_OUTPUT"
 
@@ -274,7 +281,7 @@ jobs:
   # footprint lean. Per-job results are merged into a single artifact by the
   # `verifyReport` job below.
   verify:
-    name: Verify plugin (${{ matrix.ideName }} ${{ matrix.year }})
+    name: Verify plugin (${{ matrix.ideDisplayName }} ${{ matrix.year }})
     needs: [ changes, build, verifyMatrix ]
     if: needs.changes.outputs.build == 'true'
     runs-on: ubuntu-latest
@@ -306,6 +313,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v6
         with:
           cache-provider: basic
+          add-job-summary: 'never'
 
       # Run Verify Plugin task and IntelliJ Plugin Verifier tool for this job's IDEs
       - name: Run Plugin Verification tasks
@@ -328,6 +336,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      # Check out the repository for the summary script below.
+      - name: Fetch Sources
+        if: needs.verify.result == 'success' || needs.verify.result == 'failure'
+        uses: actions/checkout@v6
+
+      # Pull the per-job reports into the workspace so their verdicts can be compiled
+      # into a job summary. Must run before the merge step below, which deletes the
+      # per-job artifacts.
+      - name: Download Plugin Verifier Results
+        if: needs.verify.result == 'success' || needs.verify.result == 'failure'
+        uses: actions/download-artifact@v7
+        with:
+          pattern: pluginVerifier-result-*
+          path: pluginVerifier-reports
+          merge-multiple: true
+
+      # Compile every verified IDE's verdict and any flagged findings into the job summary.
+      - name: Summarize verifier results
+        if: needs.verify.result == 'success' || needs.verify.result == 'failure'
+        shell: bash
+        run: ./.github/scripts/plugin-verifier-summary.sh pluginVerifier-reports >> "$GITHUB_STEP_SUMMARY"
+
       # Combine the per-job reports and delete the partials. Only runs when the
       # verify matrix actually executed — when it is skipped there are no
       # per-job artifacts and the merge would otherwise error.
@@ -342,10 +372,13 @@ jobs:
       # Fail the job (and the required status check) only if a verify matrix job failed.
       # A skipped verify (e.g. no matrix jobs) is handled by the verifyMatrix job.
       - name: Check verification result
-        if: needs.verify.result == 'failure'
         run: |
-          echo "One or more verify matrix jobs failed (needs.verify.result=${{ needs.verify.result }})" >&2
-          exit 1
+          if [ "${{ needs.verify.result }}" = "failure" ]; then
+            echo "One or more verify matrix jobs failed (needs.verify.result=${{ needs.verify.result }})" >&2
+            exit 1
+          fi
+          echo "Verify matrix result: ${{ needs.verify.result }}"
+          exit 0
 
   # Prepare a draft release for GitHub Releases page for the manual verification
   # If accepted and published, release workflow would be triggered

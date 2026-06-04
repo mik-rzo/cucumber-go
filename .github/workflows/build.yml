@@ -346,10 +346,13 @@ jobs:
       # Fail the job (and the required status check) only if a verify matrix job failed.
       # A skipped verify (e.g. no matrix jobs) is handled by the verifyMatrix job.
       - name: Check verification result
-        if: needs.verify.result == 'failure'
         run: |
-          echo "One or more verify matrix jobs failed (needs.verify.result=${{ needs.verify.result }})" >&2
-          exit 1
+          if [ "${{ needs.verify.result }}" = "failure" ]; then
+            echo "One or more verify matrix jobs failed (needs.verify.result=${{ needs.verify.result }})" >&2
+            exit 1
+          fi
+          echo "Verify matrix result: ${{ needs.verify.result }}"
+          exit 0
 
   # Prepare a draft release for GitHub Releases page for the manual verification
   # If accepted and published, release workflow would be triggered

@@ -41,6 +41,16 @@ The type describes the nature of the change and is used consistently across bran
 
 **Commit messages and PR titles:** `<type>: <message>` — lowercase only the first letter of the message (e.g. `feat: add step rename support`).
 
+## Release process
+
+- **Never manually add a versioned section to `CHANGELOG.md`** — the release workflow patches it automatically.
+- `feat` and `fix` PRs include a `CHANGELOG.md` entry under `## [Unreleased]`; all other change types (`test`, `refactor`, `docs`, `chore`) are omitted.
+- To release:
+  1. Bump `pluginVersion` in `gradle.properties` and merge to `main`.
+  2. The build workflow regenerates a draft GitHub release on every push to `main`, using the `[Unreleased]` entries as the release notes and the current `pluginVersion` as the tag.
+  3. Review and publish the draft release on GitHub.
+  4. The release workflow triggers: it patches `CHANGELOG.md` (moving `[Unreleased]` entries to a versioned section), publishes the plugin to JetBrains Marketplace, and opens a PR with the changelog update.
+
 ## Debugging & diagnosis
 
 - Before concluding a root cause, verify the hypothesis empirically — browse GitHub source, inspect plugin.xml, decompile bytecode, or run a probe.

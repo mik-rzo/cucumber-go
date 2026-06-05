@@ -84,7 +84,7 @@ jobs:
       - name: Create Pull Request
         if: ${{ github.event_name == 'release' && steps.properties.outputs.changelog != '' }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
         run: |
           VERSION="${{ github.event.release.tag_name }}"
           BRANCH="chore/changelog-update-$VERSION"

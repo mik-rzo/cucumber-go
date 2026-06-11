@@ -4,7 +4,7 @@
 
 ## [Unreleased]
 
-- fix: limit compatibility to builds 261 and below
+- fix: limit compatibility to builds 261 and below by @mik-rzo in https://github.com/mik-rzo/cucumber-go/pull/76
 
 ## [1.1.1] - 2026-06-05
 

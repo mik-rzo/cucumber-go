@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+- fix: limit compatibility to builds 261 and below
+
 ## [1.1.1] - 2026-06-05
 
 - fix: stop recognizing regexp.Compile as a ctx.Step pattern by @mik-rzo in https://github.com/mik-rzo/cucumber-go/pull/69

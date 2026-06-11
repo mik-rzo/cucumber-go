@@ -83,6 +83,7 @@ intellijPlatform {
 
         ideaVersion {
             sinceBuild = properties("pluginSinceBuild")
+            untilBuild = properties("pluginUntilBuild")
         }
 
         // Extract the <!-- Plugin description --> section from README.md and provide for the plugin's manifest

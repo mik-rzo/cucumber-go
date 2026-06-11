@@ -3,7 +3,6 @@ package com.github.mikrzo.cucumbergo.resolve
 import com.github.mikrzo.cucumbergo.steps.StepDefinition
 import com.goide.GoCodeInsightFixtureTestCase
 import com.goide.psi.GoCallExpr
-import com.goide.psi.GoFile
 
 class CucumberGoResolveTest : GoCodeInsightFixtureTestCase() {
 
@@ -40,21 +39,6 @@ class CucumberGoResolveTest : GoCodeInsightFixtureTestCase() {
             "Resolved to the wrong ctx.Step call",
             "theresAStepDefinition",
             resolvedCall.argumentList.expressionList.getOrNull(1)?.text,
-        )
-    }
-
-    fun testPackageIsolation() {
-        myFixture.copyDirectoryToProject(getTestName(true), "")
-        myFixture.configureByFile("featurepkg/features/test.feature")
-        val ref = myFixture.file.findReferenceAt(myFixture.caretOffset)
-        assertNotNull("No reference at caret position in step text", ref)
-        val resolved = ref!!.resolve()
-        assertNotNull("Step did not resolve to a definition", resolved)
-        val resolvedCall = resolved as GoCallExpr
-        assertEquals(
-            "Resolved to wrong package's step definition",
-            "featurepkg",
-            (resolvedCall.containingFile as GoFile).packageName,
         )
     }
 

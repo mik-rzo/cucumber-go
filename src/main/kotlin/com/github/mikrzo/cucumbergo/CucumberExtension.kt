@@ -14,7 +14,6 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
 import com.intellij.psi.PsiRecursiveElementWalkingVisitor
-import com.intellij.psi.search.GlobalSearchScopes
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.indexing.FileBasedIndex
 import org.jetbrains.plugins.cucumber.BDDFrameworkType
@@ -41,13 +40,9 @@ class CucumberExtension : AbstractCucumberExtension() {
         return GoStepDefinitionCreator()
     }
 
-    override fun loadStepsFor(featureFile: PsiFile?, module: Module): List<AbstractStepDefinition> {
-        val stepContainerDir = featureFile?.virtualFile?.let { findStepContainerDir(it) }
-        val scope = if (stepContainerDir != null)
-            GlobalSearchScopes.directoryScope(module.project, stepContainerDir, false)
-        else
-            module.getModuleWithDependenciesAndLibrariesScope(true)
-                .uniteWith(module.moduleContentWithDependenciesScope)
+    override fun loadStepsFor(module: Module): List<AbstractStepDefinition> {
+        val scope = module.getModuleWithDependenciesAndLibrariesScope(true)
+            .uniteWith(module.moduleContentWithDependenciesScope)
 
         val fileBasedIndex = FileBasedIndex.getInstance()
         val project = module.project
@@ -88,40 +83,12 @@ class CucumberExtension : AbstractCucumberExtension() {
         return result
     }
 
-    // 242.x–253.x had two-parameter isStepLikeFile(child, parent) and isWritableStepLikeFile(child,
-    // parent) as abstract methods. The `parent` parameter was leftover (JetBrains flagged it for
-    // removal in a to-do comment) and was dropped for the one-param signatures in 261.x. Since
-    // we compile against 261.x, only the one-param `override`s exist; the shims below satisfy the
-    // two-param abstract contract at runtime on 242.x–253.x without confusing the 261.x compiler.
-    @Suppress("unused")
-    fun isStepLikeFile(child: PsiElement, @Suppress("UNUSED_PARAMETER") parent: PsiElement): Boolean =
-        isStepLikeFile(child)
-
-    @Suppress("unused")
-    fun isWritableStepLikeFile(child: PsiElement, @Suppress("UNUSED_PARAMETER") parent: PsiElement): Boolean =
-        isWritableStepLikeFile(child)
-
-    private fun findStepContainerDir(featureFile: VirtualFile): VirtualFile? {
-        var dir = featureFile.parent
-        while (dir != null) {
-            if (dir.children.any { it.name.endsWith("_test.go") }) return dir
-            if (dir.findChild("go.mod") != null) break
-            dir = dir.parent
-        }
-        return null
-    }
-
     override fun getStepDefinitionContainers(featureFile: GherkinFile): Collection<PsiFile> {
-        val module = ModuleUtilCore.findModuleForPsiElement(featureFile)
-        val steps = module?.let { mod ->
-            loadStepsFor(featureFile, mod)
-        }
-        val psiFiles = steps
-            ?.mapNotNull { step -> step.element?.containingFile }
-            ?.filter { isWritableStepLikeFile(it) }
-            ?.distinct()
-            ?: emptyList()
-        return psiFiles
+        val module = ModuleUtilCore.findModuleForPsiElement(featureFile) ?: return emptyList()
+        return loadStepsFor(module)
+            .mapNotNull { it.element?.containingFile }
+            .filter { isWritableStepLikeFile(it) }
+            .distinct()
     }
 }
 

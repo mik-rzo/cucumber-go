@@ -147,12 +147,17 @@ intellijPlatform {
                     ProductRelease.Channel.EAP,
                 ))
                 // When verifyYear is set, restrict verification to that year's IDE builds; never
-                // below pluginSinceBuild.
+                // below pluginSinceBuild or above pluginUntilBuild.
                 properties("verifyYear").orNull?.let { year ->
                     val yy = year.toInt() - 2000
                     val sinceFloor = properties("pluginSinceBuild").get().toInt()
                     sinceBuild.set(maxOf(yy * 10 + 1, sinceFloor).toString())
-                    untilBuild.set("${yy}9.*")
+                    val yearCeiling = yy * 10 + 9
+                    val ceiling = properties("pluginUntilBuild").orNull
+                        ?.removeSuffix(".*")?.toIntOrNull()
+                        ?.let { minOf(yearCeiling, it) }
+                        ?: yearCeiling
+                    untilBuild.set("$ceiling.*")
                 }
             }
         }

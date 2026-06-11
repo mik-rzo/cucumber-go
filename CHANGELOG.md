@@ -4,7 +4,7 @@
 
 ## [Unreleased]
 
-- fix: limit compatibility to builds 261 and below by @mik-rzo in https://github.com/mik-rzo/cucumber-go/pull/76
+- fix: limit compatibility to 2026.1 to prepare for deprecated API removal in 2026.2 by @mik-rzo in https://github.com/mik-rzo/cucumber-go/pull/76
 
 ## [1.1.1] - 2026-06-05
 

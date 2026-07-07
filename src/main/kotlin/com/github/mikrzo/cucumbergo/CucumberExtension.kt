@@ -14,7 +14,6 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
 import com.intellij.psi.PsiRecursiveElementWalkingVisitor
-import com.intellij.psi.search.GlobalSearchScopes
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.indexing.FileBasedIndex
 import org.jetbrains.plugins.cucumber.BDDFrameworkType
@@ -42,12 +41,8 @@ class CucumberExtension : AbstractCucumberExtension() {
     }
 
     override fun loadStepsFor(featureFile: PsiFile?, module: Module): List<AbstractStepDefinition> {
-        val stepContainerDir = featureFile?.virtualFile?.let { findStepContainerDir(it) }
-        val scope = if (stepContainerDir != null)
-            GlobalSearchScopes.directoryScope(module.project, stepContainerDir, false)
-        else
-            module.getModuleWithDependenciesAndLibrariesScope(true)
-                .uniteWith(module.moduleContentWithDependenciesScope)
+        val scope = module.getModuleWithDependenciesAndLibrariesScope(true)
+            .uniteWith(module.moduleContentWithDependenciesScope)
 
         val fileBasedIndex = FileBasedIndex.getInstance()
         val project = module.project
@@ -101,27 +96,12 @@ class CucumberExtension : AbstractCucumberExtension() {
     fun isWritableStepLikeFile(child: PsiElement, @Suppress("UNUSED_PARAMETER") parent: PsiElement): Boolean =
         isWritableStepLikeFile(child)
 
-    private fun findStepContainerDir(featureFile: VirtualFile): VirtualFile? {
-        var dir = featureFile.parent
-        while (dir != null) {
-            if (dir.children.any { it.name.endsWith("_test.go") }) return dir
-            if (dir.findChild("go.mod") != null) break
-            dir = dir.parent
-        }
-        return null
-    }
-
     override fun getStepDefinitionContainers(featureFile: GherkinFile): Collection<PsiFile> {
-        val module = ModuleUtilCore.findModuleForPsiElement(featureFile)
-        val steps = module?.let { mod ->
-            loadStepsFor(featureFile, mod)
-        }
-        val psiFiles = steps
-            ?.mapNotNull { step -> step.element?.containingFile }
-            ?.filter { isWritableStepLikeFile(it) }
-            ?.distinct()
-            ?: emptyList()
-        return psiFiles
+        val module = ModuleUtilCore.findModuleForPsiElement(featureFile) ?: return emptyList()
+        return loadStepsFor(featureFile, module)
+            .mapNotNull { it.element?.containingFile }
+            .filter { isWritableStepLikeFile(it) }
+            .distinct()
     }
 }
 

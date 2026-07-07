@@ -4,6 +4,7 @@
 
 ## [Unreleased]
 
+- fix: widen step resolution to the whole module instead of the feature file's directory by @mik-rzo in https://github.com/mik-rzo/cucumber-go/pull/78
 - fix: limit compatibility to 2026.1 to prepare for deprecated API removal in 2026.2 by @mik-rzo in https://github.com/mik-rzo/cucumber-go/pull/76
 
 ## [1.1.1] - 2026-06-05

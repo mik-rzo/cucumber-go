@@ -40,7 +40,7 @@ class CucumberExtension : AbstractCucumberExtension() {
         return GoStepDefinitionCreator()
     }
 
-    override fun loadStepsFor(@Suppress("UNUSED_PARAMETER") featureFile: PsiFile?, module: Module): List<AbstractStepDefinition> {
+    override fun loadStepsFor(featureFile: PsiFile?, module: Module): List<AbstractStepDefinition> {
         val scope = module.getModuleWithDependenciesAndLibrariesScope(true)
             .uniteWith(module.moduleContentWithDependenciesScope)
 

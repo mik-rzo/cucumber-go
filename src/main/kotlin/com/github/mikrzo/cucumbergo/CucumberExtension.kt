@@ -101,14 +101,6 @@ class CucumberExtension : AbstractCucumberExtension() {
     fun isWritableStepLikeFile(child: PsiElement, @Suppress("UNUSED_PARAMETER") parent: PsiElement): Boolean =
         isWritableStepLikeFile(child)
 
-    // 262.x (GoLand 2026.2) added a second abstract loadStepsFor(Module) — without the PsiFile
-    // parameter — to CucumberJvmExtensionPoint. Omitting it causes AbstractMethodError at runtime.
-    // `override` is absent because the method doesn't exist in the 261.x compile target; JVM
-    // signature resolution satisfies the interface at runtime instead.
-    @Suppress("unused")
-    fun loadStepsFor(module: Module): List<AbstractStepDefinition> =
-        loadStepsFor(null, module)
-
     private fun findStepContainerDir(featureFile: VirtualFile): VirtualFile? {
         var dir = featureFile.parent
         while (dir != null) {

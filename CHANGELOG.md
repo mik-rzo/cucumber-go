@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [1.1.2] - 2026-07-07
+
 - fix: limit compatibility to 2026.1 to prepare for deprecated API removal in 2026.2 by @mik-rzo in https://github.com/mik-rzo/cucumber-go/pull/76
 - fix: widen step resolution to the whole module instead of the feature file's directory by @mik-rzo in https://github.com/mik-rzo/cucumber-go/pull/78
 
@@ -31,7 +33,8 @@
 - fix: creating step definition invalidates existing step definitions by @mik-rzo in https://github.com/mik-rzo/cucumber-go/pull/19
 - fix: restrict step lookup to the directory of the feature file's package by @mik-rzo in https://github.com/mik-rzo/cucumber-go/pull/20
 
-[Unreleased]: https://github.com/mik-rzo/cucumber-go/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/mik-rzo/cucumber-go/compare/v1.1.2...HEAD
+[1.1.2]: https://github.com/mik-rzo/cucumber-go/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/mik-rzo/cucumber-go/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/mik-rzo/cucumber-go/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/mik-rzo/cucumber-go/compare/v1.0.0...v1.0.1

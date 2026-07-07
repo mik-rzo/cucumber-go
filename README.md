@@ -30,11 +30,6 @@ then search for _Cucumber for Go_.
 
 ### Manual installation
 
-1. From the project root, build the plugin with:
-
-   ```sh
-   ./gradlew clean buildPlugin
-   ```
-
-2. In GoLand, go to <kbd>Settings</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>.
-3. Select the generated `.zip` archive from `cucumber-go/build/distributions/`.
+1. Download the latest signed `.zip` archive from the [GitHub releases page](https://github.com/mik-rzo/cucumber-go/releases).
+2. In GoLand, go to <kbd>Settings</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk</kbd>.
+3. Select the downloaded `.zip` archive.

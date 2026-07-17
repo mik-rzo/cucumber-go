@@ -12,12 +12,12 @@ class CucumberExtensionTest : GoCodeInsightFixtureTestCase() {
 
     fun testLoadStepsForModuleWithDefinitions() {
         myFixture.copyDirectoryToProject("extension/loadStepsForModuleWithDefinitions", "")
-        val steps = extension.loadStepsFor(null, module)
+        val steps = extension.loadStepsFor(module)
         assertFalse("Expected steps to be found in module with step definitions", steps.isEmpty())
     }
 
     fun testLoadStepsForEmptyModule() {
-        val steps = extension.loadStepsFor(null, module)
+        val steps = extension.loadStepsFor(module)
         assertTrue("Expected empty list for module with no step definitions", steps.isEmpty())
     }
 
@@ -43,7 +43,7 @@ class CucumberExtensionTest : GoCodeInsightFixtureTestCase() {
 
     fun testLoadStepsForMultipleDirectories() {
         myFixture.copyDirectoryToProject("extension/multiDirGlue", "")
-        val steps = extension.loadStepsFor(null, module)
+        val steps = extension.loadStepsFor(module)
         assertEquals("Expected one step definition from each subdirectory", 2, steps.size)
     }
 

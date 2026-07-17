@@ -33,6 +33,8 @@ dependencies {
         create(properties("platformType").get(), properties("platformVersion").get())
 
         bundledPlugin("org.jetbrains.plugins.go")
+        bundledModule("intellij.platform.testRunner")
+        bundledModule("intellij.platform.smRunner")
         plugin("gherkin", properties("gherkinPluginVersion").get())
 
         pluginVerifier()

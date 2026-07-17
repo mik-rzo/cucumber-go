@@ -44,7 +44,7 @@ class StepCompletionContributor : CompletionContributor() {
                                     PsiTreeUtil.getParentOfType(it, GherkinStep::class.java)
                                 }
                                 val ref = step?.references?.firstOrNull()
-                                if (ref != null && step != null) {
+                                if (ref != null) {
                                     val refEnd = step.textRange.startOffset + ref.rangeInElement.endOffset
                                     if (refEnd > insertedEnd) {
                                         ctx.document.deleteString(insertedEnd, refEnd)

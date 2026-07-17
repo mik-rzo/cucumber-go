@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+- feat: support GoLand and IntelliJ IDEA Ultimate 2026.2 by @mik-rzo in https://github.com/mik-rzo/cucumber-go/pull/82
+
 ## [1.1.2] - 2026-07-07
 
 - fix: limit compatibility to 2026.1 to prepare for deprecated API removal in 2026.2 by @mik-rzo in https://github.com/mik-rzo/cucumber-go/pull/76

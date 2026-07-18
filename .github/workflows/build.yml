@@ -384,7 +384,7 @@ jobs:
   # If accepted and published, release workflow would be triggered
   releaseDraft:
     name: Release draft
-    if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request' && !(github.event_name == 'workflow_dispatch' && needs.build.outputs.changelog == '')
     needs: [ build, test, inspectCode, verify, verifyReport ]
     runs-on: ubuntu-latest
     permissions:
